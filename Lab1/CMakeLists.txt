@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(googletest)
 set(SRC)
-include_directories(googletest/include)
+include_directories(googletest/googletest/include)
 add_executable(lab1 ${SRC})
 target_link_libraries(lab1 gtest)
