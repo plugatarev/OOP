@@ -1,15 +1,12 @@
 #include "array.hpp"
 #include <cassert>
 #include <iostream>
-//#include <algorithm>
+#include <algorithm>
 
 int_array::int_array(int capacity): data_(new int[capacity]), capacity_(capacity) {}
 
 int_array::int_array(int_array & other) : size_(other.size_), capacity_(other.capacity_), data_(new int [other.size_]){
-    for (size_t i = 0; i < size_; i++){
-        data_[i] = other.data_[i];
-    }
-    //std::copy(other.size_, other.size_ + size_, data_);
+    std::copy(other.size_, other.size_ + size_, data_);
 }
 
 int_array::~int_array() {
