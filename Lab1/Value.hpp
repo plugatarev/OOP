@@ -1,7 +1,12 @@
+#pragma once
 #include <iostream>
 struct Value {
-   Value();
-   Value (std::string n, unsigned a = 0) : name(n), age(a) {}
-   std::string name;
-   unsigned age;
+public:
+    Value();
+    Value (std::string n, unsigned a = 0) : name(n), age(a) {}
+    Value(Value & other);
+    ~Value();
+    std::string name;
+    unsigned age;
 };
+

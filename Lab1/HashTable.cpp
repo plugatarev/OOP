@@ -11,3 +11,7 @@ HashTable::HashTable(const HashTable& b):list_(new Value[b.capacity_]),capacity_
         list_[i].name = b.list_[i].name;
     }
 }
+
+size_t HashTable::size() const{
+    return capacity_;
+}
