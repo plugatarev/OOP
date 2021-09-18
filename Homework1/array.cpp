@@ -5,8 +5,8 @@
 
 int_array::int_array(int capacity): data_(new int[capacity]), capacity_(capacity) {}
 
-int_array::int_array(int_array & other) : size_(other.size_), capacity_(other.capacity_), data_(new int [other.size_]){
-    std::copy(other.size_, other.size_ + size_, data_);
+int_array::int_array(int_array & other) : capacity_(other.capacity_), size_(other.size_), data_(new int[other.size_]) {
+    std::copy(other.data_, other.data_ + size_, data_);
 }
 
 int_array::~int_array() {
@@ -46,6 +46,17 @@ int int_array::size() {
     return size_;
 }
 
+int_array & int_array::operator=(int_array & other){
+    if (&other != this){
+        delete [] data_;
+        size_ = other.size_;
+        capacity_ = other.capacity_;
+        data_ = new int [capacity_];
+        std::copy(other.data_, other.data_ + size_, data_);
+    }
+    return *this;
+}
+
 void int_array::print_arr() const{
     for (size_t i = 0; i < size_; i++){
         std::cout << data_[i] << " ";
@@ -54,7 +65,7 @@ void int_array::print_arr() const{
 }
 
 
-void test(){
+void test_cctor(){
     int_array arr(2);
     arr.push_back(13);
     arr.push_back(42);
@@ -67,9 +78,23 @@ void test(){
     arr.print_arr();
 }
 
+void test_oper(){
+    int_array arr(2);
+    arr.push_back(1);
+    arr.push_back(2);
+    arr.push_back(3);
+    arr.push_back(4);
+    int_array arr_test(4);
+    arr_test = arr;
+    arr.print_arr();
+    arr_test.print_arr();
+}
+
 int main(int argc, char const *argv[]) {
-    test();
+    test_cctor();
+    test_oper();
     // int_array arr(2);
+
     // arr.push_back(13);
     // arr.push_back(42);
     // arr.push_back(23);

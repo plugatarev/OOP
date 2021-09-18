@@ -12,6 +12,7 @@ class int_array {
     int push_back(int i);
     int at(int i);
     int pop_back();
+    int_array & operator=(int_array & other);
     int size();
     void print_arr() const;
  private:
