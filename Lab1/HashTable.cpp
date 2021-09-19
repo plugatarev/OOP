@@ -8,10 +8,9 @@ HashTable::~HashTable(){
     delete [] list_;
 }
 HashTable::HashTable(const HashTable& b):list_(new HashList[b.capacity_]),capacity_(b.capacity_){
-    // for (size_t i = 0; i < capacity_; i++){
-    //     list_[i].age = b.list_[i].age;
-    //     list_[i].name = b.list_[i].name;
-    // }
+    for (size_t i = 0; i < capacity_; i++){
+        list_[i] = b.getlist(i);
+    }
 }
 
 size_t HashTable::size() const{
