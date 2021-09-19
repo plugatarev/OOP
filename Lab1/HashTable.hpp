@@ -7,6 +7,7 @@ class HashTable {
 private:
    HashList* list_;
    int capacity_;
+   int size_;
 public:
    HashTable();
    HashTable(size_t size);

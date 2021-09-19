@@ -14,7 +14,7 @@ HashTable::HashTable(const HashTable& b):list_(new HashList[b.capacity_]),capaci
 }
 
 size_t HashTable::size() const{
-    return capacity_;
+    return size_;
 }
 
 HashList & HashTable::getlist(const int i) const {
@@ -31,3 +31,11 @@ HashTable& HashTable::operator=(const HashTable& b){
         }
     }
 }
+
+bool HashTable::empty() const{
+    return (size_ == 0);
+}
+
+// bool HashTable::insert(const Key& k, const Value& v){
+//     size_++;
+// }
