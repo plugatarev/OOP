@@ -1,6 +1,6 @@
 #pragma once
-#include <iostream>
-struct Value {
+#include "Header.hpp"
+class Value {
 public:
     Value();
     Value (std::string n, unsigned a = 0) : name(n), age(a) {}

@@ -1,15 +1,15 @@
 #pragma once
-#include <iostream>
+#include "Header.hpp"
 #include "Value.hpp"
-typedef std::string Key;
-#define _DEFAULT_HASTABLE_SIZE 100
+#include "HashList.hpp"
 class HashTable {
 
 private:
-   Value* list_;
+   HashList* list_;
    int capacity_;
 public:
    HashTable();
+   HashTable(size_t size);
    ~HashTable();
 
    HashTable& operator=(const HashTable& b);
@@ -34,6 +34,8 @@ public:
    size_t size() const;
 
    bool empty() const;
+
+   HashList & getlist(const int i) const;
 
    friend bool operator==(const HashTable& a, const HashTable& b);
    friend bool operator!=(const HashTable& a, const HashTable& b);
