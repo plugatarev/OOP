@@ -1,14 +1,17 @@
 #pragma once
 #include "Header.hpp"
 #include "Value.hpp"
-struct HashList{
+class HashList{
 private:
     Value* val_;
-    HashList* next_;
+    HashList* next_ = nullptr;
+    int size_ = 0;
 public:
     HashList();
-    HashList(const HashList & b);
-    HashList(const Value & val);
+    HashList(HashList & b);
+    HashList(const Value & v);
     ~HashList();
-    void insert();
+    void insert(const Value & v);
+    friend bool operator==(const HashList& a, const HashList& b);
+    friend bool operator!=(const HashList& a, const HashList& b);
 };
