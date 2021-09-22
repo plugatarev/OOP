@@ -8,5 +8,6 @@ public:
     ~Value();
     std::string name;
     unsigned age;
+    Value* next;
 };
 
