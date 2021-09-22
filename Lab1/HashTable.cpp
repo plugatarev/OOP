@@ -1,6 +1,6 @@
 #include "HashTable.hpp"
 
-HashTable::HashTable():list_(new HashList[_DEFAULT_HASTABLE_SIZE]), capacity_(_DEFAULT_HASTABLE_SIZE){}
+HashTable::HashTable():list_(new HashList[_DEFAULT_HASHTABLE_SIZE]), capacity_(_DEFAULT_HASHTABLE_SIZE){}
 
 HashTable::HashTable(size_t size):list_(new HashList[size]),capacity_(size){}
 
