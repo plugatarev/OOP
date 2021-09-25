@@ -6,6 +6,7 @@ public:
     Value (std::string n, unsigned a = 0) : name(n), age(a) {}
     Value(const Value & other);
     Value(const Value & other, Value* val);
+    friend bool operator==(const Value& a, const Value& b);
     ~Value();
     std::string name;
     unsigned age;

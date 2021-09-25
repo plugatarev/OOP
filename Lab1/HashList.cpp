@@ -29,5 +29,10 @@ void HashList::freeList(){
 }
 
 bool HashList::search(const Value & v){
-    
-}
+    Value* tmp = head_;
+    while (tmp != nullptr){
+        if (v == tmp) return true;
+        tmp = tmp->next;
+    }
+    return false;
+}Z
