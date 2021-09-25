@@ -3,9 +3,7 @@
 #include "Value.hpp"
 class HashList{
 private:
-    Value* head_;
-    Value val_;
-
+    Value* head_ = nullptr;
     void freeList();
 
 public:
@@ -14,20 +12,17 @@ public:
 
     HashList(HashList & b);
 
-    HashList(const Value & v);
-
     HashList(const Value & v, Value* next);
-
 
     ~HashList();
 
     bool insert(const Value & v);
 
-    bool remove(const Value & v);
+    bool remove(Value & v);
 
     bool search(const Value & v);
 
-    friend bool operator==(const HashList& a, const HashList& b);
+    void printList() const;
 
-    friend bool operator!=(const HashList& a, const HashList& b);
+    friend bool operator==(const HashList& a, const HashList& b);
 };

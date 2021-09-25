@@ -22,15 +22,15 @@ HashList & HashTable::getlist(const int i) const {
 }
 
 
-HashTable& HashTable::operator=(const HashTable& b){
-    if (&b != this){
-        // if (list_) delete[] list_;
-        // capacity_ = b.capacity_;
-        // for (size_t i = 0; i < capacity_; i++){
-        //     list_[i] = b.getlist(i);
-        // }
-    }
-}
+// HashTable& HashTable::operator=(const HashTable& b){
+//     if (&b != this){
+//         // if (list_) delete[] list_;
+//         // capacity_ = b.capacity_;
+//         // for (size_t i = 0; i < capacity_; i++){
+//         //     list_[i] = b.getlist(i);
+//         // }
+//     }
+// }
 
 bool HashTable::empty() const{
     return (size_ == 0);
