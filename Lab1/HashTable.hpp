@@ -35,8 +35,6 @@ public:
 
    bool empty() const;
 
-   HashList & getlist(const int i) const;
-
    friend bool operator==(const HashTable& a, const HashTable& b);
    friend bool operator!=(const HashTable& a, const HashTable& b);
 };

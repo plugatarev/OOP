@@ -1,15 +1,20 @@
 #include "HashTable.hpp"
 
-HashTable::HashTable():list_(new HashList[_DEFAULT_HASHTABLE_SIZE]), capacity_(_DEFAULT_HASHTABLE_SIZE){}
+HashTable::HashTable():list_(new HashList[_DEFAULT_HASHTABLE_SIZE]), capacity_(_DEFAULT_HASHTABLE_SIZE), size_(0){}
 
-HashTable::HashTable(size_t size):list_(new HashList[size]),capacity_(size){}
+HashTable::HashTable(size_t size):list_(new HashList[size]),capacity_(size), size_(0){}
 
 HashTable::~HashTable(){
     delete [] list_;
 }
-HashTable::HashTable(const HashTable& b):list_(new HashList[b.capacity_]),capacity_(b.capacity_){
-    for (size_t i = 0; i < capacity_; i++){
-        list_[i] = b.getlist(i);
+HashTable::HashTable(const HashTable& b){
+    if (b.list_ != NULL){
+        capacity_ = b.capacity_;
+        size_ = b.size_;
+        list_ = new HashList[b.capacity_];
+        for (size_t i = 0; i < size_; i++){
+            list_[i] = b.list_[i];
+        }
     }
 }
 
@@ -17,8 +22,8 @@ size_t HashTable::size() const{
     return size_;
 }
 
-HashList & HashTable::getlist(const int i) const {
-    return list_[i];
+HashTable& HashTable::operator=(const HashTable& b){
+
 }
 
 

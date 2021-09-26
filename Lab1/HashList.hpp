@@ -24,5 +24,7 @@ public:
 
     void printList() const;
 
+    HashList & operator=(const HashList& other);
+
     friend bool operator==(const HashList& a, const HashList& b);
 };
