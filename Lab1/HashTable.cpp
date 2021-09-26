@@ -23,7 +23,16 @@ size_t HashTable::size() const{
 }
 
 HashTable& HashTable::operator=(const HashTable& b){
-
+    if (b != *this){
+        capacity_ = b.capacity_;
+        size_ = b.size_;
+        delete[] list_;
+        list_ = new HashList[size_];
+        for (size_t i = 0; i < size_; i++){
+            list_[i] = b.list_[i];
+        }
+    }
+    return *this;
 }
 
 
