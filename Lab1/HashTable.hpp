@@ -37,7 +37,7 @@ public:
 
    bool empty() const;
 
-   int hashF(const Key& k);
+   size_t hashF(const Key& k);
 
    bool resize();
 

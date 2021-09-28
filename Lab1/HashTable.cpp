@@ -56,8 +56,18 @@ bool HashTable::empty() const{
     return (size_ == 0);
 }
 
-int HashTable::hashF(const Key& k){
-    return 0;
+size_t HashTable::hashF(const Key& k){
+    size_t hash = 0;
+    int m = 1e9 + 9;
+    int p = 31;
+    long long power_of_p = 1;
+    for (int i = 0; i < k.length(); i++) {
+        hash = (hash+ (k[i] - 'a' + 1) * power_of_p) % m;
+        power_of_p = (power_of_p * p) % m;
+    }
+   
+   //return positive remainder only
+    return (hash % m + m) % m;
 }
 
 bool HashTable::resize(){
