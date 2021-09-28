@@ -40,8 +40,15 @@ HashTable& HashTable::operator=(const HashTable& b){
 }
 
 bool HashTable::insert(const Key& k, const Value& v){
+    if (size_ == capacity_) resize();
     int hash = hashF(k);
     list_[hash].insert(const_cast<Key&>(k),const_cast<Value&>(v));
+    size_++;
+}
+
+bool HashTable::erase(const Key& k){
+    int hash =  hashF(k);
+    list_[hash].remove(k);
 }
 
 
@@ -51,4 +58,8 @@ bool HashTable::empty() const{
 
 int HashTable::hashF(const Key& k){
     return 0;
+}
+
+bool HashTable::resize(){
+
 }

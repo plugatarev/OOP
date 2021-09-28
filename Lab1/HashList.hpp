@@ -19,11 +19,11 @@ public:
 
     bool insert(const Key& k, const Value& v);
 
-    bool remove(const Key& k);
-
     bool search(const Key& k);
 
     void printList() const;
+
+    bool remove(const Key& k);
 
     HashList & operator=(const HashMap& other);
 

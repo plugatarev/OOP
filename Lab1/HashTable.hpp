@@ -39,6 +39,8 @@ public:
 
    int hashF(const Key& k);
 
+   bool resize();
+
    friend bool operator==(const HashTable& a, const HashTable& b);
    friend bool operator!=(const HashTable& a, const HashTable& b);
 };
