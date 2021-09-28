@@ -13,15 +13,15 @@ public:
 
     HashList(HashList & b);
 
-    HashList(const HashMap & v, HashMap* next);
+    HashList(const Key& k, const Value& v, HashMap* next);
 
     ~HashList();
 
-    bool insert(const HashMap & v);
+    bool insert(const Key& k, const Value& v);
 
-    bool remove(HashMap & v);
+    bool remove(const Key& k);
 
-    bool search(const HashMap & v);
+    bool search(const Key& k);
 
     void printList() const;
 

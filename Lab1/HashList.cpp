@@ -9,7 +9,7 @@ HashList::HashList(){
 HashList::HashList(HashList & b){
     HashMap* tmp = b.head_;
     while (tmp != NULL){
-        insert(*tmp);
+        insert(tmp->key, tmp->value);
         tmp = tmp->next;
     }
 }
@@ -18,13 +18,13 @@ HashList::~HashList(){
     freeList();
 }
 
-bool HashList::insert(const HashMap & v){
-    if (search(v)) return false;
+bool HashList::insert(const Key& k, const Value& v){
+    if (search(k)) return false;
     if (head_ == nullptr) {
-        head_ = new HashMap(v);
+        head_ = new HashMap(const_cast<Key&>(k),const_cast<Value&>(v));
         return true;
     }
-    head_ = new HashMap(v,head_);
+    head_ = new HashMap(const_cast<Key&>(k),const_cast<Value&>(v),head_);
     return true;
 }
 
@@ -46,17 +46,17 @@ void HashList::printList() const{
 }
 
 
-bool HashList::search(const HashMap & v){
+bool HashList::search(const Key& k){
     HashMap* tmp = head_;
     while (tmp != NULL){
-        if (*tmp == v) return true;
+        if (tmp->key == k) return true;
         tmp = tmp->next;
     }
     return false;
 }
 
-bool HashList::remove(HashMap & v){
-    if (*head_ == v){
+bool HashList::remove(const Key& k){
+    if (head_->key == k){
         HashMap* tmp = head_;
         head_ = head_->next;
         delete tmp;
@@ -65,7 +65,7 @@ bool HashList::remove(HashMap & v){
     HashMap* before_tmp = head_;
     HashMap* tmp = head_->next;
     while (tmp != NULL){
-        if (*tmp == v) {
+        if (tmp->key == k) {
             before_tmp->next = tmp->next;
             delete tmp;
             return true;

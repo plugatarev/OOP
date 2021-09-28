@@ -41,6 +41,7 @@ HashTable& HashTable::operator=(const HashTable& b){
 
 bool HashTable::insert(const Key& k, const Value& v){
     int hash = hashF(k);
+    list_[hash].insert(const_cast<Key&>(k),const_cast<Value&>(v));
 }
 
 

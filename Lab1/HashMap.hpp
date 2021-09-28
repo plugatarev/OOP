@@ -10,10 +10,10 @@ public:
 
     HashMap();
 
-    HashMap (Key k, Value& v);
-    HashMap(const HashMap & other);
+    HashMap (Key& k, Value& v);
+    HashMap(const HashMap& other);
 
-    HashMap(const HashMap & other, HashMap* v);
+    HashMap(Key& k, Value& v, HashMap* next);
 
     ~HashMap();
 
