@@ -22,6 +22,10 @@ size_t HashTable::size() const{
     return size_;
 }
 
+bool operator!=(const HashTable& a, const HashTable& b){
+    return false;
+}
+
 HashTable& HashTable::operator=(const HashTable& b){
     if (b != *this){
         capacity_ = b.capacity_;
@@ -35,17 +39,15 @@ HashTable& HashTable::operator=(const HashTable& b){
     return *this;
 }
 
+bool HashTable::insert(const Key& k, const Value& v){
+    int hash = hashF(k);
+}
 
-// HashTable& HashTable::operator=(const HashTable& b){
-//     if (&b != this){
-//         // if (list_) delete[] list_;
-//         // capacity_ = b.capacity_;
-//         // for (size_t i = 0; i < capacity_; i++){
-//         //     list_[i] = b.getlist(i);
-//         // }
-//     }
-// }
 
 bool HashTable::empty() const{
     return (size_ == 0);
+}
+
+int HashTable::hashF(const Key& k){
+    return 0;
 }

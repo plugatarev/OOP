@@ -1,9 +1,10 @@
 #pragma once
 #include "Header.hpp"
-#include "Value.hpp"
+#include "HashMap.hpp"
+
 class HashList{
 private:
-    Value* head_ = nullptr;
+    HashMap* head_ = nullptr;
     void freeList();
 
 public:
@@ -12,19 +13,19 @@ public:
 
     HashList(HashList & b);
 
-    HashList(const Value & v, Value* next);
+    HashList(const HashMap & v, HashMap* next);
 
     ~HashList();
 
-    bool insert(const Value & v);
+    bool insert(const HashMap & v);
 
-    bool remove(Value & v);
+    bool remove(HashMap & v);
 
-    bool search(const Value & v);
+    bool search(const HashMap & v);
 
     void printList() const;
 
-    HashList & operator=(const HashList& other);
+    HashList & operator=(const HashMap& other);
 
-    friend bool operator==(const HashList& a, const HashList& b);
+    friend bool operator==(const HashMap& a, const HashMap& b);
 };

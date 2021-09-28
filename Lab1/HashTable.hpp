@@ -7,6 +7,8 @@ private:
    HashList* list_;
    int capacity_;
    int size_;
+
+   int hashF(const Value&) const;
 public:
    HashTable();
    HashTable(size_t size);
@@ -34,6 +36,8 @@ public:
    size_t size() const;
 
    bool empty() const;
+
+   int hashF(const Key& k);
 
    friend bool operator==(const HashTable& a, const HashTable& b);
    friend bool operator!=(const HashTable& a, const HashTable& b);
