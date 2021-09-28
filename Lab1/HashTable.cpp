@@ -61,5 +61,20 @@ int HashTable::hashF(const Key& k){
 }
 
 bool HashTable::resize(){
+    if (2 * capacity_ > INT_MAX)
+    capacity_ = 2 * capacity_;
+    size_ = 2 * size_;
+    HashList* tmp = new HashList[capacity_];
+    for (size_t i = 0; i < size_; i++){
+        tmp[i] = list_[i];
+    }
+    delete[] list_;
+    list_ = tmp;
+    return true;
+}
 
+void HashTable::clear(){
+    delete [] list_;
+    capacity_ = 0;
+    size_ = 0;
 }
