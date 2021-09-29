@@ -46,7 +46,7 @@ void HashList::printList() const{
 }
 
 
-bool HashList::search(const Key& k){
+bool HashList::search(const Key& k) const{
     HashMap* tmp = head_;
     while (tmp != NULL){
         if (tmp->key == k) return true;
@@ -74,4 +74,12 @@ bool HashList::remove(const Key& k){
         tmp = tmp->next;
     }
     return false;
+}
+
+Value& HashList::at(const Key& k) const{
+    HashMap* tmp = head_;
+    while (tmp != NULL){
+        if (tmp->key == k) return tmp->value;
+        tmp = tmp->next;
+    }
 }

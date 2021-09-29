@@ -1,10 +1,11 @@
-//#include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include "HashTable.hpp"
 
 using namespace std;
 
-int main() {
-    //return RUN_ALL_TESTS();
+int main(int argc, char ** argv) {
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
     std::string s = "espetr";
     std::string str1 = "hello"; std::string str2 = "gggv"; std::string str3 = "Yoap"; std::string str4 = "Abracadabra";
     Value v(s,12);
@@ -20,6 +21,4 @@ int main() {
     HashList b(a);
     //b.remove(a1);
     b.printList();
-
-    return 0;
 }

@@ -62,7 +62,7 @@ size_t HashTable::hashF(const Key& k){
     int p = 31;
     long long power_of_p = 1;
     for (int i = 0; i < k.length(); i++) {
-        hash = (hash+ (k[i] - 'a' + 1) * power_of_p) % m;
+        hash = (hash + (k[i] - 'a' + 1) * power_of_p) % m;
         power_of_p = (power_of_p * p) % m;
     }
    
@@ -71,7 +71,7 @@ size_t HashTable::hashF(const Key& k){
 }
 
 bool HashTable::resize(){
-    if (2 * capacity_ > INT_MAX)
+    assert(2 * capacity_ > INT_MAX);
     capacity_ = 2 * capacity_;
     size_ = 2 * size_;
     HashList* tmp = new HashList[capacity_];
@@ -87,4 +87,9 @@ void HashTable::clear(){
     delete [] list_;
     capacity_ = 0;
     size_ = 0;
+}
+
+Value& HashTable::operator[](const Key& k){
+    int hash = hashF(k);
+    if (list_[hash].search(k)) return list_[hash].at(k);
 }

@@ -5,8 +5,9 @@ class HashTable {
 
 private:
    HashList* list_;
-   int capacity_;
-   int size_;
+   int capacity_ = 0;
+   int size_ = 0;
+   size_t hashF(const Key& k);
 
    int hashF(const Value&) const;
 public:
@@ -36,8 +37,6 @@ public:
    size_t size() const;
 
    bool empty() const;
-
-   size_t hashF(const Key& k);
 
    bool resize();
 
