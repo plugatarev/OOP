@@ -22,7 +22,11 @@ size_t HashTable::size() const{
 }
 
 bool operator!=(const HashTable& a, const HashTable& b){
-    return false;
+    if (a.size_ != b.size_ || a.capacity_ != b.capacity_) return false;
+    for (size_t i = 0; i < a.size_; i++){
+            if (!(a.list_[i] == b.list_[i])) return false;
+        }
+        return true;
 }
 
 HashTable& HashTable::operator=(const HashTable& b){
@@ -47,7 +51,9 @@ bool HashTable::insert(const Key& k, const Value& v){
 
 bool HashTable::erase(const Key& k){
     int hash =  hashF(k);
-    list_[hash].remove(k);
+    assert(hash < capacity_);
+    if (list_[hash].remove(k)) return true;
+    return false;
 }
 
 

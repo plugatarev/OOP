@@ -19,7 +19,7 @@ HashList::~HashList(){
 }
 
 bool HashList::insert(const Key& k, const Value& v){
-    if (search(k)) return false;
+    //if (search(k)) return false;
     if (head_ == nullptr) {
         head_ = new Entries(const_cast<Key&>(k),const_cast<Value&>(v));
         return true;
@@ -83,3 +83,4 @@ Value& HashList::at(const Key& k) const{
         tmp = tmp->next;
     }
 }
+

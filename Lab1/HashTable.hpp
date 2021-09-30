@@ -23,8 +23,10 @@ public:
 
    void clear();
 
+   //Removes the element (if one exists) with the key equivalent to key.
    bool erase(const Key& k);
-
+   
+   //Inserts element(s) into the container
    bool insert(const Key& k, const Value& v);
 
    bool contains(const Key& k) const;
