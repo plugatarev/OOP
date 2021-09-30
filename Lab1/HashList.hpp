@@ -1,10 +1,10 @@
 #pragma once
 #include "Header.hpp"
-#include "HashMap.hpp"
+#include "Entries.hpp"
 
 class HashList{
 private:
-    HashMap* head_ = nullptr;
+    Entries* head_ = nullptr;
     void freeList();
 
 public:
@@ -13,7 +13,7 @@ public:
 
     HashList(HashList & b);
 
-    HashList(const Key& k, const Value& v, HashMap* next);
+    HashList(const Key& k, const Value& v, Entries* next);
 
     ~HashList();
 
@@ -27,7 +27,7 @@ public:
 
     Value& at(const Key& k) const;
 
-    HashList & operator=(const HashMap& other);
+    HashList & operator=(const Entries& other);
 
-    friend bool operator==(const HashMap& a, const HashMap& b);
+    friend bool operator==(const Entries& a, const Entries& b);
 };

@@ -1,23 +1,9 @@
-enable_testing()
-
-add_executable(
-  Testing
-  Test.cpp
-)
-target_link_libraries(
-  Testing
-  gtest_main
-)
-
-include(GoogleTest)
-gtest_discover_tests(Testing)
-
 cmake_minimum_required(VERSION 3.21.2)
 project(LAB1)
 
-set(CMAKE_CXX_STANDARD 17)
-add_subdirectory(googletest)
-set(SRC main.cpp Header.hpp Value.hpp Value.cpp HashList.hpp HashList.cpp HashTable.hpp HashTable.cpp HashMap.cpp HashMap.hpp Test.cpp)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(SRC main.cpp Header.hpp Value.hpp Value.cpp HashList.hpp HashList.cpp HashTable.hpp HashTable.cpp Entries.cpp Entries.hpp Test.cpp)
 add_executable(LAB1 ${SRC})
 
 include(FetchContent)
@@ -28,3 +14,18 @@ FetchContent_Declare(
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
+
+enable_testing()
+
+add_executable(
+  Testing
+  Test.cpp
+  HashTable.cpp
+)
+target_link_libraries(
+  Testing
+  gtest_main
+)
+
+include(GoogleTest)
+gtest_discover_tests(Testing)
