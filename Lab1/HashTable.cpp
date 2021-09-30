@@ -100,3 +100,10 @@ Value& HashTable::operator[](const Key& k){
     if (!list_[hash].search(k)) insert(k,Value());
     return list_[hash].at(k);
 }
+
+Value& HashTable::at(const Key& k){
+    int hash = hashF(k);
+    assert(hash < capacity_);
+    //exception if no such element exists
+    return list_[hash].at(k);
+}
