@@ -28,7 +28,9 @@ public:
    bool insert(const Key& k, const Value& v);
 
    bool contains(const Key& k) const;
-  
+
+   //Return a reference to the mapped value of the existing element whose key is equivalent to key.
+   //Reference to the mapped value of the new element if no element with key key existed.  
    Value& operator[](const Key& k);
 
    Value& at(const Key& k);

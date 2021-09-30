@@ -90,7 +90,7 @@ void HashTable::clear(){
 
 Value& HashTable::operator[](const Key& k){
     int hash = hashF(k);
-    assert(hash < size_);
-    //
-    if (list_[hash].search(k)) return list_[hash].at(k);
+    assert(hash < capacity_);
+    if (!list_[hash].search(k)) insert(k,Value());
+    return list_[hash].at(k);
 }
