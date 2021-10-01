@@ -60,5 +60,6 @@ public:
    //Retunrs true if a not equal b. Retunr false if a equal b
    friend bool operator!=(const HashTable& a, const HashTable& b);
 
+   //Prints HashTable
    void print_HashTable() const;
 };
