@@ -40,7 +40,7 @@ void HashList::freeList(){
 void HashList::printList() const{
     Entries* tmp = head_;
     while (tmp != NULL){
-        std::cout << tmp->key << " ";
+        std::cout << tmp->key << " " << tmp->value.age << " " << tmp->value.name <<std::endl;
         tmp = tmp->next;
     }
 }

@@ -124,3 +124,10 @@ bool HashTable::contains(const Key& k) const{
     assert(hash < capacity_);
     return list_[hash].search(k);
 }
+
+void HashTable::swap(HashTable& b){
+    HashTable tmp;
+    tmp = b;
+    b = *this;
+    *this = tmp;
+}
