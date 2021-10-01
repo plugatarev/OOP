@@ -29,6 +29,10 @@ bool operator!=(const HashTable& a, const HashTable& b){
         return true;
 }
 
+bool operator==(const HashTable& a, const HashTable& b){
+    return (!(a != b));
+}
+
 HashTable& HashTable::operator=(const HashTable& b){
     if (b != *this){
         capacity_ = b.capacity_;
@@ -106,6 +110,13 @@ Value& HashTable::at(const Key& k){
     assert(hash < capacity_);
     //exception if no such element exists
     return list_[hash].at(k);
+}
+
+const Value& HashTable::at(const Key& k) const{
+    int hash = hashF(k);
+    assert(hash < capacity_);
+    //exception if no such element exists
+    return (const_cast<Value&>(list_[hash].at(k)));
 }
 
 bool HashTable::contains(const Key& k) const{
