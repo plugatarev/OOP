@@ -131,3 +131,9 @@ void HashTable::swap(HashTable& b){
     b = *this;
     *this = tmp;
 }
+
+void HashTable::print_HashTable() const{
+      for (size_t i = 0; i < size_; i++){
+         list_[i].printList();
+      }
+   }
