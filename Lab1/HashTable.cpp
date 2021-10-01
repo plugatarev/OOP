@@ -61,7 +61,7 @@ bool HashTable::empty() const{
     return (size_ == 0);
 }
 
-size_t HashTable::hashF(const Key& k){
+size_t HashTable::hashF(const Key& k) const{
     size_t hash = 0;
     int m = 1e9 + 9;
     int p = 31;
@@ -106,4 +106,10 @@ Value& HashTable::at(const Key& k){
     assert(hash < capacity_);
     //exception if no such element exists
     return list_[hash].at(k);
+}
+
+bool HashTable::contains(const Key& k) const{
+    size_t hash = hashF(k);
+    assert(hash < capacity_);
+    return list_[hash].search(k);
 }

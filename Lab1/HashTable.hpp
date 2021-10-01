@@ -7,9 +7,13 @@ private:
    HashList* list_;
    int capacity_ = 0;
    int size_ = 0;
-   size_t hashF(const Key& k);
+   size_t hashF(const Key& k) const;
 public:
+
+   //Creates empty HashTabes with default capacity
    HashTable();
+
+   //Creates empty HashTabes with size capacity
    HashTable(size_t size);
    ~HashTable();
 
@@ -17,9 +21,10 @@ public:
 
    HashTable(const HashTable& b);
 
+   //swaps the HashTabes
    void swap(HashTable& b);
 
-   //clears the hashtable
+   //clears the HashTabes
    void clear();
 
    //Removes the element (if one exists) with the key equivalent to key.
@@ -28,6 +33,7 @@ public:
    //Inserts element(s) into the container
    bool insert(const Key& k, const Value& v);
 
+   //checks if the Value contains element with specific key
    bool contains(const Key& k) const;
 
    //Return a reference to the value of the existing element whose is equivalent to k.
@@ -48,6 +54,9 @@ public:
    //if hashtable overflows сhange the size twice
    bool resize();
 
+   //Retunrs true if a equal b. Retunr false if a not equal b
    friend bool operator==(const HashTable& a, const HashTable& b);
+
+   //Retunrs true if a not equal b. Retunr false if a equal b
    friend bool operator!=(const HashTable& a, const HashTable& b);
 };
