@@ -48,6 +48,9 @@ public:
    //Returns the number of elements
    size_t size() const;
 
+   //Returns the capacity of HashTable
+   size_t capacity() const;
+
    //checks whether the hashtable is empty
    bool empty() const;
 

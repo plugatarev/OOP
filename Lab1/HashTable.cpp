@@ -22,6 +22,10 @@ size_t HashTable::size() const{
     return size_;
 }
 
+size_t HashTable::capacity() const{
+    return capacity_;
+}
+
 bool operator!=(const HashTable& a, const HashTable& b){
     if (a.size_ != b.size_ || a.capacity_ != b.capacity_) return false;
     for (size_t i = 0; i < a.size_; i++){
