@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.21.2)
-project(LAB1 VERSION 0.1)
-
-set(SRC HashTable.cpp)
-add_executable(LAB1 ${SRC})
+project(LAB1)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(SRC main.cpp Header.hpp Value.hpp Value.cpp HashList.hpp HashList.cpp HashTable.hpp HashTable.cpp Entries.cpp Entries.hpp Test.cpp)
+
+add_executable(LAB1 ${SRC})
+
 
 include(FetchContent)
 FetchContent_Declare(

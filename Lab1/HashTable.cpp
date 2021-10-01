@@ -1,4 +1,5 @@
 #include "HashTable.hpp"
+
 HashTable::HashTable():list_(new HashList[_DEFAULT_HASHTABLE_SIZE]), capacity_(_DEFAULT_HASHTABLE_SIZE), size_(0){}
 
 HashTable::HashTable(size_t size):list_(new HashList[size]),capacity_(size), size_(0){}
