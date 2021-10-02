@@ -30,4 +30,6 @@ public:
     HashList & operator=(const HashList& other);
 
     friend bool operator==(const HashList& a, const HashList& b);
+
+    friend bool operator!=(const HashList& a, const HashList& b);
 };
