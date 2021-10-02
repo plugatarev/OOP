@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.21.2)
+cmake_minimum_required(VERSION 3.20.5)
 project(LAB1)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(SRC main.cpp Header.hpp Value.hpp Value.cpp HashList.hpp HashList.cpp HashTable.hpp HashTable.cpp Entries.cpp Entries.hpp Test.cpp)
+set(SRC main.cpp Value.cpp HashList.cpp HashTable.cpp Entries.cpp)
 
 add_executable(LAB1 ${SRC})
 
@@ -21,7 +21,10 @@ enable_testing()
 add_executable(
   HashTableTest
   Test.cpp
+  Value.cpp
+  HashList.cpp
   HashTable.cpp
+  Entries.cpp
 )
 target_link_libraries(
   HashTableTest
