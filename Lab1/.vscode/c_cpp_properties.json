@@ -3,7 +3,7 @@
         {
             "name": "windows-gcc-x86",
             "includePath": [
-                "${workspaceFolder}/**"
+                "D:\\Labs OOP\\Lab1\\googletest\\googletest\\test"
             ],
             "compilerPath": "C:\\MinGW\\bin\\gcc.exe",
             "cStandard": "${default}",

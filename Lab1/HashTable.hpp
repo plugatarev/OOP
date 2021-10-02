@@ -7,7 +7,11 @@ private:
    HashList* list_;
    int capacity_ = 0;
    int size_ = 0;
+
    size_t hashF(const Key& k) const;
+
+   //if hashtable overflows сhange the size twice
+   bool resize();
 public:
 
    //Creates empty HashTabes with default capacity
@@ -53,9 +57,6 @@ public:
 
    //checks whether the hashtable is empty
    bool empty() const;
-
-   //if hashtable overflows сhange the size twice
-   bool resize();
 
    //Retunrs true if a equal b. Retunr false if a not equal b
    friend bool operator==(const HashTable& a, const HashTable& b);
