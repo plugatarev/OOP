@@ -85,11 +85,15 @@ Value& HashList::at(const Key& k) const{
 }
 
 HashList & HashList::operator=(const HashList& other){
-    Entries* tmp = other.head_;
-    while (tmp != NULL){
-        insert(tmp->key, tmp->value);
-        tmp = tmp->next;
+    if (*this != other){
+        freeList();
+        Entries* tmp = other.head_;
+            while (tmp != NULL){
+            insert(tmp->key, tmp->value);
+            tmp = tmp->next;
+        }
     }
+    *this;
 }
 
 bool operator==(const HashList& a, const HashList& b){

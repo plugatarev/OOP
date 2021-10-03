@@ -52,8 +52,8 @@ HashTable& HashTable::operator=(const HashTable& b){
 }
 
 bool HashTable::insert(const Key& k, const Value& v){
-    if (size_ == capacity_) resize();
     int hash = hashF(k);
+    if (hash >= capacity_) resize();
     size_++;
     return list_[hash].insert(const_cast<Key&>(k),const_cast<Value&>(v));    
 }
@@ -72,16 +72,10 @@ bool HashTable::empty() const{
 
 size_t HashTable::hashF(const Key& k) const{
     size_t hash = 0;
-    int m = 1e9 + 9;
-    int p = 31;
-    long long power_of_p = 1;
-    for (int i = 0; i < k.length(); i++) {
-        hash = (hash + (k[i] - 'a' + 1) * power_of_p) % m;
-        power_of_p = (power_of_p * p) % m;
-    }
-   
-   //return positive remainder only
-    return (hash % m + m) % m;
+	for (int i = 0; i < k.length(); i++) {
+		hash += (k[i] % 3) * pow(3,i);
+	}
+	return hash;
 }
 
 bool HashTable::resize(){
