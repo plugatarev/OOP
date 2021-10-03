@@ -88,9 +88,9 @@ HashList & HashList::operator=(const HashList& other){
     if (*this != other){
         freeList();
         Entries* tmp = other.head_;
-            while (tmp != NULL){
-            insert(tmp->key, tmp->value);
-            tmp = tmp->next;
+        while (tmp != NULL){
+        insert(tmp->key, tmp->value);
+        tmp = tmp->next;
         }
     }
     *this;
