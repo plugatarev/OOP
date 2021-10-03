@@ -8,7 +8,7 @@ HashTable::~HashTable(){
     delete [] list_;
 }
 HashTable::HashTable(const HashTable& b){
-    if (b.list_ != NULL){
+    if (b.capacity_ != 0){
         capacity_ = b.capacity_;
         size_ = b.size_;
         list_ = new HashList[b.capacity_];
@@ -43,7 +43,7 @@ HashTable& HashTable::operator=(const HashTable& b){
         capacity_ = b.capacity_;
         size_ = b.size_;
         delete[] list_;
-        list_ = new HashList[size_];
+        list_ = new HashList[capacity_];
         for (size_t i = 0; i < size_; i++){
             list_[i] = b.list_[i];
         }
@@ -80,7 +80,7 @@ size_t HashTable::hashF(const Key& k) const{
 
 bool HashTable::resize(const size_t& hash){
     capacity_ = hash + 1;
-    assert(capacity_ > INT_MAX);
+    assert(capacity_ < INT_MAX);
     HashList* tmp = new HashList[capacity_];
     for (size_t i = 0; i < size_; i++){
         tmp[i] = list_[i];
@@ -98,7 +98,6 @@ void HashTable::clear(){
 
 Value& HashTable::operator[](const Key& k){
     int hash = hashF(k);
-    assert(hash < capacity_);
     if (!list_[hash].search(k)) insert(k,Value());
     return list_[hash].at(k);
 }
@@ -119,7 +118,7 @@ const Value& HashTable::at(const Key& k) const{
 
 bool HashTable::contains(const Key& k) const{
     size_t hash = hashF(k);
-    assert(hash < capacity_);
+    if (hash >= capacity_) return false;
     return list_[hash].search(k);
 }
 
