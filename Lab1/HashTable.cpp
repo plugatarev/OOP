@@ -61,8 +61,7 @@ bool HashTable::insert(const Key& k, const Value& v){
 bool HashTable::erase(const Key& k){
     int hash =  hashF(k);
     assert(hash < capacity_);
-    if (list_[hash].remove(k)) return true;
-    return false;
+    return list_[hash].remove(k);
 }
 
 
