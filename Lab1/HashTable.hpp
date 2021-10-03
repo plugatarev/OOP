@@ -5,13 +5,13 @@ class HashTable {
 
 private:
    HashList* list_;
-   int capacity_ = 0;
-   int size_ = 0;
+   size_t capacity_ = 0;
+   size_t size_ = 0;
 
    size_t hashF(const Key& k) const;
 
-   //if hashtable overflows сhange the size twice
-   bool resize();
+   //if hashtable overflows сhange the size
+   bool resize(const size_t& hash);
 public:
 
    //Creates empty HashTabes with default capacity

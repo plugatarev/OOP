@@ -52,8 +52,8 @@ HashTable& HashTable::operator=(const HashTable& b){
 }
 
 bool HashTable::insert(const Key& k, const Value& v){
-    int hash = hashF(k);
-    if (hash >= capacity_) resize();
+    size_t hash = hashF(k);
+    if (hash >= capacity_) resize(hash);
     size_++;
     return list_[hash].insert(const_cast<Key&>(k),const_cast<Value&>(v));    
 }
@@ -78,10 +78,9 @@ size_t HashTable::hashF(const Key& k) const{
 	return hash;
 }
 
-bool HashTable::resize(){
-    assert(2 * capacity_ > INT_MAX);
-    capacity_ = 2 * capacity_;
-    size_ = 2 * size_;
+bool HashTable::resize(const size_t& hash){
+    capacity_ = hash + 1;
+    assert(capacity_ > INT_MAX);
     HashList* tmp = new HashList[capacity_];
     for (size_t i = 0; i < size_; i++){
         tmp[i] = list_[i];
