@@ -27,7 +27,9 @@ public:
 
     Value& at(const Key& k) const;
 
-    HashList & operator=(const HashList& other);
+    HashList& operator=(const HashList& other);
+
+    Entries* pop();
 
     friend bool operator==(const HashList& a, const HashList& b);
 

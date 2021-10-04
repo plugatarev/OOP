@@ -1,7 +1,6 @@
 #include "HashList.hpp"
 #include "Header.hpp"
 #include "Entries.hpp"
-
 HashList::HashList(){
     head_ = nullptr;
 }
@@ -109,4 +108,11 @@ bool operator==(const HashList& a, const HashList& b){
 
 bool operator!=(const HashList& a, const HashList& b){
     return (!operator==(a,b));
+}
+
+Entries* HashList::pop(){
+    if (head_ == NULL) return NULL;
+    Entries* tmp = new Entries(head_->key,head_->value);
+    remove(head_->key);
+    return tmp;
 }

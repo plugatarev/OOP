@@ -10,8 +10,8 @@ private:
 
    size_t hashF(const Key& k) const;
 
-   //if hashtable overflows сhange the size
-   bool resize(const size_t& hash);
+   //if hashtable overflows сhange the size 
+   bool resize();
 public:
 
    //Creates empty HashTabes with default capacity

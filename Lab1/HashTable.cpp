@@ -52,8 +52,8 @@ HashTable& HashTable::operator=(const HashTable& b){
 }
 
 bool HashTable::insert(const Key& k, const Value& v){
+    if (size_ > int(4 * capacity_ / 3)) resize();
     size_t hash = hashF(k);
-    if (hash >= capacity_) resize(hash);
     size_++;
     return list_[hash].insert(const_cast<Key&>(k),const_cast<Value&>(v));    
 }
@@ -72,17 +72,23 @@ bool HashTable::empty() const{
 size_t HashTable::hashF(const Key& k) const{
     size_t hash = 0;
 	for (int i = 0; i < k.length(); i++) {
-		hash += (k[i] % 3) * pow(3,i);
+		hash += (k[i] % 5) * pow(3,i);
 	}
-	return hash;
+	return hash % capacity_;
 }
 
-bool HashTable::resize(const size_t& hash){
-    capacity_ = hash + 1;
-    assert(capacity_ < INT_MAX);
+bool HashTable::resize(){
+    assert(capacity_ * 2 < INT_MAX);
+    capacity_ = capacity_ * 2;
     HashList* tmp = new HashList[capacity_];
     for (size_t i = 0; i < size_; i++){
-        tmp[i] = list_[i];
+        Entries* l = list_[i].pop();
+        while (l != NULL){
+            size_t hash = hashF(l->key);
+            tmp[hash].insert(l->key,l->value);
+            delete l;
+            Entries* l = list_[i].pop();
+    }
     }
     delete[] list_;
     list_ = tmp;
@@ -105,6 +111,7 @@ Value& HashTable::at(const Key& k){
     int hash = hashF(k);
     assert(hash < capacity_);
     //exception if no such element exists
+    if (list_[hash].search(k) == 0) throw -1;
     return list_[hash].at(k);
 }
 
@@ -112,6 +119,7 @@ const Value& HashTable::at(const Key& k) const{
     int hash = hashF(k);
     assert(hash < capacity_);
     //exception if no such element exists
+    if (list_[hash].search(k) == 0) throw -1;
     return (const_cast<Value&>(list_[hash].at(k)));
 }
 
@@ -129,7 +137,7 @@ void HashTable::swap(HashTable& b){
 }
 
 void HashTable::print_HashTable() const{
-      for (size_t i = 0; i < size_; i++){
+      for (size_t i = 0; i < capacity_; i++){
          list_[i].printList();
       }
    }
