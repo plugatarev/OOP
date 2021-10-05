@@ -27,11 +27,11 @@ size_t HashTable::capacity() const{
 }
 
 bool operator!=(const HashTable& a, const HashTable& b){
-    if (a.size_ != b.size_ || a.capacity_ != b.capacity_) return false;
+    if (a.size_ != b.size_ || a.capacity_ != b.capacity_) return true;
     for (size_t i = 0; i < a.size_; i++){
-            if (!(a.list_[i] == b.list_[i])) return false;
+            if (!(a.list_[i] == b.list_[i])) return true;
         }
-        return true;
+        return false;
 }
 
 bool operator==(const HashTable& a, const HashTable& b){
