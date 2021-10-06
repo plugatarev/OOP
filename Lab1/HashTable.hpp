@@ -65,6 +65,8 @@ private:
    size_t size_ = 0;
    const int _DEFAULT_HASHTABLE_SIZE = 16;
 
+   const double ResizeOn = 0.75;
+
    size_t hashF(const Key& k) const;
 
    //if hashtable overflows сhange the size 

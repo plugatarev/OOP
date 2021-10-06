@@ -54,7 +54,7 @@ HashTable& HashTable::operator=(const HashTable& b){
 }
 
 bool HashTable::insert(const Key& k, const Value& v){
-    if (size_ > int(4 * capacity_ / 3)) resize();
+    if (size_ > int(ResizeOn * capacity_)) resize();
     size_t hash = hashF(k);
     size_++;
     return list_[hash].insert(const_cast<Key&>(k),const_cast<Value&>(v));    
@@ -105,7 +105,7 @@ void HashTable::clear(){
 
 Value& HashTable::operator[](const Key& k){
     int hash = hashF(k);
-    if (!list_[hash].search(k)) insert(k,Value());
+    list_[hash].search_and_insert(k,Value());
     return list_[hash].at(k);
 }
 
