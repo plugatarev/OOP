@@ -1,9 +1,7 @@
 #include "HashList.hpp"
 #include "Header.hpp"
 #include "Entries.hpp"
-HashList::HashList(){
-    head_ = nullptr;
-}
+HashList::HashList():head_(nullptr){}
 
 HashList::HashList(HashList & b){
     Entries* tmp = b.head_;
@@ -55,24 +53,19 @@ bool HashList::search(const Key& k) const{
 }
 
 bool HashList::remove(const Key& k){
-    if (head_->key == k){
-        Entries* tmp = head_;
-        head_ = head_->next;
-        delete tmp;
-        return true;
-    }
     Entries* before_tmp = head_;
-    Entries* tmp = head_->next;
-    while (tmp != NULL){
-        if (tmp->key == k) {
-            before_tmp->next = tmp->next;
-            delete tmp;
-            return true;
-        }
+    Entries* tmp = head_;
+    while (tmp->next != NULL || tmp->key != k) {
         before_tmp = tmp;
         tmp = tmp->next;
     }
+    if (tmp->key == k){
+        before_tmp->next = tmp->next;
+        delete tmp;
+        return true;
+    }
     return false;
+
 }
 
 Value& HashList::at(const Key& k) const{

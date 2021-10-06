@@ -19,7 +19,7 @@ Key gen_random(int len) {
 TEST(HashTableTest,DefaultConstructor){
     HashTable a;
     ASSERT_EQ(a.size(), 0);
-    ASSERT_EQ(a.capacity(), _DEFAULT_HASHTABLE_SIZE);
+    ASSERT_EQ(a.capacity(), 16);
 }
 
 TEST(HashTableTest,SizeConstructor){

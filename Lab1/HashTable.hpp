@@ -1,6 +1,8 @@
 #pragma once
 #include "Header.hpp"
 #include "HashList.hpp"
+typedef std::string Key;
+
 class HashTable {
 public:
 
@@ -61,6 +63,7 @@ private:
    HashList* list_;
    size_t capacity_ = 0;
    size_t size_ = 0;
+   const int _DEFAULT_HASHTABLE_SIZE = 16;
 
    size_t hashF(const Key& k) const;
 

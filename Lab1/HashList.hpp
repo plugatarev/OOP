@@ -1,6 +1,7 @@
 #pragma once
 #include "Header.hpp"
 #include "Entries.hpp"
+typedef std::string Key;
 
 class HashList{
 private:

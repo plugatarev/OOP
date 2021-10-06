@@ -1,4 +1,6 @@
 #include "HashTable.hpp"
+#include <stdexcept>
+typedef std::string Key;
 
 HashTable::HashTable():list_(new HashList[_DEFAULT_HASHTABLE_SIZE]), capacity_(_DEFAULT_HASHTABLE_SIZE), size_(0){}
 
@@ -78,7 +80,7 @@ size_t HashTable::hashF(const Key& k) const{
 }
 
 bool HashTable::resize(){
-    assert(capacity_ * 2 < INT_MAX);
+    assert(capacity_ * 2 < INT_MAX && capacity_ * 2 > 0);
     capacity_ = capacity_ * 2;
     HashList* tmp = new HashList[capacity_];
     for (size_t i = 0; i < size_; i++){
@@ -111,7 +113,7 @@ Value& HashTable::at(const Key& k){
     int hash = hashF(k);
     assert(hash < capacity_);
     //exception if no such element exists
-    if (list_[hash].search(k) == 0) throw -1;
+    if (list_[hash].search(k) == 0) throw std::out_of_range("no such element exists");
     return list_[hash].at(k);
 }
 
@@ -119,7 +121,7 @@ const Value& HashTable::at(const Key& k) const{
     int hash = hashF(k);
     assert(hash < capacity_);
     //exception if no such element exists
-    if (list_[hash].search(k) == 0) throw -1;
+    if (list_[hash].search(k) == 0) throw std::out_of_range("no such element exists");
     return (const_cast<Value&>(list_[hash].at(k)));
 }
 
