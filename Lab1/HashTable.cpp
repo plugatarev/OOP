@@ -2,9 +2,9 @@
 #include <stdexcept>
 typedef std::string Key;
 
-HashTable::HashTable():list_(new HashList[_DEFAULT_HASHTABLE_SIZE]), capacity_(_DEFAULT_HASHTABLE_SIZE), size_(0){}
+HashTable::HashTable():list_(new HashList[16]), capacity_(16), size_(0){}
 
-HashTable::HashTable(size_t size):list_(new HashList[size]),capacity_(size), size_(0){}
+HashTable::HashTable(size_t capacity):list_(new HashList[capacity]),capacity_(capacity), size_(0){}
 
 HashTable::~HashTable(){
     delete [] list_;
@@ -98,7 +98,9 @@ bool HashTable::resize(){
 }
 
 void HashTable::clear(){
-    delete [] list_;
+    for (size_t i = 0; i < capacity_;i++){
+        list_[i].freeList();
+    }
     capacity_ = 0;
     size_ = 0;
 }

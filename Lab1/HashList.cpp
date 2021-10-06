@@ -93,8 +93,10 @@ bool operator==(const HashList& a, const HashList& b){
     Entries* tmp_a = a.head_;
     Entries* tmp_b = b.head_;
 
-    while (tmp_a != NULL || tmp_b != NULL){
+    while (tmp_a != NULL && tmp_b != NULL){
         if (!(*tmp_a == *tmp_b)) return false;
+        tmp_a = tmp_a->next;
+        tmp_b = tmp_b->next;
     }
     if ((tmp_a == NULL && tmp_b != NULL) || (tmp_b == NULL && tmp_a != NULL)) return false;
     return true;

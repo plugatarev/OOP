@@ -4,10 +4,6 @@
 typedef std::string Key;
 
 class HashList{
-private:
-    Entries* head_ = nullptr;
-    void freeList();
-
 public:
 
     HashList();
@@ -36,7 +32,12 @@ public:
 
     Entries* pop();
 
+    void freeList();
+
     friend bool operator==(const HashList& a, const HashList& b);
 
     friend bool operator!=(const HashList& a, const HashList& b);
+private:
+    Entries* head_ = nullptr;
+
 };

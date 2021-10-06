@@ -1,6 +1,7 @@
 #pragma once
 #include "Header.hpp"
 #include "Value.hpp"
+typedef std::string Key;
 
 class Entries{
 public:
