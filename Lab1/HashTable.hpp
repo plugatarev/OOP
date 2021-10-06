@@ -2,16 +2,6 @@
 #include "Header.hpp"
 #include "HashList.hpp"
 class HashTable {
-
-private:
-   HashList* list_;
-   size_t capacity_ = 0;
-   size_t size_ = 0;
-
-   size_t hashF(const Key& k) const;
-
-   //if hashtable overflows сhange the size 
-   bool resize();
 public:
 
    //Creates empty HashTabes with default capacity
@@ -66,4 +56,14 @@ public:
 
    //Prints HashTable
    void print_HashTable() const;
+   
+private:
+   HashList* list_;
+   size_t capacity_ = 0;
+   size_t size_ = 0;
+
+   size_t hashF(const Key& k) const;
+
+   //if hashtable overflows сhange the size 
+   bool resize();
 };

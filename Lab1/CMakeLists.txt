@@ -30,6 +30,5 @@ target_link_libraries(
   HashTableTest
   gtest_main
 )
-
 include(GoogleTest)
 gtest_discover_tests(HashTableTest)
