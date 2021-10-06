@@ -74,6 +74,7 @@ Value& HashList::at(const Key& k) const{
         if (tmp->key == k) return tmp->value;
         tmp = tmp->next;
     }
+    throw std::out_of_range("no such element exists");
 }
 
 HashList & HashList::operator=(const HashList& other){

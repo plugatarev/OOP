@@ -37,7 +37,7 @@ public:
    Value& operator[](const Key& k);
 
    //Return a reference to the value of the existing element whose is equivalent to k.
-   //exception ... if no element with key k existed. 
+   //exception out_of_range if no element with key k existed. 
    Value& at(const Key& k);
    const Value& at(const Key& k) const;
    

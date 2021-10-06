@@ -113,7 +113,6 @@ Value& HashTable::at(const Key& k){
     int hash = hashF(k);
     assert(hash < capacity_);
     //exception if no such element exists
-    if (list_[hash].search(k) == 0) throw std::out_of_range("no such element exists");
     return list_[hash].at(k);
 }
 
@@ -121,7 +120,6 @@ const Value& HashTable::at(const Key& k) const{
     int hash = hashF(k);
     assert(hash < capacity_);
     //exception if no such element exists
-    if (list_[hash].search(k) == 0) throw std::out_of_range("no such element exists");
     return (const_cast<Value&>(list_[hash].at(k)));
 }
 
