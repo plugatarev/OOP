@@ -110,3 +110,12 @@ Entries* HashList::pop(){
     remove(head_->key);
     return tmp;
 }
+
+bool HashList::search_and_insert(const Key& k, const Value& v){
+    Entries* tmp = head_;
+    while (tmp != NULL){
+        if (tmp->key == k) return true;
+        tmp = tmp->next;
+    }
+    return insert(k,v);
+}
