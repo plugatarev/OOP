@@ -84,12 +84,12 @@ bool HashTable::resize(){
     capacity_ = capacity_ * 2;
     HashList* tmp = new HashList[capacity_];
     for (size_t i = 0; i < size_; i++){
-        Entries* l = list_[i].pop();
+        Entry* l = list_[i].pop();
         while (l != NULL){
             size_t hash = hashF(l->key);
             tmp[hash].insert(l->key,l->value);
             delete l;
-            Entries* l = list_[i].pop();
+            Entry* l = list_[i].pop();
     }
     }
     delete[] list_;

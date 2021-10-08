@@ -9,10 +9,10 @@ int main(int argc, char ** argv) {
     std::string s = "espetr";
     std::string str1 = "hello"; std::string str2 = "gggv"; std::string str3 = "Yoap"; std::string str4 = "Abracadabra";
     Value v(s,12);
-    Entries a1(str1,v);
-    Entries a2(str2,v);
-    Entries a3(str3,v);
-    Entries a4(str4,v);
+    Entry a1(str1,v);
+    Entry a2(str2,v);
+    Entry a3(str3,v);
+    Entry a4(str4,v);
     HashTable a;
     a.insert(str1,v); a.insert(str2,v); a.insert(str3,v); a.insert(str4,v);
 

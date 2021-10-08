@@ -3,7 +3,7 @@ project(LAB1)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(SRC main.cpp Value.cpp HashList.cpp HashTable.cpp Entries.cpp)
+set(SRC main.cpp Value.cpp HashList.cpp HashTable.cpp Entry.cpp)
 
 add_executable(LAB1 ${SRC})
 
@@ -24,7 +24,7 @@ add_executable(
   Value.cpp
   HashList.cpp
   HashTable.cpp
-  Entries.cpp
+  Entry.cpp
 )
 target_link_libraries(
   HashTableTest

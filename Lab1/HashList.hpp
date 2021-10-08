@@ -1,6 +1,6 @@
 #pragma once
 #include "Header.hpp"
-#include "Entries.hpp"
+#include "Entry.hpp"
 typedef std::string Key;
 
 class HashList{
@@ -10,7 +10,7 @@ public:
 
     HashList(HashList & b);
 
-    HashList(const Key& k, const Value& v, Entries* next);
+    HashList(const Key& k, const Value& v, Entry* next);
 
     ~HashList();
 
@@ -30,7 +30,7 @@ public:
 
     HashList& operator=(const HashList& other);
 
-    Entries* pop();
+    Entry* pop();
 
     void freeList();
 
@@ -38,6 +38,6 @@ public:
 
     friend bool operator!=(const HashList& a, const HashList& b);
 private:
-    Entries* head_ = nullptr;
+    Entry* head_ = nullptr;
 
 };
