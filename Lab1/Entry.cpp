@@ -1,12 +1,8 @@
 #include "Entry.hpp"
 
-Entry::Entry(){};
-
-Entry::Entry(Key& k, Value& v):key(k),value(v){};
-
 Entry::Entry(const Entry& other):key(other.key), value(other.value){};
 
-Entry::Entry(Key& k, Value& v, Entry* next):key(k), value(v), next(next){};
+Entry::Entry(Key& k, Value& v, Entry* next): key(k), value(v), next(next){};
 
 Entry::~Entry(){};
 

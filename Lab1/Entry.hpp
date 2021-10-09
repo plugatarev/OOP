@@ -5,16 +5,15 @@ typedef std::string Key;
 
 class Entry{
 public:
-    Key key;
-    Value value;
+    Key& key;
+    Value& value;
     Entry* next = nullptr;
 
-    Entry();
+    //Entry();
 
-    Entry (Key& k, Value& v);
     Entry(const Entry& other);
 
-    Entry(Key& k, Value& v, Entry* next);
+    Entry(Key& k, Value& v, Entry* next = nullptr);
 
     ~Entry();
 

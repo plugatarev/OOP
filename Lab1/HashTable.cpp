@@ -14,8 +14,8 @@ HashTable::HashTable(const HashTable& b){
         capacity_ = b.capacity_;
         size_ = b.size_;
         list_ = new HashList[b.capacity_];
-        for (size_t i = 0; i < size_; i++){
-            list_[i] = b.list_[i];
+        for (size_t i = 0; i < capacity_; i++){
+            if (b.list_[i].head_ != NULL) list_[i] = b.list_[i];
         }
     }
 }
@@ -46,8 +46,8 @@ HashTable& HashTable::operator=(const HashTable& b){
         size_ = b.size_;
         delete[] list_;
         list_ = new HashList[capacity_];
-        for (size_t i = 0; i < size_; i++){
-            list_[i] = b.list_[i];
+        for (size_t i = 0; i < capacity_; i++){
+            if (b.list_[i].head_ != NULL) list_[i] = b.list_[i];
         }
     }
     return *this;
@@ -61,6 +61,7 @@ bool HashTable::insert(const Key& k, const Value& v){
 }
 
 bool HashTable::erase(const Key& k){
+    if (size_ == 0) return false;
     int hash =  hashF(k);
     assert(hash < capacity_);
     return list_[hash].remove(k);
@@ -90,14 +91,14 @@ bool HashTable::resize(){
             tmp[hash].insert(l->key,l->value);
             delete l;
             Entry* l = list_[i].pop();
+        }
     }
-    }
-    delete[] list_;
     list_ = tmp;
     return true;
 }
 
 void HashTable::clear(){
+    if (size_ == 0) return;
     for (size_t i = 0; i < capacity_;i++){
         list_[i].freeList();
     }
@@ -107,11 +108,11 @@ void HashTable::clear(){
 
 Value& HashTable::operator[](const Key& k){
     int hash = hashF(k);
-    list_[hash].search_and_insert(k,Value());
-    return list_[hash].at(k);
+    return list_[hash].search_and_insert(k);
 }
 
 Value& HashTable::at(const Key& k){
+    if (size_ == 0) throw std::out_of_range("no such element exists");
     int hash = hashF(k);
     assert(hash < capacity_);
     //exception if no such element exists
@@ -119,6 +120,7 @@ Value& HashTable::at(const Key& k){
 }
 
 const Value& HashTable::at(const Key& k) const{
+    if (size_ == 0) throw std::out_of_range("no such element exists");
     int hash = hashF(k);
     assert(hash < capacity_);
     //exception if no such element exists
@@ -126,14 +128,13 @@ const Value& HashTable::at(const Key& k) const{
 }
 
 bool HashTable::contains(const Key& k) const{
+    if (size_ == 0) return false;
     size_t hash = hashF(k);
-    if (hash >= capacity_) return false;
     return list_[hash].search(k);
 }
 
 void HashTable::swap(HashTable& b){
-    HashTable tmp;
-    tmp = b;
+    HashTable tmp = b;
     b = *this;
     *this = tmp;
 }

@@ -82,8 +82,8 @@ HashList & HashList::operator=(const HashList& other){
         freeList();
         Entry* tmp = other.head_;
         while (tmp != NULL){
-        insert(tmp->key, tmp->value);
-        tmp = tmp->next;
+            insert(tmp->key, tmp->value);
+            tmp = tmp->next;
         }
     }
     *this;
@@ -113,11 +113,13 @@ Entry* HashList::pop(){
     return tmp;
 }
 
-bool HashList::search_and_insert(const Key& k, const Value& v){
+Value& HashList::search_and_insert(const Key& k){
     Entry* tmp = head_;
     while (tmp != NULL){
-        if (tmp->key == k) return true;
+        if (tmp->key == k) return tmp->value;
         tmp = tmp->next;
     }
-    return insert(k,v);
+    Value* v = new Value(); 
+    insert(k,*v);
+    return *v;
 }

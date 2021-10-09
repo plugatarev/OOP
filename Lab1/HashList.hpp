@@ -26,7 +26,7 @@ public:
    //exception out_of_range if no element with key k existed. 
     Value& at(const Key& k) const;
 
-    bool search_and_insert(const Key& k, const Value& v);
+    Value& search_and_insert(const Key& k);
 
     HashList& operator=(const HashList& other);
 
@@ -37,7 +37,6 @@ public:
     friend bool operator==(const HashList& a, const HashList& b);
 
     friend bool operator!=(const HashList& a, const HashList& b);
-private:
     Entry* head_ = nullptr;
 
 };
