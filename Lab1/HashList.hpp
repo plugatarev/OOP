@@ -37,6 +37,7 @@ public:
     friend bool operator==(const HashList& a, const HashList& b);
 
     friend bool operator!=(const HashList& a, const HashList& b);
+private:
     Entry* head_ = nullptr;
 
 };

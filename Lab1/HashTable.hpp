@@ -60,7 +60,7 @@ public:
    void print_HashTable() const;
    
 private:
-   HashList* list_;
+   HashList** list_;
    size_t capacity_ = 0;
    size_t size_ = 0;
    const int DefaultSize = 16;
