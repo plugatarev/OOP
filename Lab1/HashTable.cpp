@@ -11,7 +11,10 @@ HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]),capacity_(c
 }
 
 HashTable::~HashTable(){
-    delete [] list_;
+    for (size_t i = 0; i < capacity_; i++){
+        if (list_[i] != nullptr) list_[i]->~HashList(); 
+    }
+    delete[] list_;
 }
 HashTable::HashTable(const HashTable& b){
     if (b.capacity_ != 0){
@@ -22,7 +25,6 @@ HashTable::HashTable(const HashTable& b){
             list_[i] = nullptr;
             if (b.list_[i] != NULL) {
                 list_[i] = new HashList(*b.list_[i]);
-                //list_[i] = b.list_[i];
             }
         }
     }
@@ -39,9 +41,11 @@ size_t HashTable::capacity() const{
 bool operator!=(const HashTable& a, const HashTable& b){
     if (a.size_ != b.size_ || a.capacity_ != b.capacity_) return true;
     for (size_t i = 0; i < a.size_; i++){
-            if (!(*a.list_[i] == *b.list_[i])) return true;
-        }
-        return false;
+        if ( (a.list_[i] == nullptr && b.list_[i] != nullptr) || (a.list_[i] != nullptr && b.list_[i] == nullptr)) return true;
+        if (a.list_[i] == nullptr && b.list_[i] == nullptr) continue;
+        if (!(*a.list_[i] == *b.list_[i])) return true;
+    }
+    return false;
 }
 
 bool operator==(const HashTable& a, const HashTable& b){
@@ -76,7 +80,7 @@ bool HashTable::insert(const Key& k, const Value& v){
 bool HashTable::erase(const Key& k){
     if (size() == 0) return false;
     int hash =  hashF(k);
-    assert(hash < capacity_);
+    if (list_[hash] == nullptr) return false;
     return list_[hash]->remove(k);
 }
 
@@ -98,12 +102,15 @@ bool HashTable::resize(){
     capacity_ = capacity_ * 2;
     HashList** tmp = new HashList*[capacity_];
     for (size_t i = 0; i < size_; i++){
-        Entry* l = list_[i]->pop();
-        while (l != NULL){
-            size_t hash = hashF(l->key);
-            tmp[hash]->insert(l->key,l->value);
-            delete l;
+        if (list_[i] != nullptr){
             Entry* l = list_[i]->pop();
+            while (l != NULL){
+                size_t hash = hashF(l->key);
+                if (tmp[hash] == nullptr) tmp[hash] = new HashList();
+                tmp[hash]->insert(l->key,l->value);
+                delete l;
+                Entry* l = list_[i]->pop();
+            }
         }
     }
     list_ = tmp;
@@ -113,14 +120,18 @@ bool HashTable::resize(){
 void HashTable::clear(){
     if (size_ == 0) return;
     for (size_t i = 0; i < capacity_;i++){
-        list_[i]->freeList();
+        if (list_[i] != nullptr){
+            list_[i]->freeList();
+            list_[i] = nullptr;
+        }
     }
-    capacity_ = 0;
+    capacity_ = 16;
     size_ = 0;
 }
 
 Value& HashTable::operator[](const Key& k){
     int hash = hashF(k);
+    if (list_[hash] == nullptr) list_[hash] = new HashList();
     return list_[hash]->search_and_insert(k);
 }
 
@@ -129,6 +140,7 @@ Value& HashTable::at(const Key& k){
     int hash = hashF(k);
     assert(hash < capacity_);
     //exception if no such element exists
+    if (list_[hash] == nullptr) throw std::out_of_range("no such element exists");
     return list_[hash]->at(k);
 }
 
@@ -137,12 +149,14 @@ const Value& HashTable::at(const Key& k) const{
     int hash = hashF(k);
     assert(hash < capacity_);
     //exception if no such element exists
+    if (list_[hash] == nullptr) throw std::out_of_range("no such element exists");
     return (const_cast<Value&>(list_[hash]->at(k)));
 }
 
 bool HashTable::contains(const Key& k) const{
     if (size() == 0) return false;
     size_t hash = hashF(k);
+    if (list_[hash] == nullptr) return false;
     return list_[hash]->search(k);
 }
 
@@ -154,6 +168,6 @@ void HashTable::swap(HashTable& b){
 
 void HashTable::print_HashTable() const{
       for (size_t i = 0; i < capacity_; i++){
-         if (list_[i] != NULL) list_[i]->printList();
-      }
-   }
+            if (list_[i] != NULL) list_[i]->printList();
+      }   
+}

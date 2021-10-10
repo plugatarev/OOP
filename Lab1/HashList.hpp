@@ -10,7 +10,7 @@ public:
 
     HashList(HashList & b);
 
-    HashList(const Key& k, const Value& v, Entry* next);
+    HashList(const Key& k, const Value& v, Entry* next = nullptr);
 
     ~HashList();
 

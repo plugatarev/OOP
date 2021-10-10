@@ -53,9 +53,15 @@ bool HashList::search(const Key& k) const{
 }
 
 bool HashList::remove(const Key& k){
+    if (head_->key == k){
+        Entry* t = head_;
+        head_ = head_->next;
+        delete t;
+        return true;
+    }
     Entry* before_tmp = head_;
     Entry* tmp = head_;
-    while (tmp->next != NULL || tmp->key != k) {
+    while (tmp->next != NULL && tmp->key != k) {
         before_tmp = tmp;
         tmp = tmp->next;
     }

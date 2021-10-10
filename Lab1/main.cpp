@@ -28,7 +28,19 @@ int main(int argc, char ** argv) {
     a.print_HashTable();
     cout << "B: ";
     b.print_HashTable();
+    b.erase(str1);
+    b.clear();
+    b.print_HashTable();
+    HashTable g = a;
+    std::cout << "G" << std::endl;
+    g.print_HashTable();
+    cout << (a == b) << endl;
 
-   // cout << (a == b) << endl;
+    cout << "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\a" << endl << endl;
+    std::string strnew = "er";
+    cout << b[str1].name;
+    cout << b[str2].name;
+
+    cout << b[strnew].name;
 
 }
