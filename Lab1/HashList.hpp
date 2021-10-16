@@ -34,6 +34,8 @@ public:
 
     void freeList();
 
+    void reverse();
+
     friend bool operator==(const HashList& a, const HashList& b);
 
     friend bool operator!=(const HashList& a, const HashList& b);

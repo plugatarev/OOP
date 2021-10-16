@@ -130,3 +130,16 @@ Value& HashList::search_and_insert(const Key& k, size_t* size){
     insert(k,*v);
     return *v;
 }
+
+void HashList::reverse(){
+    Entry* current = head_;
+    Entry *prev = nullptr, *next = nullptr;
+
+    while (current != NULL){
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    head_ = prev;
+}
