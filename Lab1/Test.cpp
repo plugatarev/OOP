@@ -48,7 +48,7 @@ TEST(HashTableTest, InsertInHashtable){
     bool flag = (a.at(k) == v);
     ASSERT_EQ(flag,1);
     fill_table(a,10);
-    ASSERT_EQ(a.size(),10);
+    ASSERT_EQ(a.size(),11);
 }
 
 TEST(HashTableTest, InsertInHashtableWithOverflowHashTable){
@@ -59,7 +59,7 @@ TEST(HashTableTest, InsertInHashtableWithOverflowHashTable){
     Value v(name,22);
     fill_table(a,7);
     ASSERT_EQ(a.capacity(),20);
-    ASSERT_EQ(a.size(),6);
+    ASSERT_EQ(a.size(),9);
 }
 
 TEST(Test_HashTable, OriginalHashTableIsNotChangedOnOperatorAssign){
