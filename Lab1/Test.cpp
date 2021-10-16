@@ -18,11 +18,10 @@ Key gen_random(int len) {
 }
 
 void fill_table(HashTable& a, int n = 5){
-    Value v;
+    
     for (size_t i = 0; i < n; i++){
-        v.age = i + 2;
-        v.name = gen_random(5); 
-        a.insert(gen_random(5),v);
+        Value* v = new Value(gen_random(5), i + 2);
+        a.insert(gen_random(5),*v);
     }
 }
 
@@ -150,8 +149,8 @@ TEST(Test_HashTable, WorkOfTheOperatorEqualForEmptyHashTable){
 
 TEST(Test_HashTable, WorkOfTheOperatorEqualForNotEmptyHashTable){
     HashTable a;
-    HashTable b(a);
     fill_table(a);
+    HashTable b(a);
     ASSERT_EQ(a == b, 1);
 
     b.insert(gen_random(4),Value());
@@ -173,9 +172,9 @@ TEST(Test_HashTable, WorkOfTheSwap){
 
 TEST(Test_HashTable,CheckingOnTableEmptiness){
     HashTable a;
-    ASSERT_EQ(a.empty(),0);
-    fill_table(a,1);
     ASSERT_EQ(a.empty(),1);
+    fill_table(a,1);
+    ASSERT_EQ(a.empty(),0);
 }
 
 TEST(Test_HashTable,CheckinGMethodContaintsTheTable){
@@ -214,6 +213,6 @@ TEST(Test_HashTable,CheckingMethodEraseTheTable){
     fill_table(a,10);
     ASSERT_EQ(a.contains(k),1);
     a.erase(k);
-    ASSERT_EQ(a.size(),10);
+    ASSERT_EQ(a.size(),11);
     ASSERT_EQ(a.contains(k),0);
 }
