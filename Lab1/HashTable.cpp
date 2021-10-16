@@ -42,7 +42,8 @@ bool operator!=(const HashTable& a, const HashTable& b){
     if (a.size_ != b.size_ || a.capacity_ != b.capacity_) return true;
     for (size_t i = 0; i < a.capacity_; i++){
         if ( (a.list_[i] == nullptr && b.list_[i] != nullptr) || (a.list_[i] != nullptr && b.list_[i] == nullptr)) return true;
-        if (a.list_[i] == nullptr || b.list_[i] == nullptr) continue;
+        if (a.list_[i] == NULL) continue;
+        b.list_[i]->reverse();
         if (!(*a.list_[i] == *b.list_[i])) return true;
     }
     return false;
