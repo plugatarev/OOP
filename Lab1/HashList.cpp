@@ -119,13 +119,14 @@ Entry* HashList::pop(){
     return tmp;
 }
 
-Value& HashList::search_and_insert(const Key& k){
+Value& HashList::search_and_insert(const Key& k, size_t* size){
     Entry* tmp = head_;
     while (tmp != NULL){
         if (tmp->key == k) return tmp->value;
         tmp = tmp->next;
     }
     Value* v = new Value(); 
+    (*size)++;
     insert(k,*v);
     return *v;
 }
