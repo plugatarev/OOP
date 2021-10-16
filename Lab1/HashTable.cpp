@@ -40,9 +40,9 @@ size_t HashTable::capacity() const{
 
 bool operator!=(const HashTable& a, const HashTable& b){
     if (a.size_ != b.size_ || a.capacity_ != b.capacity_) return true;
-    for (size_t i = 0; i < a.size_; i++){
+    for (size_t i = 0; i < a.capacity_; i++){
         if ( (a.list_[i] == nullptr && b.list_[i] != nullptr) || (a.list_[i] != nullptr && b.list_[i] == nullptr)) return true;
-        if (a.list_[i] == nullptr && b.list_[i] == nullptr) continue;
+        if (a.list_[i] == nullptr || b.list_[i] == nullptr) continue;
         if (!(*a.list_[i] == *b.list_[i])) return true;
     }
     return false;
@@ -131,7 +131,12 @@ void HashTable::clear(){
             list_[i] = nullptr;
         }
     }
+    delete[] list_;
     capacity_ = 16;
+    list_ = new HashList*[capacity_];
+    for (size_t i = 0; i < capacity_; i++){
+        list_[i] = nullptr;
+    }
     size_ = 0;
 }
 
