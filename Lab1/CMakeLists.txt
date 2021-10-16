@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.20.5)
-project(LAB1)
+project(LAB1 VERSION 0.1)
+ 
+set(SRC main.cpp Value.cpp HashList.cpp HashTable.cpp Entry.cpp)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(SRC main.cpp Value.cpp HashList.cpp HashTable.cpp Entry.cpp)
 
 add_executable(LAB1 ${SRC})
 
@@ -16,6 +17,7 @@ FetchContent_Declare(
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
+
 enable_testing()
 
 add_executable(
@@ -26,9 +28,11 @@ add_executable(
   HashTable.cpp
   Entry.cpp
 )
+
 target_link_libraries(
   HashTableTest
   gtest_main
 )
+
 include(GoogleTest)
 gtest_discover_tests(HashTableTest)
