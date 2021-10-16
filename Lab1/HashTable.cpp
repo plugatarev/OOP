@@ -99,17 +99,23 @@ size_t HashTable::hashF(const Key& k) const{
 
 bool HashTable::resize(){
     assert(capacity_ * 2 < INT_MAX && capacity_ * 2 > 0);
+    int c = capacity();
     capacity_ = capacity_ * 2;
+
     HashList** tmp = new HashList*[capacity_];
-    for (size_t i = 0; i < size_; i++){
+    for (size_t i = 0; i < capacity_; i++){
+        tmp[i] = nullptr;
+    }
+    for (size_t i = 0; i < c; i++){
         if (list_[i] != nullptr){
             Entry* l = list_[i]->pop();
-            while (l != NULL){
+            while (l != nullptr){
                 size_t hash = hashF(l->key);
                 if (tmp[hash] == nullptr) tmp[hash] = new HashList();
                 tmp[hash]->insert(l->key,l->value);
                 delete l;
                 Entry* l = list_[i]->pop();
+                if (l == nullptr) break;
             }
         }
     }
@@ -132,7 +138,7 @@ void HashTable::clear(){
 Value& HashTable::operator[](const Key& k){
     int hash = hashF(k);
     if (list_[hash] == nullptr) list_[hash] = new HashList();
-    return list_[hash]->search_and_insert(k);
+    return list_[hash]->search_and_insert(k,&size_);
 }
 
 Value& HashTable::at(const Key& k){
