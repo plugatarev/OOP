@@ -92,7 +92,7 @@ HashList & HashList::operator=(const HashList& other){
             tmp = tmp->next;
         }
     }
-    *this;
+    return *this;
 }
 
 bool operator==(const HashList& a, const HashList& b){
