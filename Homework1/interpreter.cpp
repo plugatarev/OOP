@@ -48,7 +48,7 @@ class Read: public Command {
 };
 
 void find_pos(const char* c){
-	int balance = 0;
+    int balance = 0;
     char mode = 0;
     if(*c == '['){
         balance++;
@@ -61,15 +61,15 @@ void find_pos(const char* c){
 
 	while(balance != 0){
         c+=mode;
-		if(*c == '[') balance++;
-		else if(*c == ']') balance--;
+	if(*c == '[') balance++;
+	else if(*c == ']') balance--;
     }
 }
 
 class Loop: public Command {
     void apply(const char * c, uint8_t * ptr) override {
         if (*ptr == 0) find_pos(c);
-		c++;
+	c++;
     }
 };
 
