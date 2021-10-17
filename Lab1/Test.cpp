@@ -20,8 +20,10 @@ Key gen_random(int len) {
 void fill_table(HashTable& a, int n = 5){
     
     for (size_t i = 0; i < n; i++){
-        Value* v = new Value(gen_random(5), i + 2);
-        a.insert(gen_random(5),*v);
+    	Key name = gen_random(5);
+        Value* v = new Value(name, i + 2);
+        Key k = gen_random(5);
+        a.insert(k,*v);
     }
 }
 
@@ -57,7 +59,7 @@ TEST(HashTableTest, InsertInHashtableWithOverflowHashTable){
     Key name = "abrac";
 
     Value v(name,22);
-    fill_table(a,7);
+    fill_table(a,9);
     ASSERT_EQ(a.capacity(),20);
     ASSERT_EQ(a.size(),9);
 }
@@ -149,7 +151,10 @@ TEST(Test_HashTable, WorkOfTheOperatorEqualForEmptyHashTable){
 
 TEST(Test_HashTable, WorkOfTheOperatorEqualForNotEmptyHashTable){
     HashTable a;
-    fill_table(a);
+    for (size_t i = 0; i < 5; i++){
+        Value* v = new Value(gen_random(5), i + 2);
+        a.insert(gen_random(5),*v);
+    }
     HashTable b(a);
     ASSERT_EQ(a == b, 1);
 
@@ -161,8 +166,14 @@ TEST(Test_HashTable, WorkOfTheOperatorEqualForNotEmptyHashTable){
 TEST(Test_HashTable, WorkOfTheSwap){
     HashTable a;
     HashTable b;
-    fill_table(a,17);
-    fill_table(b);
+    for (size_t i = 0; i < 20; i++){
+        Value* v = new Value(gen_random(5), i + 2);
+        b.insert(gen_random(5),*v);
+    }
+    for (size_t i = 0; i < 5; i++){
+        Value* v = new Value(gen_random(5), i + 2);
+        b.insert(gen_random(5),*v);
+    }
     HashTable tmp_a(a);
     HashTable tmp_b(b);
     a.swap(b);
