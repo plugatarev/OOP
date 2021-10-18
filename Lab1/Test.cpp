@@ -222,3 +222,28 @@ TEST(Test_HashTable,CheckingMethodEraseTheTable){
     ASSERT_EQ(a.size(),11);
     ASSERT_EQ(a.contains(k),0);
 }
+
+TEST(Test_HashTable,CheckingMethodAtTheTableWhenTheElementIsNotExists){
+    HashTable a;
+    fill_table(a,10);
+    Key k = "!@#$#";
+    try{
+    	a.at(k);
+    }
+    catch (std::exception  &e) {
+        EXPECT_EQ(e.what(), (std::string )"no such element exists");
+    }
+
+}
+
+TEST(Test_HashTable,CheckingMethodAtTheTableWhenTheElementExists){
+    HashTable a;
+    fill_table(a,10);
+    Key k = "1234";
+    Key name = "abrac";
+    Value v(name,22);
+    a.insert(k,v);
+    bool flag = (a.at(k) == v);
+    ASSERT_EQ(flag,1);
+
+}
