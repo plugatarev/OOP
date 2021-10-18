@@ -3,7 +3,7 @@
 #include <ctime> 
 #include "Header.hpp"
 bool operator==(const Value& a,const Value& b);
-Key gen_random(int len) {
+Key* gen_random(int len) {
     Key s;
     static const char alphanum[] =
         "0123456789"
@@ -13,17 +13,18 @@ Key gen_random(int len) {
     for (int i = 0; i < len; ++i) {
         s += alphanum[rand() % (sizeof(alphanum) - 1)];
     }
+    Key* key = new std::string(s); 
 
-    return s;
+    return key;
 }
 
 void fill_table(HashTable& a, int n = 5){
     
     for (size_t i = 0; i < n; i++){
-    	Key name = gen_random(5);
-        Value* v = new Value(name, i + 2);
-        Key k = gen_random(5);
-        a.insert(k,*v);
+    	Key* name = gen_random(5);
+        Value* v = new Value(*name, i + 2);
+        Key* k = gen_random(5);
+        a.insert(*k,*v);
     }
 }
 
@@ -118,25 +119,25 @@ TEST(Test_HashTable, OriginalHashTableIsNotChangedOnCopyChange){
 }
 
 TEST(Test_HashTable, WorkOfTheOperatorGettingByKeyWhenTheElementExists){
-    Key k = gen_random(4);
+    Key k = *gen_random(4);
     Value v;
-    v.name = gen_random(4);
+    v.name = *gen_random(4);
     v.age = 54;
     HashTable a;
     a.insert(k,v);
-    a.insert(gen_random(3), Value(gen_random(3),23));
+    a.insert(*gen_random(3), Value(*gen_random(3),23));
     bool flag = (a[k] == v);
     ASSERT_EQ(flag,1);   
 }
 
 TEST(Test_HashTable, WorkOfTheOperatorGettingByKeyWhenTheElementNotExists){
-    Key k = gen_random(4);
+    Key k = *gen_random(4);
     Value v;
-    v.name = gen_random(4);
+    v.name = *gen_random(4);
     v.age = 54;
     HashTable a;
     a.insert(k,v);
-    a.insert(gen_random(3), Value(gen_random(3),23));
+    a.insert(*gen_random(3), Value(*gen_random(3),23));
     ASSERT_EQ(a.size(),2);
     Key newk = "!@$%";
     a[newk];
@@ -152,13 +153,13 @@ TEST(Test_HashTable, WorkOfTheOperatorEqualForEmptyHashTable){
 TEST(Test_HashTable, WorkOfTheOperatorEqualForNotEmptyHashTable){
     HashTable a;
     for (size_t i = 0; i < 5; i++){
-        Value* v = new Value(gen_random(5), i + 2);
-        a.insert(gen_random(5),*v);
+        Value* v = new Value(*gen_random(5), i + 2);
+        a.insert(*gen_random(5),*v);
     }
     HashTable b(a);
     ASSERT_EQ(a == b, 1);
 
-    b.insert(gen_random(4),Value());
+    b.insert(*gen_random(4),Value());
     ASSERT_EQ(a == b, 0);
 }
 
@@ -166,14 +167,8 @@ TEST(Test_HashTable, WorkOfTheOperatorEqualForNotEmptyHashTable){
 TEST(Test_HashTable, WorkOfTheSwap){
     HashTable a;
     HashTable b;
-    for (size_t i = 0; i < 20; i++){
-        Value* v = new Value(gen_random(5), i + 2);
-        b.insert(gen_random(5),*v);
-    }
-    for (size_t i = 0; i < 5; i++){
-        Value* v = new Value(gen_random(5), i + 2);
-        b.insert(gen_random(5),*v);
-    }
+    fill_table(a);
+    fill_table(b);
     HashTable tmp_a(a);
     HashTable tmp_b(b);
     a.swap(b);
