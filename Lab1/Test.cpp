@@ -28,6 +28,17 @@ void fill_table(HashTable& a, int n = 5){
     }
 }
 
+TEST(HashTableTest, CheckingMethodSize){
+    HashTable a(17);
+    fill_table(a,6);
+    ASSERT_EQ(a.size(), 6);
+}
+
+TEST(HashTableTest, CheckingMethodCapacity){
+    HashTable a(17);
+    ASSERT_EQ(a.capacity(), 17);
+}
+
 TEST(HashTableTest,DefaultConstructor){
     HashTable a;
     ASSERT_EQ(a.size(), 0);
@@ -430,7 +441,7 @@ TEST(Test_HashTable,CheckingMethodEraseForEmptyTable){
     ASSERT_EQ(a.size(),0);
 }
 
-TEST(Test_HashTable,CheckingMethodAtTheTableWhenTheElementIsNotExists){
+TEST(Test_HashTale,CheckingMethodAtTheTableWhenTheElementIsNotExists){
     HashTable a;
     fill_table(a,10);
     Key k = "!@#$#";
@@ -464,5 +475,4 @@ TEST(Test_HashTable,CheckingMethodAtTheTableWhenTheElementExists){
     a.insert(k,v);
     bool flag = (a.at(k) == v);
     ASSERT_EQ(flag,1);
-
 }
