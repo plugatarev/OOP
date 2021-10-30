@@ -240,6 +240,43 @@ TEST(Test_HashTable, WorkOfTheOperatorEqualOneHashTableIsEmpty){
     HashTable b;
     ASSERT_EQ(a == b, 0);
 }
+////////////////////////////////////////////////////////////////////////////////////
+TEST(Test_HashTable, WorkOfTheOperatorNotEqualForEmptyHashTable){
+    HashTable a;
+    HashTable b;
+    ASSERT_EQ(a != b, 0);
+}
+
+TEST(Test_HashTable, WorkOfTheOperatorNotEqualForEqualHashTable){
+    HashTable a;
+    for (size_t i = 0; i < 5; i++){
+        Value* v = new Value(*gen_random(5), i + 2);
+        a.insert(*gen_random(5),*v);
+    }
+    HashTable b(a);
+    ASSERT_EQ(a != b, 0);
+}
+
+TEST(Test_HashTable, WorkOfTheOperatorNotEqualForNotEqualHashTable){
+    HashTable a;
+    for (size_t i = 0; i < 5; i++){
+        Value* v = new Value(*gen_random(5), i + 2);
+        a.insert(*gen_random(5),*v);
+    }
+    HashTable b(a);
+    b.insert(*gen_random(4),Value());
+    ASSERT_EQ(a != b, 1);
+}
+
+TEST(Test_HashTable, WorkOfTheOperatorNotEqualOneHashTableIsEmpty){
+    HashTable a;
+    for (size_t i = 0; i < 5; i++){
+        Value* v = new Value(*gen_random(5), i + 2);
+        a.insert(*gen_random(5),*v);
+    }
+    HashTable b;
+    ASSERT_EQ(a != b, 1);
+}
 
 TEST(Test_HashTable, WorkOfTheSwapForRandomNotEmptyHashTables){
     HashTable a;
