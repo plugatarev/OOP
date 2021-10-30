@@ -2,8 +2,10 @@
 #include <stdexcept>
 typedef std::string Key;
 
-HashTable::HashTable():list_(new HashList*[16]), capacity_(16), size_(0){
-    for (size_t i = 0; i < 16; i++) list_[i] = nullptr;
+HashTable::HashTable():size_(0){
+    list_ = new HashList*[DefaultSize];
+    capacity_ = DefaultSize;
+    for (size_t i = 0; i < DefaultSize; i++) list_[i] = nullptr;
 }
 
 HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]),capacity_(capacity), size_(0){
@@ -85,7 +87,11 @@ bool HashTable::erase(const Key& k){
     if (size() == 0) return false;
     int hash =  hashF(k);
     if (list_[hash] == nullptr) return false;
-    return list_[hash]->remove(k);
+    if (list_[hash]->remove(k)){
+        size_--;
+        return true;
+    }
+    return false;
 }
 
 
@@ -136,7 +142,6 @@ void HashTable::clear(){
         }
     }
     delete[] list_;
-    capacity_ = 16;
     list_ = new HashList*[capacity_];
     for (size_t i = 0; i < capacity_; i++){
         list_[i] = nullptr;
