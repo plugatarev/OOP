@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20.5)
+cmake_minimum_required(VERSION 3.21.2)
 project(LAB1 VERSION 0.1)
  
 set(SRC main.cpp Value.cpp HashList.cpp HashTable.cpp Entry.cpp)
