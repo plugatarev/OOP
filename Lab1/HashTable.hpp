@@ -20,7 +20,7 @@ public:
    //swaps the HashTabes
    void swap(HashTable& b);
 
-   //clears the HashTabes, capacity becomes a default size(16).
+   //clears the HashTabes, capacity doesn't changed.
    void clear();
 
    //Removes the element (if one exists) with the key equivalent to key.
