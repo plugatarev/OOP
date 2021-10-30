@@ -5,7 +5,7 @@ HashList::HashList():head_(nullptr){}
 
 HashList::HashList(HashList & b){
     Entry* tmp = b.head_;
-    while (tmp != NULL){
+    while (tmp != nullptr){
         insert(tmp->key, tmp->value);
         tmp = tmp->next;
     }
@@ -27,7 +27,7 @@ bool HashList::insert(const Key& k, const Value& v){
 
 
 void HashList::freeList(){
-    while(head_ != NULL){
+    while(head_ != nullptr){
         Entry* next = head_->next;
         delete head_;
         head_ = next;
@@ -36,7 +36,7 @@ void HashList::freeList(){
 
 void HashList::printList() const{
     Entry* tmp = head_;
-    while (tmp != NULL){
+    while (tmp != nullptr){
         std::cout << tmp->key << " " << tmp->value.age << " " << tmp->value.name <<std::endl;
         tmp = tmp->next;
     }
@@ -45,7 +45,7 @@ void HashList::printList() const{
 
 bool HashList::search(const Key& k) const{
     Entry* tmp = head_;
-    while (tmp != NULL){
+    while (tmp != nullptr){
         if (tmp->key == k) return true;
         tmp = tmp->next;
     }
@@ -61,7 +61,7 @@ bool HashList::remove(const Key& k){
     }
     Entry* before_tmp = head_;
     Entry* tmp = head_;
-    while (tmp->next != NULL && tmp->key != k) {
+    while (tmp->next != nullptr && tmp->key != k) {
         before_tmp = tmp;
         tmp = tmp->next;
     }
@@ -76,7 +76,7 @@ bool HashList::remove(const Key& k){
 
 Value& HashList::at(const Key& k) const{
     Entry* tmp = head_;
-    while (tmp != NULL){
+    while (tmp != nullptr){
         if (tmp->key == k) return tmp->value;
         tmp = tmp->next;
     }
@@ -87,7 +87,7 @@ HashList & HashList::operator=(const HashList& other){
     if (*this != other){
         freeList();
         Entry* tmp = other.head_;
-        while (tmp != NULL){
+        while (tmp != nullptr){
             insert(tmp->key, tmp->value);
             tmp = tmp->next;
         }
@@ -99,12 +99,12 @@ bool operator==(const HashList& a, const HashList& b){
     Entry* tmp_a = a.head_;
     Entry* tmp_b = b.head_;
 
-    while (tmp_a != NULL && tmp_b != NULL){
+    while (tmp_a != nullptr && tmp_b != nullptr){
         if (!(*tmp_a == *tmp_b)) return false;
         tmp_a = tmp_a->next;
         tmp_b = tmp_b->next;
     }
-    if ((tmp_a == NULL && tmp_b != NULL) || (tmp_b == NULL && tmp_a != NULL)) return false;
+    if ((tmp_a == nullptr && tmp_b != nullptr) || (tmp_b == nullptr && tmp_a != nullptr)) return false;
     return true;
 }
 
@@ -113,7 +113,7 @@ bool operator!=(const HashList& a, const HashList& b){
 }
 
 Entry* HashList::pop(){
-    if (head_ == NULL) return NULL;
+    if (head_ == nullptr) return nullptr;
     Entry* tmp = new Entry(head_->key,head_->value);
     remove(head_->key);
     return tmp;
@@ -121,7 +121,7 @@ Entry* HashList::pop(){
 
 Value& HashList::search_and_insert(const Key& k, size_t* size){
     Entry* tmp = head_;
-    while (tmp != NULL){
+    while (tmp != nullptr){
         if (tmp->key == k) return tmp->value;
         tmp = tmp->next;
     }
@@ -135,7 +135,7 @@ void HashList::reverse(){
     Entry* current = head_;
     Entry *prev = nullptr, *next = nullptr;
 
-    while (current != NULL){
+    while (current != nullptr){
         next = current->next;
         current->next = prev;
         prev = current;
