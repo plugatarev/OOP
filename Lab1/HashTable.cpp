@@ -76,7 +76,7 @@ HashTable& HashTable::operator=(const HashTable& b){
 }
 
 bool HashTable::insert(const Key& k, const Value& v){
-    if (size() > int(ResizeOn * capacity_)) resize();
+    if (size() > size_t(ResizeOn * capacity_)) resize();
     size_t hash = hashF(k);
     size_++;
     if (list_[hash] == nullptr) list_[hash] = new HashList();
@@ -101,7 +101,7 @@ bool HashTable::empty() const{
 
 size_t HashTable::hashF(const Key& k) const{
     size_t hash = 0;
-	for (int i = 0; i < k.length(); i++) {
+	for (size_t i = 0; i < k.length(); i++) {
 		hash += (k[i] % 5) * pow(3,i);
 	}
 	return hash % capacity_;
@@ -109,7 +109,7 @@ size_t HashTable::hashF(const Key& k) const{
 
 bool HashTable::resize(){
     if (capacity_ * 2 < INT_MAX && capacity_ * 2 > 0) throw std::runtime_error("capacity is more than INT_MAX");
-    int c = capacity();
+    size_t c = capacity();
     capacity_ = capacity_ * 2;
 
     HashList** tmp = new HashList*[capacity_];
