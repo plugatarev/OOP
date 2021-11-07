@@ -108,7 +108,7 @@ size_t HashTable::hashF(const Key& k) const{
 }
 
 bool HashTable::resize(){
-    assert(capacity_ * 2 < INT_MAX && capacity_ * 2 > 0);
+    if (capacity_ * 2 < INT_MAX && capacity_ * 2 > 0) throw std::runtime_error("capacity is more than INT_MAX");
     int c = capacity();
     capacity_ = capacity_ * 2;
 
@@ -158,7 +158,6 @@ Value& HashTable::operator[](const Key& k){
 Value& HashTable::at(const Key& k){
     if (size() == 0) throw std::out_of_range("no such element exists");
     int hash = hashF(k);
-    assert(hash < capacity_);
     //exception if no such element exists
     if (list_[hash] == nullptr) throw std::out_of_range("no such element exists");
     return list_[hash]->at(k);
@@ -167,7 +166,6 @@ Value& HashTable::at(const Key& k){
 const Value& HashTable::at(const Key& k) const{
     if (size() == 0) throw std::out_of_range("no such element exists");
     int hash = hashF(k);
-    assert(hash < capacity_);
     //exception if no such element exists
     if (list_[hash] == nullptr) throw std::out_of_range("no such element exists");
     return (const_cast<Value&>(list_[hash]->at(k)));
