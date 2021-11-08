@@ -6,13 +6,14 @@ typedef std::string Key;
 class HashTable {
 public:
 
-   //Creates empty HashTabes with default capacity
+   //Creates empty HashTabes with default capacity(16)
    HashTable();
 
    //Creates empty HashTabes with size capacity
    HashTable(size_t size);
    ~HashTable();
 
+   //Creates HashTabes based on b
    HashTable& operator=(const HashTable& b);
 
    HashTable(const HashTable& b);
@@ -20,13 +21,13 @@ public:
    //swaps the HashTabes
    void swap(HashTable& b);
 
-   //clears the HashTabes, capacity doesn't changed.
+   //clears the HashTabes, capacity doesn't changed
    void clear();
 
    //Removes the element (if one exists) with the key equivalent to key.
    bool erase(const Key& k);
    
-   //Inserts element(s) into the container
+   //Inserts element into the container
    bool insert(const Key& k, const Value& v);
 
    //checks if the Value contains element with specific key
@@ -50,10 +51,10 @@ public:
    //checks whether the hashtable is empty
    bool empty() const;
 
-   //Retunrs true if a equal b. Retunr false if a not equal b
+   //Returns true if a equal b. Return false if a not equal b
    friend bool operator==(const HashTable& a, const HashTable& b);
 
-   //Retunrs true if a not equal b. Return false if a equal b
+   //Returns true if a not equal b. Return false if a equal b
    friend bool operator!=(const HashTable& a, const HashTable& b);
 
    //Prints HashTable
