@@ -25,7 +25,7 @@ HashTable::HashTable(const HashTable& b){
         list_ = new HashList*[b.capacity_];
         for (size_t i = 0; i < capacity_; i++){
             list_[i] = nullptr;
-            if (b.list_[i] != NULL) {
+            if (b.list_[i] != nullptr) {
                 list_[i] = new HashList(*b.list_[i]);
             }
         }
@@ -44,7 +44,7 @@ bool operator!=(const HashTable& a, const HashTable& b){
     if (a.size_ != b.size_ || a.capacity_ != b.capacity_) return true;
     for (size_t i = 0; i < a.capacity_; i++){
         if ( (a.list_[i] == nullptr && b.list_[i] != nullptr) || (a.list_[i] != nullptr && b.list_[i] == nullptr)) return true;
-        if (a.list_[i] == NULL) continue;
+        if (a.list_[i] == nullptr) continue;
         bool flag = 0;
         if (*a.list_[i] == *b.list_[i]) flag = 1;
         b.list_[i]->reverse();
@@ -66,7 +66,7 @@ HashTable& HashTable::operator=(const HashTable& b){
         list_ = new HashList*[capacity_];
         for (size_t i = 0; i < capacity_; i++){
             list_[i] = nullptr;
-            if (b.list_[i] != NULL) {
+            if (b.list_[i] != nullptr) {
                 list_[i] = new HashList();
                 *list_[i] = *b.list_[i];
             }
@@ -186,6 +186,6 @@ void HashTable::swap(HashTable& b){
 
 void HashTable::print_HashTable() const{
       for (size_t i = 0; i < capacity_; i++){
-            if (list_[i] != NULL) list_[i]->printList();
+            if (list_[i] != nullptr) list_[i]->printList();
       }   
 }
