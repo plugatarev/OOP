@@ -108,7 +108,7 @@ size_t HashTable::hashF(const Key& k) const{
 }
 
 bool HashTable::resize(){
-    if (capacity_ * 2 < INT_MAX && capacity_ * 2 > 0) throw std::runtime_error("capacity is more than INT_MAX");
+    if ( !(capacity_ * 2 < INT_MAX && capacity_ * 2 > 0)) throw std::runtime_error("capacity is more than INT_MAX");
     size_t c = capacity();
     capacity_ = capacity_ * 2;
 
