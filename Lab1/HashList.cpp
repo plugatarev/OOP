@@ -98,13 +98,38 @@ HashList & HashList::operator=(const HashList& other){
 bool operator==(const HashList& a, const HashList& b){
     Entry* tmp_a = a.head_;
     Entry* tmp_b = b.head_;
+    int count1 = 0;
+    int count2 = 0;
 
-    while (tmp_a != nullptr && tmp_b != nullptr){
-        if (!(*tmp_a == *tmp_b)) return false;
-        tmp_a = tmp_a->next;
-        tmp_b = tmp_b->next;
+    while (tmp_a != nullptr || tmp_b != nullptr){
+        if (tmp_a != nullptr){
+            count1++;
+            tmp_a = tmp_a->next;
+        }
+
+        if (tmp_b != nullptr){
+            count2++;
+            tmp_b = tmp_b->next;
+        }
     }
-    if ((tmp_a == nullptr && tmp_b != nullptr) || (tmp_b == nullptr && tmp_a != nullptr)) return false;
+    if (count1 != count2) return false;
+
+    tmp_a = a.head_;
+    tmp_b = b.head_; 
+    bool flag = false;   
+    while (tmp_a != nullptr){
+        while (tmp_b != nullptr){
+            if (*tmp_a == *tmp_b){
+                flag = true;
+                break;
+            }
+            tmp_b = tmp_b->next;
+        }
+        if (flag == false) return false;
+        flag = false;
+        tmp_a = tmp_a->next;
+        tmp_b = b.head_;    
+    }
     return true;
 }
 
