@@ -11,7 +11,7 @@ HashTable::~HashTable(){
     delete[] list_;
 }
 HashTable::HashTable(const HashTable& b){
-    if (b.capacity_ != 0){
+    if (b.size_ != 0){
         capacity_ = b.capacity_;
         size_ = b.size_;
         list_ = new HashList*[b.capacity_];
@@ -100,7 +100,7 @@ size_t HashTable::hashF(const Key& k) const{
 }
 
 bool HashTable::resize(){
-    if ( !(capacity_ * 2 < INT_MAX && capacity_ * 2 > 0)) throw std::runtime_error("capacity is more than INT_MAX");
+    if ( !(capacity_ * 2 < UINT_MAX && capacity_ * 2 > 0)) throw std::runtime_error("capacity is more than INT_MAX");
     size_t c = capacity();
     capacity_ = capacity_ * 2;
 
