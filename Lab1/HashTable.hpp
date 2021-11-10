@@ -5,12 +5,8 @@ typedef std::string Key;
 
 class HashTable {
 public:
-
-   //Creates empty HashTabes with default capacity(16)
-   HashTable();
-
-   //Creates empty HashTabes with size capacity
-   HashTable(size_t size);
+   //Creates empty HashTabes with size(DEFAULT_CAPACITY by default ) capacity
+   HashTable(size_t size = DEFAULT_CAPACITY);
    ~HashTable();
 
    //Creates HashTabes based on b
@@ -64,9 +60,9 @@ private:
    HashList** list_;
    size_t capacity_;
    size_t size_;
-   const unsigned int DefaultSize = 16;
+   static const unsigned int DEFAULT_CAPACITY = 16;
 
-   const double ResizeOn = 0.75;
+   static const double ResizeOn = 0.75;
 
    size_t hashF(const Key& k) const;
 

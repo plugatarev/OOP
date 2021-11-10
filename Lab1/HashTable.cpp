@@ -2,14 +2,7 @@
 #include <stdexcept>
 typedef std::string Key;
 
-HashTable::HashTable():size_(0){
-    list_ = new HashList*[DefaultSize];
-    capacity_ = DefaultSize;
-    for (size_t i = 0; i < DefaultSize; i++) list_[i] = nullptr;
-}
-
-HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]),capacity_(capacity), size_(0){
-    for (size_t i = 0; i < capacity; i++) list_[i] = nullptr;
+HashTable::HashTable(size_t capacity = DEFAULT_CAPACITY):list_(new HashList*[capacity]),capacity_(capacity), size_(0){
 }
 
 HashTable::~HashTable(){
