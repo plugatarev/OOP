@@ -54,7 +54,7 @@ public:
    friend bool operator!=(const HashTable& a, const HashTable& b);
 
    //Prints HashTable
-   void print_HashTable() const;
+   void operator<<(const HashTable& a) const;
    
 private:
    HashList** list_;

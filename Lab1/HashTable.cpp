@@ -173,7 +173,7 @@ void HashTable::swap(HashTable& b){
     *this = tmp;
 }
 
-void HashTable::print_HashTable() const{
+void HashTable::operator<<(const HashTable& a) const{
       for (size_t i = 0; i < capacity_; i++){
             if (list_[i] != nullptr) list_[i]->printList();
       }   
