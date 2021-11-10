@@ -24,6 +24,7 @@ public:
    bool erase(const Key& k);
    
    //Inserts element into the container
+   //Returns false if the key already exists, but will overwrite it
    bool insert(const Key& k, const Value& v);
 
    //checks if the Value contains element with specific key
@@ -60,9 +61,9 @@ private:
    HashList** list_;
    size_t capacity_;
    size_t size_;
-   static const unsigned int DEFAULT_CAPACITY = 16;
+   static const size_t DEFAULT_CAPACITY = 16;
 
-   static const double ResizeOn = 0.75;
+   const double ResizeOn = 0.75;
 
    size_t hashF(const Key& k) const;
 

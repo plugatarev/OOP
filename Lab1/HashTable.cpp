@@ -2,8 +2,7 @@
 #include <stdexcept>
 typedef std::string Key;
 
-HashTable::HashTable(size_t capacity = DEFAULT_CAPACITY):list_(new HashList*[capacity]),capacity_(capacity), size_(0){
-}
+HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]),capacity_(capacity), size_(0){}
 
 HashTable::~HashTable(){
     for (size_t i = 0; i < capacity_; i++){
@@ -67,8 +66,12 @@ HashTable& HashTable::operator=(const HashTable& b){
 bool HashTable::insert(const Key& k, const Value& v){
     if (size() > size_t(ResizeOn * capacity_)) resize();
     size_t hash = hashF(k);
-    size_++;
     if (list_[hash] == nullptr) list_[hash] = new HashList();
+    if (list_[hash]->search(k)){
+        list_[hash]->insert(const_cast<Key&>(k),const_cast<Value&>(v));   
+        return false;
+    }
+    size_++;
     return list_[hash]->insert(const_cast<Key&>(k),const_cast<Value&>(v));    
 }
 
