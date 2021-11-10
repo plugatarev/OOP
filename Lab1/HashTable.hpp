@@ -62,8 +62,8 @@ public:
    
 private:
    HashList** list_;
-   size_t capacity_ = 0;
-   size_t size_ = 0;
+   size_t capacity_;
+   size_t size_;
    const unsigned int DefaultSize = 16;
 
    const double ResizeOn = 0.75;
