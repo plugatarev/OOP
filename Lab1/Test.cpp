@@ -34,11 +34,6 @@ TEST(HashTableTest, CheckingMethodSize){
     ASSERT_EQ(a.size(), 6);
 }
 
-TEST(HashTableTest, CheckingMethodCapacity){
-    HashTable a(17);
-    ASSERT_EQ(a.capacity(), 17);
-}
-
 TEST(HashTableTest,DefaultConstructor){
     HashTable a;
     ASSERT_EQ(a.size(), 0);
@@ -55,32 +50,29 @@ TEST(HashTableTest, InsertInHashtable){
     HashTable a(100);
     Key k = "1234";
     Key name = "abrac";
-
     Value v(name,22);
     a.insert(k,v);
     ASSERT_EQ(a.size(),1);
-    bool flag = (a.at(k) == v);
-    ASSERT_EQ(flag,1);
-    fill_table(a,10);
-    ASSERT_EQ(a.size(),11);
+    ASSERT_EQ(a.at(k),v);
+    a.insert("wrew",Value("erw",23));
+    a.insert("wre2332w",Value("erw2",33));
+    a.insert("fafasc",Value("git12",1));
+    ASSERT_EQ(a.size(),4);
 }
 
 TEST(HashTableTest, InsertInHashtableWithEqualKeys){
     HashTable a(100);
     Key k = "1234";
     Key name = "abrac";
-
     Value v(name,22);
     Key k2 = "1234";
     Key name2 = "qqeq";
-
     Value v2(name,22);
 
     a.insert(k,v);
     a.insert(k2, v2);
-    ASSERT_EQ(a.size(),2);
-    bool flag = (a.at(k) == v2);
-    ASSERT_EQ(flag,1);
+    ASSERT_EQ(a.size(),1);
+    ASSERT_EQ(a.at(k),v2);
 }
 
 TEST(HashTableTest, InsertInHashtableWithOverflowHashTable){
@@ -89,7 +81,10 @@ TEST(HashTableTest, InsertInHashtableWithOverflowHashTable){
     Key name = "abrac";
 
     Value v(name,22);
-    fill_table(a,9);
+    for (int i = 65; i < 74; i++){
+        Key k = std::to_string(i) + std::to_string(i + 2) + std::to_string(i + 3);
+        a.insert(k,Value("erw2",33));
+    }
     ASSERT_EQ(a.capacity(),20);
     ASSERT_EQ(a.size(),9);
 }
@@ -102,26 +97,21 @@ TEST(Test_HashTable, OriginalHashTableIsNotChangedOnOperatorAssign){
     Value v(name,22);
     a.insert(k,v);
     ASSERT_EQ(a.size(), 1);
-    bool flag = (a.at(k) == v);
-    ASSERT_EQ(flag,1);
+    ASSERT_EQ(a.at(k),v);
     HashTable b;
     b = a;
     ASSERT_EQ(b.size(), 1);
-    flag = (a.at(k) == v);
-    ASSERT_EQ(flag,1);
+    ASSERT_EQ(a.at(k),v);
   
     Key name2 = "hey";
 
     Value v2(name2,34);
     b.insert(name2, v2);
     ASSERT_EQ(a.size(), 1);
-    flag = (a.at(k) == v);
-    ASSERT_EQ(flag,1);
+    ASSERT_EQ(a.at(k),v);
     ASSERT_EQ(b.size(), 2);
-    flag = (b.at(k) == v);
-    ASSERT_EQ(flag,1);
-    flag = (b.at(name2) == v2);
-    ASSERT_EQ(flag,1);
+    ASSERT_EQ(b.at(k),v);
+    ASSERT_EQ(b.at(name2),v2);
 }
 
 TEST(Test_HashTable, OperatorAssignForEmpryHashTable){
@@ -136,17 +126,19 @@ TEST(Test_HashTable, OperatorAssignForEmpryHashTable){
 
 TEST(Test_HashTable, NewHashTableDoesNotChangeWhenTheOlIsChanged){
     HashTable a(12);
-    fill_table(a,4);
+    a.insert("wrew",Value("erw",23));
+    a.insert("wre2332w",Value("erw2",33));
+    a.insert("fafasc",Value("git12",1));
     HashTable b;
     b = a;
-    ASSERT_EQ(a.size(), 4);
-    ASSERT_EQ(b.size(), 4);
+    ASSERT_EQ(a.size(), 3);
+    ASSERT_EQ(b.size(), 3);
     Key k = "1234";
     Key name = "abrac";
     Value v(name,22);
     a.insert(k,v);
-    ASSERT_EQ(a.size(), 5);
-    ASSERT_EQ(b.size(), 4);
+    ASSERT_EQ(a.size(), 4);
+    ASSERT_EQ(b.size(), 3);
 }
 
 TEST(Test_HashTable, OriginalHashTableIsNotChangedOnCopyChangeOperatorAssign){
@@ -157,58 +149,55 @@ TEST(Test_HashTable, OriginalHashTableIsNotChangedOnCopyChangeOperatorAssign){
     Value v(name,22);
     a.insert(k,v);
     ASSERT_EQ(a.size(), 1);
-    bool flag = (a.at(k) == v);
-    ASSERT_EQ(flag,1);
+    ASSERT_EQ(a.at(k),v);
     HashTable b(a);
     ASSERT_EQ(b.size(), 1);
-    flag = (a.at(k) == v);
-    ASSERT_EQ(flag,1);
+    ASSERT_EQ(a.at(k),v);
     Key name2 = "hey";
 
     Value v2(name2,34);
     b.insert(name2, v2);
     ASSERT_EQ(a.size(), 1);
-    flag = (a.at(k) == v);
-    ASSERT_EQ(flag,1);
+    ASSERT_EQ(a.at(k),v);
     ASSERT_EQ(b.size(), 2);
-    flag = (b.at(k) == v);
-    ASSERT_EQ(flag,1);
+    ASSERT_EQ(b.at(k),v);
 }
 
 TEST(Test_HashTable, NewHashTableDoesNotChangeWhenTheOlIsChangedCopyConstructor){
     HashTable a(12);
-    fill_table(a,4);
+    a.insert("wrew",Value("erw",23));
+    a.insert("wre2332w",Value("erw2",33));
+    a.insert("fafasc",Value("git12",1));
     HashTable b(a);
-    ASSERT_EQ(a.size(), 4);
-    ASSERT_EQ(b.size(), 4);
+    ASSERT_EQ(a.size(), 3);
+    ASSERT_EQ(b.size(), 3);
     Key k = "1234";
     Key name = "abrac";
     Value v(name,22);
     a.insert(k,v);
-    ASSERT_EQ(a.size(), 5);
-    ASSERT_EQ(b.size(), 4);
+    ASSERT_EQ(a.size(), 4);
+    ASSERT_EQ(b.size(), 3);
 }
 
 TEST(Test_HashTable, WorkOfTheOperatorGettingByKeyWhenTheElementExists){
-    Key k = *gen_random(4);
+    Key k = "SDFSD";
     Value v;
-    v.name = *gen_random(4);
+    v.name = "Obeme";
     v.age = 54;
     HashTable a;
     a.insert(k,v);
-    a.insert(*gen_random(3), Value(*gen_random(3),23));
-    bool flag = (a[k] == v);
-    ASSERT_EQ(flag,1);   
+    a.insert("wewq", Value("324",23));
+    ASSERT_EQ(a[k],v);   
 }
 
 TEST(Test_HashTable, WorkOfTheOperatorGettingByKeyWhenTheElementNotExists){
-    Key k = *gen_random(4);
+    Key k = "SDFSD";
     Value v;
-    v.name = *gen_random(4);
+    v.name = "Obeme";
     v.age = 54;
     HashTable a;
     a.insert(k,v);
-    a.insert(*gen_random(3), Value(*gen_random(3),23));
+    a.insert("wewq", Value("324",23));
     ASSERT_EQ(a.size(),2);
     Key newk = "!@$%";
     a[newk];
@@ -292,8 +281,14 @@ TEST(Test_HashTable, WorkOfTheOperatorNotEqualOneHashTableIsEmpty){
 TEST(Test_HashTable, WorkOfTheSwapForRandomNotEmptyHashTables){
     HashTable a;
     HashTable b;
-    fill_table(a,10);
-    fill_table(b,6);
+    for (int i = 65; i < 78; i++){
+        Key k = std::to_string(i) + std::to_string(i + 2) + std::to_string(i + 3);
+        a.insert(k,Value("erw2",33 + i));
+    }
+    for (int i = 65; i < 74; i++){
+        Key k = std::to_string(i + 4) + std::to_string(i + 5) + std::to_string(i + 6);
+        a.insert(k,Value("erw2" + i, 10 + i));
+    }
     HashTable tmp_a(a);
     HashTable tmp_b(b);
     a.swap(b);
@@ -304,7 +299,10 @@ TEST(Test_HashTable, WorkOfTheSwapForRandomNotEmptyHashTables){
 TEST(Test_HashTable, WorkOfTheSwapOneHashTableIsEmpty){
     HashTable a;
     HashTable b;
-    fill_table(a);
+    for (int i = 65; i < 78; i++){
+        Key k = std::to_string(i) + std::to_string(i + 2) + std::to_string(i + 3);
+        a.insert(k,Value("erw2",33 + i));
+    }
     HashTable tmp_a(a);
     HashTable tmp_b(b);
     a.swap(b);
@@ -336,8 +334,12 @@ TEST(Test_HashTable, WorkOfTheSwapHashTablesFor){
 TEST(Test_HashTable, WorkOfTheSwapHashTablesCheckingForChangesHashTables){
     HashTable a;
     HashTable b;
-    fill_table(a,5);
-    fill_table(b,5);
+    a.insert(";io;6", Value("324",23));
+    a.insert("12wewq", Value("sds",2));
+    a.insert("19wewq", Value("sdf",56));
+    b.insert("qazqa", Value("asd",223));
+    b.insert("aqtg", Value("jhk",11));
+    b.insert("nm,n", Value("zxcds",99));
     HashTable tmp_a(a);
     HashTable tmp_b(b);
     a.swap(b);
@@ -356,7 +358,7 @@ TEST(Test_HashTable, WorkOfTheSwapHashTablesCheckingForChangesHashTables){
 TEST(Test_HashTable,CheckingOnTableEmptiness){
     HashTable a;
     ASSERT_EQ(a.empty(),1);
-    fill_table(a,1);
+    a.insert("wewq", Value("324",23));
     ASSERT_EQ(a.empty(),0);
 }
 
@@ -367,7 +369,7 @@ TEST(Test_HashTable,CheckinGMethodContaintsTheTable){
 
     Value v(name,22);
     a.insert(k,v);
-    fill_table(a);
+    a.insert("wewq", Value("324",23));
     ASSERT_EQ(a.contains(k),1);
     Key n = "!";
     ASSERT_EQ(a.contains(n),0);
@@ -406,7 +408,8 @@ TEST(Test_HashTable,CheckingMethodClearTheTable){
 
     Value v(name,22);
     a.insert(k,v);
-    fill_table(a, 6);
+    a.insert("wewq", Value("324",23));
+    a.insert("wewerq", Value("324",23));
     a.clear();
     ASSERT_EQ(a.capacity(),12);
     ASSERT_EQ(a.size(),0);
@@ -427,10 +430,12 @@ TEST(Test_HashTable,CheckingMethodEraseTheTable){
 
     Value v(name,22);
     a.insert(k,v);
-    fill_table(a,10);
+    a.insert("wewq", Value("324",23));
+    a.insert("wf23", Value("324",23));
+    a.insert(";io;6", Value("324",23));
     ASSERT_EQ(a.contains(k),1);
     a.erase(k);
-    ASSERT_EQ(a.size(),10);
+    ASSERT_EQ(a.size(),3);
     ASSERT_EQ(a.contains(k),0);
 }
 
@@ -443,7 +448,7 @@ TEST(Test_HashTable,CheckingMethodEraseForEmptyTable){
 
 TEST(Test_HashTale,CheckingMethodAtTheTableWhenTheElementIsNotExists){
     HashTable a;
-    fill_table(a,10);
+    a.insert("wewq", Value("324",23));
     Key k = "!@#$#";
     try{
     	a.at(k);
@@ -468,11 +473,10 @@ TEST(Test_HashTable,CheckingMethodAtForEmptyTableWhenTheElementIsNotExists){
 
 TEST(Test_HashTable,CheckingMethodAtTheTableWhenTheElementExists){
     HashTable a;
-    fill_table(a,10);
+    a.insert(";io;6", Value("324",23));
     Key k = "1234";
     Key name = "abrac";
     Value v(name,22);
     a.insert(k,v);
-    bool flag = (a.at(k) == v);
-    ASSERT_EQ(flag,1);
+    ASSERT_EQ(a.at(k),v);
 }
