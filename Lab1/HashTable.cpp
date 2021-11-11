@@ -132,14 +132,9 @@ void HashTable::clear(){
     if (size_ == 0) return;
     for (size_t i = 0; i < capacity_;i++){
         if (list_[i] != nullptr){
-            list_[i]->freeList();
+            delete list_[i];
             list_[i] = nullptr;
         }
-    }
-    delete[] list_;
-    list_ = new HashList*[capacity_];
-    for (size_t i = 0; i < capacity_; i++){
-        list_[i] = nullptr;
     }
     size_ = 0;
 }
