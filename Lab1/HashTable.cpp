@@ -2,16 +2,18 @@
 #include <stdexcept>
 typedef std::string Key;
 
-HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]),capacity_(capacity), size_(0){}
+HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]),capacity_(capacity), size_(0){
+    for (int i = 0; i < capacity_; i++) list_[i] = nullptr;
+}
 
 HashTable::~HashTable(){
     for (size_t i = 0; i < capacity_; i++){
-        if (list_[i] != nullptr) list_[i]->~HashList(); 
+        if (list_[i] != nullptr) delete list_[i]; 
     }
     delete[] list_;
 }
 HashTable::HashTable(const HashTable& b){
-    if (b.size_ != 0){
+    //if (b.size_ != 0){
         capacity_ = b.capacity_;
         size_ = b.size_;
         list_ = new HashList*[b.capacity_];
@@ -21,7 +23,7 @@ HashTable::HashTable(const HashTable& b){
                 list_[i] = new HashList(*b.list_[i]);
             }
         }
-    }
+    //}
 }
 
 size_t HashTable::size() const{
@@ -47,6 +49,7 @@ bool operator==(const HashTable& a, const HashTable& b){
 }
 
 HashTable& HashTable::operator=(const HashTable& b){
+    
     if (b != *this){
         capacity_ = b.capacity_;
         size_ = b.size_;

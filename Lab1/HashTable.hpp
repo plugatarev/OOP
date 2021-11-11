@@ -9,7 +9,7 @@ public:
    HashTable(size_t size = DEFAULT_CAPACITY);
    ~HashTable();
 
-   //Creates HashTabes based on b
+   //Creates HashTabes based on b. Old value of hashtable deleted
    HashTable& operator=(const HashTable& b);
 
    HashTable(const HashTable& b);
@@ -21,6 +21,7 @@ public:
    void clear();
 
    //Removes the element (if one exists) with the key equivalent to key.
+   //Returns false if the key equivalent to k doesn't exists
    bool erase(const Key& k);
    
    //Inserts element into the container
@@ -28,6 +29,7 @@ public:
    bool insert(const Key& k, const Value& v);
 
    //checks if the Value contains element with specific key
+   //Returns false if the key equivalent to key doesn't exists
    bool contains(const Key& k) const;
 
    //Return a reference to the value of the existing element whose is equivalent to k.
