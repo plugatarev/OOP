@@ -124,6 +124,7 @@ bool HashTable::resize(){
             }
         }
     }
+    delete[] list_;
     list_ = tmp;
     return true;
 }
