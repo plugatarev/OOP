@@ -14,7 +14,7 @@ Value& Value::operator=(const Value& other){
     return *this;
 }
 
-bool Value::operator==(const Value& b){
+bool Value::operator==(const Value& b) const{
     if (b.age == age && b.name == name) return true;
     return false;
 }

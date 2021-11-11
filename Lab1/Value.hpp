@@ -16,6 +16,6 @@ public:
 
     Value& operator=(const Value& other);
 
-    bool operator==(const Value& b);
+    bool operator==(const Value& b) const;
 
 };
