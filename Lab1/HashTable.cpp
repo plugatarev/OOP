@@ -143,7 +143,15 @@ void HashTable::clear(){
 Value& HashTable::operator[](const Key& k){
     int hash = hashF(k);
     if (list_[hash] == nullptr) list_[hash] = new HashList();
-    return list_[hash]->search_and_insert(k,&size_);
+    Value* tmp = list_[hash]->search(k);
+    if (tmp == nullptr){
+        size_++;
+        Value* v = new Value();
+        list_[hash]->insert(k, *v);
+        return *v;
+    }
+
+    return *tmp;
 }
 
 Value& HashTable::at(const Key& k){
