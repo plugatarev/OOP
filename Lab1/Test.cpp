@@ -25,26 +25,15 @@ void fill_table(HashTable& a, int n = 5){
         Key* k = gen_random(5);
         a.insert(*k,*v);
     }
-}
 
-void fill(HashTable& a){
-    a.insert("wrew",Value("erw",23));
-    a.insert("wre2332w",Value("erw2",33));
-    a.insert("fafasc",Value("git12",1));
-    a.insert("jkl",Value("erw",23));
-    a.insert("ghj",Value("erw2",33));
-    a.insert("yuiuy",Value("git12",1));
-    a.insert("qqqq",Value("git12",1));    
-    a.insert("rrrr",Value("git12",1));      
-    a.insert("uuu",Value("git12",1));      
 }
-
 TEST(HashTableTest, CheckingMethodSize){
     HashTable a(17);
-    a.insert("fafasc",Value("git12",1));
-    a.insert("jkl",Value("erw",23));
-    a.insert("ghj",Value("erw2",33));
-    a.insert("yuiuy",Value("git12",1));
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj", s4 = "yuiuy";
+    a.insert(s1,Value("git12",1));
+    a.insert(s2,Value("erw",23));
+    a.insert(s3,Value("erw2",33));
+    a.insert(s4,Value("git12",1));
     ASSERT_EQ(a.size(), 4);
 }
 
@@ -69,9 +58,10 @@ TEST(HashTableTest, InsertInHashtable){
     ASSERT_EQ(a.size(),1);
     ASSERT_EQ(a.at(k),v);
 
-    a.insert("wrew",Value("erw",23));
-    a.insert("wre2332w",Value("erw2",33));
-    a.insert("fafasc",Value("git12",1));
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
     ASSERT_EQ(a.size(),4);
 }
 
@@ -92,15 +82,16 @@ TEST(HashTableTest, InsertInHashtableWithEqualKeys){
 
 TEST(HashTableTest, InsertInHashtableWithOverflowHashTable){
     HashTable a(10);
-    a.insert("123",Value("erw",23));
-    a.insert("234",Value("erw2",33));
-    a.insert("345",Value("git12",1));
-    a.insert("456",Value("erw",23));
-    a.insert("567",Value("erw2",33));
-    a.insert("yuiuy",Value("git12",1));
-    a.insert("qqqq",Value("git12",1)); 
-    a.insert("rrrr",Value("git12",1)); 
-    a.insert("uuqeu",Value("git12",1));
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj", s4 = "ghsdj", s5 = "23423", s6 = "676", s7 = "kll", s8 = "hnn", s9 = "[p[]]";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
+    a.insert(s4,Value("git12",1));
+    a.insert(s5,Value("git12",1));
+    a.insert(s6,Value("git12",1));
+    a.insert(s7,Value("git12",1));
+    a.insert(s8,Value("git12",1));
+    a.insert(s9,Value("git12",1));
     ASSERT_EQ(20,a.capacity());
     ASSERT_EQ(9,a.size());
 }
@@ -142,9 +133,10 @@ TEST(Test_HashTable, OperatorAssignForEmpryHashTable){
 
 TEST(Test_HashTable, NewHashTableDoesNotChangeWhenTheOlIsChanged){
     HashTable a(12);
-    a.insert("wrew",Value("erw",23));
-    a.insert("wre2332w",Value("erw2",33));
-    a.insert("fafasc",Value("git12",1));
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
     HashTable b;
     b = a;
     ASSERT_EQ(a.size(), 3);
@@ -181,9 +173,10 @@ TEST(Test_HashTable, OriginalHashTableIsNotChangedOnCopyChangeOperatorAssign){
 
 TEST(Test_HashTable, NewHashTableDoesNotChangeWhenTheOlIsChangedCopyConstructor){
     HashTable a(12);
-    a.insert("wrew",Value("erw",23));
-    a.insert("wre2332w",Value("erw2",33));
-    a.insert("fafasc",Value("git12",1));
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
     HashTable b(a);
     ASSERT_EQ(a.size(), 3);
     ASSERT_EQ(b.size(), 3);
@@ -202,7 +195,8 @@ TEST(Test_HashTable, WorkOfTheOperatorGettingByKeyWhenTheElementExists){
     v.age = 54;
     HashTable a;
     a.insert(k,v);
-    a.insert("wewq", Value("324",23));
+    std::string s = "wewq";
+    a.insert(s, Value("324",23));
     ASSERT_EQ(a[k],v);   
 }
 
@@ -228,31 +222,32 @@ TEST(Test_HashTable, WorkOfTheOperatorEqualForEmptyHashTable){
 
 TEST(Test_HashTable, WorkOfTheOperatorEqualForEqualHashTable){
     HashTable a;
-    for (size_t i = 0; i < 5; i++){
-        Value* v = new Value(*gen_random(5), i + 2);
-        a.insert(*gen_random(5),*v);
-    }
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
     HashTable b(a);
     ASSERT_TRUE(a == b);
 }
 
 TEST(Test_HashTable, WorkOfTheOperatorEqualForNotEqualHashTable){
     HashTable a;
-    for (size_t i = 0; i < 5; i++){
-        Value* v = new Value(*gen_random(5), i + 2);
-        a.insert(*gen_random(5),*v);
-    }
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
     HashTable b(a);
-    b.insert(*gen_random(4),Value());
+    Key newk = "!@$%";
+    b.insert(newk,Value());
     ASSERT_FALSE(a == b);
 }
 
 TEST(Test_HashTable, WorkOfTheOperatorEqualOneHashTableIsEmpty){
     HashTable a;
-    for (size_t i = 0; i < 5; i++){
-        Value* v = new Value(*gen_random(5), i + 2);
-        a.insert(*gen_random(5),*v);
-    }
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
     HashTable b;
     ASSERT_FALSE(a == b);
 }
@@ -265,31 +260,32 @@ TEST(Test_HashTable, WorkOfTheOperatorNotEqualForEmptyHashTable){
 
 TEST(Test_HashTable, WorkOfTheOperatorNotEqualForEqualHashTable){
     HashTable a;
-    for (size_t i = 0; i < 5; i++){
-        Value* v = new Value(*gen_random(5), i + 2);
-        a.insert(*gen_random(5),*v);
-    }
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
     HashTable b(a);
     ASSERT_FALSE(a != b);
 }
 
 TEST(Test_HashTable, WorkOfTheOperatorNotEqualForNotEqualHashTable){
     HashTable a;
-    for (size_t i = 0; i < 5; i++){
-        Value* v = new Value(*gen_random(5), i + 2);
-        a.insert(*gen_random(5),*v);
-    }
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
     HashTable b(a);
-    b.insert(*gen_random(4),Value());
+    Key newk = "!@$%";
+    b.insert(newk,Value());
     ASSERT_TRUE(a != b);
 }
 
 TEST(Test_HashTable, WorkOfTheOperatorNotEqualOneHashTableIsEmpty){
     HashTable a;
-    for (size_t i = 0; i < 5; i++){
-        Value* v = new Value(*gen_random(5), i + 2);
-        a.insert(*gen_random(5),*v);
-    }
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
     HashTable b;
     ASSERT_TRUE(a != b);
 }
@@ -297,14 +293,16 @@ TEST(Test_HashTable, WorkOfTheOperatorNotEqualOneHashTableIsEmpty){
 TEST(Test_HashTable, WorkOfTheSwapForRandomNotEmptyHashTables){
     HashTable a;
     HashTable b;
-    a.insert("wrew",Value("erw",23));
-    a.insert("wre2332w",Value("erw2",33));
-    a.insert("fafasc",Value("git12",1));
-    
-    b.insert("yuiuy",Value("git12",1));
-    b.insert("qqqq",Value("git12",1));    
-    b.insert("rrrr",Value("git12",1));      
-    b.insert("uuu",Value("git12",1)); 
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
+
+    s1 = "yuiuy", s2 = "qqqq", s3 = "rrrr";
+    b.insert(s1,Value("sd",23));
+    b.insert(s2,Value("jkl",3));
+    b.insert(s3,Value("er",14));
+
     HashTable tmp_a(a);
     HashTable tmp_b(b);
     a.swap(b);
@@ -315,9 +313,10 @@ TEST(Test_HashTable, WorkOfTheSwapForRandomNotEmptyHashTables){
 TEST(Test_HashTable, WorkOfTheSwapOneHashTableIsEmpty){
     HashTable a;
     HashTable b;
-    a.insert("wrew",Value("erw",23));
-    a.insert("wre2332w",Value("erw2",33));
-    a.insert("fafasc",Value("git12",1));
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
     HashTable tmp_a(a);
     HashTable tmp_b(b);
     a.swap(b);
@@ -349,12 +348,14 @@ TEST(Test_HashTable, WorkOfTheSwapHashTablesFor){
 TEST(Test_HashTable, WorkOfTheSwapHashTablesCheckingForChangesHashTables){
     HashTable a;
     HashTable b;
-    a.insert(";io;6", Value("324",23));
-    a.insert("12wewq", Value("sds",2));
-    a.insert("19wewq", Value("sdf",56));
-    b.insert("qazqa", Value("asd",223));
-    b.insert("aqtg", Value("jhk",11));
-    b.insert("nm,n", Value("zxcds",99));
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
+    s1 = "qazqa", s2 = "aqtg", s3 = "nm,n";
+    b.insert(s1,Value("asd",23));
+    b.insert(s2,Value("jhk",33));
+    b.insert(s3,Value("zxcds",1));
     HashTable tmp_a(a);
     HashTable tmp_b(b);
     a.swap(b);
@@ -373,7 +374,8 @@ TEST(Test_HashTable, WorkOfTheSwapHashTablesCheckingForChangesHashTables){
 TEST(Test_HashTable,CheckingOnTableEmptiness){
     HashTable a;
     ASSERT_TRUE(a.empty());
-    a.insert("wewq", Value("324",23));
+    std::string k = "wewq";
+    a.insert(k, Value("324",23));
     ASSERT_FALSE(a.empty());
 }
 
@@ -384,7 +386,8 @@ TEST(Test_HashTable,CheckinGMethodContaintsTheTable){
 
     Value v(name,22);
     a.insert(k,v);
-    a.insert("wewq", Value("324",23));
+    std::string k1 = "wewq";
+    a.insert(k1, Value("324",23));
     ASSERT_TRUE(a.contains(k));
     Key n = "!";
     ASSERT_FALSE(a.contains(n));
@@ -423,8 +426,9 @@ TEST(Test_HashTable,CheckingMethodClearTheTable){
 
     Value v(name,22);
     a.insert(k,v);
-    a.insert("wewq", Value("324",23));
-    a.insert("wewerq", Value("324",23));
+    std::string s1 = "fafasc", s2 = "jkl";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
     a.clear();
     ASSERT_EQ(a.capacity(),12);
     ASSERT_EQ(a.size(),0);
@@ -445,9 +449,10 @@ TEST(Test_HashTable,CheckingMethodEraseTheTable){
 
     Value v(name,22);
     a.insert(k,v);
-    a.insert("wewq", Value("324",23));
-    a.insert("wf23", Value("324",23));
-    a.insert(";io;6", Value("324",23));
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
     ASSERT_TRUE(a.contains(k));
     a.erase(k);
     ASSERT_EQ(a.size(),3);
@@ -463,7 +468,8 @@ TEST(Test_HashTable,CheckingMethodEraseForEmptyTable){
 
 TEST(Test_HashTale,CheckingMethodAtTheTableWhenTheElementIsNotExists){
     HashTable a;
-    a.insert("wewq", Value("324",23));
+    std::string k1 = "wewq";
+    a.insert(k1, Value("324",23));
     Key k = "!@#$#";
     try{
     	a.at(k);
@@ -488,7 +494,8 @@ TEST(Test_HashTable,CheckingMethodAtForEmptyTableWhenTheElementIsNotExists){
 
 TEST(Test_HashTable,CheckingMethodAtTheTableWhenTheElementExists){
     HashTable a;
-    a.insert(";io;6", Value("324",23));
+    std::string k2 = ";io;6";
+    a.insert(k2, Value("324",23));
     Key k = "1234";
     Key name = "abrac";
     Value v(name,22);
