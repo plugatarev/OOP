@@ -9,6 +9,7 @@ HashList::HashList(HashList & b){
         insert(tmp->key, tmp->value);
         tmp = tmp->next;
     }
+    
 }
 
 HashList::~HashList(){
