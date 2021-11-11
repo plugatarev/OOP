@@ -140,9 +140,7 @@ bool operator!=(const HashList& a, const HashList& b){
 
 Entry* HashList::pop(){
     if (head_ == nullptr) return nullptr;
-    Entry* tmp = new Entry(head_->key,head_->value);
-    remove(head_->key);
-    return tmp;
+    return head_;
 }
 
 Value& HashList::search_and_insert(const Key& k, size_t* size){

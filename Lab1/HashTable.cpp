@@ -121,7 +121,6 @@ bool HashTable::resize(){
                 tmp[hash]->insert(l->key,l->value);
                 delete l;
                 Entry* l = list_[i]->pop();
-                if (l == nullptr) break;
             }
         }
     }
