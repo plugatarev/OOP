@@ -53,6 +53,7 @@ HashTable& HashTable::operator=(const HashTable& b){
     if (b != *this){
         capacity_ = b.capacity_;
         size_ = b.size_;
+        clear();
         delete[] list_;
         list_ = new HashList*[capacity_];
         for (size_t i = 0; i < capacity_; i++){
