@@ -26,7 +26,7 @@ public:
    //exception out_of_range if no element with key k existed. 
     Value& at(const Key& k) const;
 
-    Value& search_and_insert(const Key& k, size_t* size);
+    Value* search(const Key& k);
 
     HashList& operator=(const HashList& other);
 

@@ -143,16 +143,13 @@ Entry* HashList::pop(){
     return head_;
 }
 
-Value& HashList::search_and_insert(const Key& k, size_t* size){
+Value* HashList::search(const Key& k){
     Entry* tmp = head_;
     while (tmp != nullptr){
-        if (tmp->key == k) return tmp->value;
+        if (tmp->key == k) return &(tmp->value);
         tmp = tmp->next;
     }
-    Value* v = new Value(); 
-    (*size)++;
-    insert(k,*v);
-    return *v;
+    return nullptr;
 }
 
 void HashList::reverse(){
