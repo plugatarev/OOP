@@ -31,6 +31,7 @@ void HashList::freeList(){
     while(head_ != nullptr){
         Entry* next = head_->next;
         delete head_;
+        head_ = nullptr;
         head_ = next;
     }
 }
@@ -58,6 +59,7 @@ bool HashList::remove(const Key& k){
         Entry* t = head_;
         head_ = head_->next;
         delete t;
+        t = nullptr;
         return true;
     }
     Entry* before_tmp = head_;
@@ -69,6 +71,7 @@ bool HashList::remove(const Key& k){
     if (tmp->key == k){
         before_tmp->next = tmp->next;
         delete tmp;
+        tmp = nullptr;
         return true;
     }
     return false;
@@ -140,7 +143,9 @@ bool operator!=(const HashList& a, const HashList& b){
 
 Entry* HashList::pop(){
     if (head_ == nullptr) return nullptr;
-    return head_;
+    Entry* tmp = head_;
+    head_ = head_->next;
+    return tmp;
 }
 
 Value* HashList::search(const Key& k){
