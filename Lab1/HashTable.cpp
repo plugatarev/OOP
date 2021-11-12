@@ -9,8 +9,10 @@ HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]),capacity_(c
 HashTable::~HashTable(){
     for (size_t i = 0; i < capacity_; i++){
         if (list_[i] != nullptr) delete list_[i]; 
+        list_[i] = nullptr;
     }
     delete[] list_;
+    list_ = nullptr;
 }
 HashTable::HashTable(const HashTable& b){
     //if (b.size_ != 0){
@@ -51,10 +53,11 @@ bool operator==(const HashTable& a, const HashTable& b){
 HashTable& HashTable::operator=(const HashTable& b){
     
     if (b != *this){
-        capacity_ = b.capacity_;
-        size_ = b.size_;
         clear();
         delete[] list_;
+        list_ = nullptr;
+        capacity_ = b.capacity_;
+        size_ = b.size_;
         list_ = new HashList*[capacity_];
         for (size_t i = 0; i < capacity_; i++){
             list_[i] = nullptr;
@@ -104,7 +107,7 @@ size_t HashTable::hashF(const Key& k) const{
 }
 
 bool HashTable::resize(){
-    if ( !(capacity_ * 2 < UINT_MAX && capacity_ * 2 > 0)) throw std::runtime_error("capacity is more than INT_MAX");
+    if ( !(capacity_ * 2 < UINT_MAX && capacity_ * 2 > 0)) throw std::runtime_error("capacity is more than UINT_MAX");
     size_t c = capacity();
     capacity_ = capacity_ * 2;
 
@@ -114,17 +117,20 @@ bool HashTable::resize(){
     }
     for (size_t i = 0; i < c; i++){
         if (list_[i] != nullptr){
-            Entry* l = list_[i]->pop();
+            Entry* l = (list_[i]->pop());
             while (l != nullptr){
                 size_t hash = hashF(l->key);
                 if (tmp[hash] == nullptr) tmp[hash] = new HashList();
                 tmp[hash]->insert(l->key,l->value);
                 delete l;
-                Entry* l = list_[i]->pop();
+                l = nullptr;
+                l = list_[i]->pop();
             }
+            delete list_[i];
         }
     }
     delete[] list_;
+    list_ = nullptr;
     list_ = tmp;
     return true;
 }
@@ -146,9 +152,9 @@ Value& HashTable::operator[](const Key& k){
     Value* tmp = list_[hash]->search(k);
     if (tmp == nullptr){
         size_++;
-        Value* v = new Value();
-        list_[hash]->insert(k, *v);
-        return *v;
+        Value v;
+        list_[hash]->insert(k, v);
+        return *list_[hash]->search(k);
     }
 
     return *tmp;
