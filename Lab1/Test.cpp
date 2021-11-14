@@ -2,31 +2,7 @@
 #include "HashTable.hpp"
 #include <ctime> 
 #include "Header.hpp"
-Key* gen_random(int len) {
-    Key s;
-    static const char alphanum[] =
-        "0123456789"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
 
-    for (int i = 0; i < len; ++i) {
-        s += alphanum[rand() % (sizeof(alphanum) - 1)];
-    }
-    Key* key = new std::string(s); 
-
-    return key;
-}
-
-void fill_table(HashTable& a, int n = 5){
-    
-    for (size_t i = 0; i < n; i++){
-    	Key* name = gen_random(5);
-        Value* v = new Value(*name, i + 2);
-        Key* k = gen_random(5);
-        a.insert(*k,*v);
-    }
-
-}
 TEST(HashTableTest, CheckingMethodSize){
     HashTable a(17);
     std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj", s4 = "yuiuy";
