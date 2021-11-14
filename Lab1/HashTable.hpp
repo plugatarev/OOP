@@ -12,6 +12,7 @@ public:
    //Creates HashTabes based on b. Old value of hashtable deleted
    HashTable& operator=(const HashTable& b);
 
+   //Creates HashTabes based on b.
    HashTable(const HashTable& b);
 
    //swaps the HashTabes
@@ -64,7 +65,6 @@ private:
    size_t capacity_;
    size_t size_;
    static const size_t DEFAULT_CAPACITY = 16;
-
    const double ResizeOn = 0.75;
 
    size_t hashF(const Key& k) const;
