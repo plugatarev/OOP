@@ -71,4 +71,6 @@ private:
 
    //if hashtable overflows сhange the size 
    bool resize();
+
+   Value& get_value_by_key(const Key& k) const;
 };

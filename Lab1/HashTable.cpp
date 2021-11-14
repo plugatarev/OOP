@@ -160,7 +160,7 @@ Value& HashTable::operator[](const Key& k){
     return *tmp;
 }
 
-Value& HashTable::at(const Key& k){
+Value& HashTable::get_value_by_key(const Key& k) const{
     if (size() == 0) throw std::out_of_range("no such element exists");
     int hash = hashF(k);
     //exception if no such element exists
@@ -168,12 +168,12 @@ Value& HashTable::at(const Key& k){
     return list_[hash]->at(k);
 }
 
+Value& HashTable::at(const Key& k){
+    return get_value_by_key(k);
+}
+
 const Value& HashTable::at(const Key& k) const{
-    if (size() == 0) throw std::out_of_range("no such element exists");
-    int hash = hashF(k);
-    //exception if no such element exists
-    if (list_[hash] == nullptr) throw std::out_of_range("no such element exists");
-    return (const_cast<Value&>(list_[hash]->at(k)));
+    return (const_cast<Value&>(get_value_by_key(k)));
 }
 
 bool HashTable::contains(const Key& k) const{
