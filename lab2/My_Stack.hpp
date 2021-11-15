@@ -1,3 +1,4 @@
+#pragma once
 #include<stack>
 #include "Exception.hpp"
 class My_Stack: public std::stack<int>{
