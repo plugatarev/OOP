@@ -81,9 +81,9 @@ void Rot::apply(My_Stack & _value){
     int first = _value.top_and_pop();
     int second = _value.top_and_pop();
     int third = _value.top_and_pop();
+    _value.push(second);
     _value.push(first);
     _value.push(third);
-    _value.push(second);
 }
 
 void Over::apply(My_Stack & _value){
