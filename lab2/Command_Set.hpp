@@ -1,6 +1,6 @@
 #pragma once
 #include "Commands.hpp"
-#include "interpreter.hpp"
+#include "Interpreter.hpp"
 
 namespace {
 
