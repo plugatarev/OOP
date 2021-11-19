@@ -59,6 +59,7 @@ TEST(InterpreterTest, CheckingOperatorMoreForElements){
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.get_value().top_and_pop(),1);
     cmds = "5 8 >";
+    interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.get_value().top_and_pop(),0);
 }
 
@@ -67,14 +68,16 @@ TEST(InterpreterTest, CheckingOperatorLessForElements){
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.get_value().top_and_pop(),0);
     cmds = "5 8 <";
+    interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.get_value().top_and_pop(),1);
 }
 
 TEST(InterpreterTest, CheckingOperatorEqualForElements){
-    std::string cmds = "24 8 =";
+    std::string cmds = "24 8 ==";
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.get_value().top_and_pop(),0);
-    cmds = "5 5 =";
+    cmds = "5 5 ==";
+    interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.get_value().top_and_pop(),1);
 }
 
@@ -109,8 +112,8 @@ TEST(InterpreterTest, CheckingRotMethod){
     std::string cmds = "1 2 3 rot";
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.get_value().top_and_pop(),1);
-    ASSERT_EQ(interpreter.get_value().top_and_pop(),2);
-    ASSERT_EQ(interpreter.get_value().top_and_pop(),3);    
+    ASSERT_EQ(interpreter.get_value().top_and_pop(),3);
+    ASSERT_EQ(interpreter.get_value().top_and_pop(),2);    
 }
 /*
 TEST(InterpreterTest, CheckingOverMethod){
