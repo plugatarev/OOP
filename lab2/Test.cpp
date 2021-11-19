@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "Interpreter.hpp"
-
+#include "Command_Set.hpp"
 Interpreter interpreter = Interpreter::getInstance();
 
 TEST(InterpreterTest, CheckingPutAnValueToTheStack){
@@ -13,19 +13,17 @@ TEST(InterpreterTest, CheckingPutAnValueToTheStack){
 TEST(InterpreterTest, CheckingPutSomeValuesToTheStack){
     std::string cmds = "134 12 21 43";
     interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.get_value().top_and_pop(),134);
-    ASSERT_EQ(interpreter.get_value().top_and_pop(),12);
-    ASSERT_EQ(interpreter.get_value().top_and_pop(),21);
     ASSERT_EQ(interpreter.get_value().top_and_pop(),43);
+    ASSERT_EQ(interpreter.get_value().top_and_pop(),21);
+    ASSERT_EQ(interpreter.get_value().top_and_pop(),12);
+    ASSERT_EQ(interpreter.get_value().top_and_pop(),134);
 }
 
 TEST(InterpreterTest, CheckingAddingElements){
-    std::string cmds = "134 12 21 43 +";
+    std::string cmds = "21 43 +";
     interpreter.interpret(cmds);
 
-    ASSERT_EQ(interpreter.get_value().top_and_pop(),146);
-    ASSERT_EQ(interpreter.get_value().top_and_pop(),21);
-    ASSERT_EQ(interpreter.get_value().top_and_pop(),43);
+    ASSERT_EQ(interpreter.get_value().top_and_pop(),64);
 }
 
 TEST(InterpreterTest, CheckingSubtractionElements){
@@ -60,7 +58,7 @@ TEST(InterpreterTest, CheckingOperatorMoreForElements){
     std::string cmds = "24 8 >";
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.get_value().top_and_pop(),1);
-    std::string cmds = "5 8 >";
+    cmds = "5 8 >";
     ASSERT_EQ(interpreter.get_value().top_and_pop(),0);
 }
 
@@ -68,7 +66,7 @@ TEST(InterpreterTest, CheckingOperatorLessForElements){
     std::string cmds = "24 8 <";
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.get_value().top_and_pop(),0);
-    std::string cmds = "5 8 <";
+    cmds = "5 8 <";
     ASSERT_EQ(interpreter.get_value().top_and_pop(),1);
 }
 
@@ -76,7 +74,7 @@ TEST(InterpreterTest, CheckingOperatorEqualForElements){
     std::string cmds = "24 8 =";
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.get_value().top_and_pop(),0);
-    std::string cmds = "5 5 =";
+    cmds = "5 5 =";
     ASSERT_EQ(interpreter.get_value().top_and_pop(),1);
 }
 
