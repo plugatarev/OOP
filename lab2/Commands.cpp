@@ -18,16 +18,16 @@ void Sub::apply(My_Stack & _value){
 }
 
 void Div::apply(My_Stack & _value){
+    if (_value.top() == 0) throw interpreter_error("Error: division by zero");
     int right = _value.top_and_pop();
-    if (right == 0) throw interpreter_error("Error: division by zero");
     int left = _value.top_and_pop();
     int res = left / right;
     _value.push(res);
 }
 
 void Mod::apply(My_Stack & _value){
+    if (_value.top() == 0) throw interpreter_error("Error: division by zero");
     int right = _value.top_and_pop();
-    if (right == 0) throw interpreter_error("Error: division by zero");
     int left = _value.top_and_pop();
     int res = left % right;
     _value.push(res);

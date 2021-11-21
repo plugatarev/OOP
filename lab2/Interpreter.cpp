@@ -75,12 +75,13 @@ void Interpreter::interpret(std::string & cmds) {
     while (it != end) {
         try {
             command = get_cmd(it, end);
-        } catch (interpreter_error & e) {
-            std::cout << e.what() << std::endl;
+            if (command != nullptr){
+                command->apply(value);
+                delete command;
+            }
         }
-        if (command != nullptr){
-            command->apply(value);
-            delete command;
+        catch (interpreter_error & e) {
+            std::cout << e.what() << std::endl;
         }
         if (it == end) break;
         it++;
