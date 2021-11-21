@@ -112,7 +112,3 @@ class Cr: public Command {
     //Print a line break
     void apply(My_Stack & _value) override;
 };
-
-class EmptyCommand: public Command {
-    void apply(My_Stack & _value) override;
-};

@@ -83,8 +83,4 @@ namespace {
         return new Emit();
     }
     bool emit_cmd = Interpreter::getInstance().registerCreator("Emit", emit_creator);
-
-    Command * empty_creator() {
-        return new EmptyCommand();
-    }
 }

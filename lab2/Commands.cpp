@@ -101,4 +101,3 @@ void Cr::apply(My_Stack & _value){
     std::cout << "\n";
 }
 
-void EmptyCommand::apply(My_Stack & _value){}
