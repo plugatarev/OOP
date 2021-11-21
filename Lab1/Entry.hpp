@@ -3,6 +3,7 @@
 #include "Value.hpp"
 typedef std::string Key;
 
+// CR: class -> struct since everything is public
 class Entry{
 public:
     Key& key;

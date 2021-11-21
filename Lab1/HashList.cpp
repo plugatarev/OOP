@@ -1,6 +1,7 @@
 #include "HashList.hpp"
 #include "Header.hpp"
 #include "Entry.hpp"
+#include <iostream>
 HashList::HashList():head_(nullptr){}
 
 HashList::HashList(HashList & b){
@@ -31,7 +32,6 @@ void HashList::freeList(){
     while(head_ != nullptr){
         Entry* next = head_->next;
         delete head_;
-        head_ = nullptr;
         head_ = next;
     }
 }
@@ -59,6 +59,7 @@ bool HashList::remove(const Key& k){
         Entry* t = head_;
         head_ = head_->next;
         delete t;
+        // CR: redundant
         t = nullptr;
         return true;
     }
@@ -71,6 +72,7 @@ bool HashList::remove(const Key& k){
     if (tmp->key == k){
         before_tmp->next = tmp->next;
         delete tmp;
+        // CR: redundant
         tmp = nullptr;
         return true;
     }
@@ -148,6 +150,8 @@ Entry* HashList::pop(){
     return tmp;
 }
 
+// CR: why not have only this method and use it in HashTable::get_value_by_key?
+// CR: this way there will be no code duplication
 Value* HashList::search(const Key& k){
     Entry* tmp = head_;
     while (tmp != nullptr){

@@ -3,21 +3,27 @@
 typedef std::string Key;
 
 HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]),capacity_(capacity), size_(0){
+    // CR: replace new HashList*[capacity] -> new HashList*[capacity]() and pointers will be init to nullptr
     for (int i = 0; i < capacity_; i++) list_[i] = nullptr;
 }
 
 HashTable::~HashTable(){
+    // CR: can optimize using size_
     for (size_t i = 0; i < capacity_; i++){
         if (list_[i] != nullptr) delete list_[i]; 
+        // CR: seems redundant to me
         list_[i] = nullptr;
     }
     delete[] list_;
+    // CR: seems redundant to me
     list_ = nullptr;
 }
 HashTable::HashTable(const HashTable& b){
     //if (b.size_ != 0){
         capacity_ = b.capacity_;
         size_ = b.size_;
+        // CR: new HashList*[b.capacity_] -> new HashList*[b.capacity_]()
+        // CR: it will initialize pointers with nullptr
         list_ = new HashList*[b.capacity_];
         for (size_t i = 0; i < capacity_; i++){
             list_[i] = nullptr;
@@ -37,10 +43,12 @@ size_t HashTable::capacity() const{
 }
 
 bool operator!=(const HashTable& a, const HashTable& b){
+    // CR: it's ok to have different capacity_
     if (a.size_ != b.size_ || a.capacity_ != b.capacity_) return true;
     for (size_t i = 0; i < a.capacity_; i++){
         if ( (a.list_[i] == nullptr && b.list_[i] != nullptr) || (a.list_[i] != nullptr && b.list_[i] == nullptr)) return true;
         if (a.list_[i] == nullptr) continue;
+        // CR: won't work for different capacity_
         if (*a.list_[i] != *b.list_[i]) return true;
     }
     return false;
@@ -53,11 +61,14 @@ bool operator==(const HashTable& a, const HashTable& b){
 HashTable& HashTable::operator=(const HashTable& b){
     
     if (b != *this){
+        // CR: i guess you do clear inside HashList & HashList::operator=(const HashList& other), no?
         clear();
         delete[] list_;
+        // CR: redundant
         list_ = nullptr;
         capacity_ = b.capacity_;
         size_ = b.size_;
+        // CR: new HashList*[capacity_]()
         list_ = new HashList*[capacity_];
         for (size_t i = 0; i < capacity_; i++){
             list_[i] = nullptr;
@@ -74,7 +85,10 @@ bool HashTable::insert(const Key& k, const Value& v){
     if (size() > size_t(ResizeOn * capacity_)) resize();
     size_t hash = hashF(k);
     if (list_[hash] == nullptr) list_[hash] = new HashList();
+    // CR: you can do it in one go, just replace the result from the search
     if (list_[hash]->search(k)){
+        // CR: now you have two entries with the same key, instead of replacing old value
+        // CR: please fix it and write a test for this situation
         list_[hash]->insert(const_cast<Key&>(k),const_cast<Value&>(v));   
         return false;
     }
@@ -84,7 +98,7 @@ bool HashTable::insert(const Key& k, const Value& v){
 
 bool HashTable::erase(const Key& k){
     if (size() == 0) return false;
-    int hash =  hashF(k);
+    int hash = hashF(k);
     if (list_[hash] == nullptr) return false;
     if (list_[hash]->remove(k)){
         size_--;
@@ -95,7 +109,7 @@ bool HashTable::erase(const Key& k){
 
 
 bool HashTable::empty() const{
-    return (size() == 0);
+    return size() == 0;
 }
 
 size_t HashTable::hashF(const Key& k) const{
@@ -107,6 +121,7 @@ size_t HashTable::hashF(const Key& k) const{
 }
 
 bool HashTable::resize(){
+    // CR: https://www.cplusplus.com/reference/limits/numeric_limits/
     if ( !(capacity_ * 2 < UINT_MAX && capacity_ * 2 > 0)) throw std::runtime_error("capacity is more than UINT_MAX");
     size_t c = capacity();
     capacity_ = capacity_ * 2;
@@ -123,14 +138,12 @@ bool HashTable::resize(){
                 if (tmp[hash] == nullptr) tmp[hash] = new HashList();
                 tmp[hash]->insert(l->key,l->value);
                 delete l;
-                l = nullptr;
                 l = list_[i]->pop();
             }
             delete list_[i];
         }
     }
     delete[] list_;
-    list_ = nullptr;
     list_ = tmp;
     return true;
 }
@@ -152,8 +165,11 @@ Value& HashTable::operator[](const Key& k){
     Value* tmp = list_[hash]->search(k);
     if (tmp == nullptr){
         size_++;
+        // CR: will be destroyed after return from fuction
+        // CR: please fix and write a test
         Value v;
         list_[hash]->insert(k, v);
+        // CR: well, you already have a value, no?
         return *list_[hash]->search(k);
     }
 
@@ -184,6 +200,7 @@ bool HashTable::contains(const Key& k) const{
 }
 
 void HashTable::swap(HashTable& b){
+    // CR: we copy everything three times, could've just swap fields
     HashTable tmp = b;
     b = *this;
     *this = tmp;
