@@ -9,9 +9,12 @@ HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]()),capacity_
 }
 
 HashTable::~HashTable(){
-    // CR: can optimize using size_
+    // CR: can optimize using size_ - maybe so?
     for (size_t i = 0; i < capacity_; i++){
-        if (list_[i] != nullptr) delete list_[i]; 
+        if (list_[i] != nullptr && size_ > 0){
+            delete list_[i];
+            --size_;
+        } 
     }
     delete[] list_;
 }
