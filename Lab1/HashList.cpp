@@ -59,8 +59,6 @@ bool HashList::remove(const Key& k){
         Entry* t = head_;
         head_ = head_->next;
         delete t;
-        // CR: redundant
-        t = nullptr;
         return true;
     }
     Entry* before_tmp = head_;
@@ -72,8 +70,6 @@ bool HashList::remove(const Key& k){
     if (tmp->key == k){
         before_tmp->next = tmp->next;
         delete tmp;
-        // CR: redundant
-        tmp = nullptr;
         return true;
     }
     return false;
