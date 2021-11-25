@@ -3,6 +3,8 @@
 #include "Entry.hpp"
 typedef std::string Key;
 
+// CR: i think it's better to hide HashTable implementation details from user
+// CR: so you can declare HashList as inner class of HashTable and define in separate file
 class HashList{
 public:
 
