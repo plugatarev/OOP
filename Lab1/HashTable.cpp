@@ -2,9 +2,8 @@
 #include <stdexcept>
 typedef std::string Key;
 
-HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]),capacity_(capacity), size_(0){
+HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]()),capacity_(capacity), size_(0){
     // CR: replace new HashList*[capacity] -> new HashList*[capacity]() and pointers will be init to nullptr
-    for (int i = 0; i < capacity_; i++) list_[i] = nullptr;
 }
 
 HashTable::~HashTable(){
