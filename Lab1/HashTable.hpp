@@ -66,7 +66,7 @@ private:
    size_t size_;
    static const size_t DEFAULT_CAPACITY = 16;
    // CR: static? 
-   const double ResizeOn = 0.75;
+   static constexpr double ResizeOn = 0.75;
 
    size_t hashF(const Key& k) const;
 
