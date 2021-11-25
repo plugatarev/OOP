@@ -82,10 +82,13 @@ bool HashTable::insert(const Key& k, const Value& v){
     size_t hash = hashF(k);
     if (list_[hash] == nullptr) list_[hash] = new HashList();
     // CR: you can do it in one go, just replace the result from the search
-    if (list_[hash]->search(k)){
+    Value* val = list_[hash]->search(k);
+    if (val != nullptr){
         // CR: now you have two entries with the same key, instead of replacing old value
         // CR: please fix it and write a test for this situation
-        list_[hash]->insert(const_cast<Key&>(k),const_cast<Value&>(v));   
+        //list_[hash]->insert(const_cast<Key&>(k),const_cast<Value&>(v));   
+        val->age = v.age;
+        val->name = v.name;
         return false;
     }
     size_++;
@@ -118,7 +121,7 @@ size_t HashTable::hashF(const Key& k) const{
 
 bool HashTable::resize(){
     // CR: https://www.cplusplus.com/reference/limits/numeric_limits/
-    if ( !(capacity_ * 2 < UINT_MAX && capacity_ * 2 > 0)) throw std::runtime_error("capacity is more than UINT_MAX");
+    if ( !(capacity_ * 2 < UINT_MAX && capacity_ * 2 > capacity_)) throw std::runtime_error("capacity is more than UINT_MAX");
     size_t c = capacity();
     capacity_ = capacity_ * 2;
 
@@ -161,12 +164,12 @@ Value& HashTable::operator[](const Key& k){
     Value* tmp = list_[hash]->search(k);
     if (tmp == nullptr){
         size_++;
-        // CR: will be destroyed after return from fuction
-        // CR: please fix and write a test
-        Value v;
-        list_[hash]->insert(k, v);
-        // CR: well, you already have a value, no?
-        return *list_[hash]->search(k);
+        // CR: will be destroyed after return from fuction - TODO: deleted Value
+        // CR: please fix and write a test - ok
+        Value* v = new Value();
+        list_[hash]->insert(k, *v);
+        // CR: well, you already have a value, no? -  yes, ok
+        return *v;
     }
 
     return *tmp;
@@ -196,7 +199,7 @@ bool HashTable::contains(const Key& k) const{
 }
 
 void HashTable::swap(HashTable& b){
-    // CR: we copy everything three times, could've just swap fields
+    // CR: we copy everything three times, could've just swap fields - ok
     std::swap(list_, b.list_);
     std::swap(capacity_, b.capacity_);
     std::swap(size_, b.size_);
