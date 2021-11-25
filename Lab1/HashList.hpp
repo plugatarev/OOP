@@ -1,5 +1,4 @@
 #pragma once
-#include "Header.hpp"
 #include "Entry.hpp"
 typedef std::string Key;
 

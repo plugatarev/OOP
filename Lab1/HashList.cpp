@@ -1,5 +1,4 @@
 #include "HashList.hpp"
-#include "Header.hpp"
 #include "Entry.hpp"
 #include <iostream>
 HashList::HashList():head_(nullptr){}

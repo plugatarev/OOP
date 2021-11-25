@@ -1,9 +1,11 @@
 #include "HashTable.hpp"
 #include <stdexcept>
+#include <limits.h>
+#include <cmath>
 typedef std::string Key;
 
 HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]()),capacity_(capacity), size_(0){
-    // CR: replace new HashList*[capacity] -> new HashList*[capacity]() and pointers will be init to nullptr
+    // CR: replace new HashList*[capacity] -> new HashList*[capacity]() and pointers will be init to nullptr - ok
 }
 
 HashTable::~HashTable(){
@@ -13,15 +15,13 @@ HashTable::~HashTable(){
     }
     delete[] list_;
 }
-HashTable::HashTable(const HashTable& b){
+HashTable::HashTable(const HashTable& b):list_(new HashList*[b.capacity_]()){
     //if (b.size_ != 0){
         capacity_ = b.capacity_;
         size_ = b.size_;
-        // CR: new HashList*[b.capacity_] -> new HashList*[b.capacity_]()
-        // CR: it will initialize pointers with nullptr
-        list_ = new HashList*[b.capacity_];
+        // CR: new HashList*[b.capacity_] -> new HashList*[b.capacity_]() - ok
+        // CR: it will initialize pointers with nullptr - ok
         for (size_t i = 0; i < capacity_; i++){
-            list_[i] = nullptr;
             if (b.list_[i] != nullptr) {
                 list_[i] = new HashList(*b.list_[i]);
             }
@@ -39,8 +39,9 @@ size_t HashTable::capacity() const{
 
 bool operator!=(const HashTable& a, const HashTable& b){
     // CR: it's ok to have different capacity_
-    if (a.size_ != b.size_ || a.capacity_ != b.capacity_) return true;
-    for (size_t i = 0; i < a.capacity_; i++){
+    if (a.size_ != b.size_) return true;
+    int cap = std::max(a.capacity_, b.capacity_);
+    for (size_t i = 0; i < cap; i++){
         if ( (a.list_[i] == nullptr && b.list_[i] != nullptr) || (a.list_[i] != nullptr && b.list_[i] == nullptr)) return true;
         if (a.list_[i] == nullptr) continue;
         // CR: won't work for different capacity_
@@ -61,7 +62,7 @@ HashTable& HashTable::operator=(const HashTable& b){
         delete[] list_;
         capacity_ = b.capacity_;
         size_ = b.size_;
-        // CR: new HashList*[capacity_]()
+        // CR: new HashList*[capacity_]() - ok
         list_ = new HashList*[capacity_]();
         for (size_t i = 0; i < capacity_; i++){
             if (b.list_[i] != nullptr) {
