@@ -3,9 +3,8 @@
 #include "Value.hpp"
 typedef std::string Key;
 
-// CR: class -> struct since everything is public
-class Entry{
-public:
+// CR: class -> struct since everything is public - Ok
+struct Entry{
     Key& key;
     Value& value;
     Entry* next = nullptr;
