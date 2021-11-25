@@ -197,9 +197,9 @@ bool HashTable::contains(const Key& k) const{
 
 void HashTable::swap(HashTable& b){
     // CR: we copy everything three times, could've just swap fields
-    HashTable tmp = b;
-    b = *this;
-    *this = tmp;
+    std::swap(list_, b.list_);
+    std::swap(capacity_, b.capacity_);
+    std::swap(size_, b.size_);
 }
 
 void HashTable::operator<<(const HashTable& a) const{
