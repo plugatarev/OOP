@@ -10,12 +10,8 @@ HashTable::~HashTable(){
     // CR: can optimize using size_
     for (size_t i = 0; i < capacity_; i++){
         if (list_[i] != nullptr) delete list_[i]; 
-        // CR: seems redundant to me
-        list_[i] = nullptr;
     }
     delete[] list_;
-    // CR: seems redundant to me
-    list_ = nullptr;
 }
 HashTable::HashTable(const HashTable& b){
     //if (b.size_ != 0){
@@ -63,14 +59,11 @@ HashTable& HashTable::operator=(const HashTable& b){
         // CR: i guess you do clear inside HashList & HashList::operator=(const HashList& other), no?
         clear();
         delete[] list_;
-        // CR: redundant
-        list_ = nullptr;
         capacity_ = b.capacity_;
         size_ = b.size_;
         // CR: new HashList*[capacity_]()
-        list_ = new HashList*[capacity_];
+        list_ = new HashList*[capacity_]();
         for (size_t i = 0; i < capacity_; i++){
-            list_[i] = nullptr;
             if (b.list_[i] != nullptr) {
                 list_[i] = new HashList();
                 *list_[i] = *b.list_[i];
