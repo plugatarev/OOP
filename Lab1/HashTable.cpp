@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <limits.h>
 #include <cmath>
+#include <memory>
 typedef std::string Key;
 
 HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]()),capacity_(capacity), size_(0){
@@ -60,7 +61,7 @@ bool operator==(const HashTable& a, const HashTable& b){
 HashTable& HashTable::operator=(const HashTable& b){
     
     if (b != *this){
-        // CR: i guess you do clear inside HashList & HashList::operator=(const HashList& other), no?
+        // CR: i guess you do clear inside HashList & HashTable::HashList::operator=(const HashList& other), no?
         clear();
         delete[] list_;
         capacity_ = b.capacity_;
@@ -166,10 +167,10 @@ Value& HashTable::operator[](const Key& k){
         size_++;
         // CR: will be destroyed after return from fuction - TODO: deleted Value
         // CR: please fix and write a test - ok
-        Value* v = new Value();
-        list_[hash]->insert(k, *v);
+        std::unique_ptr<Value> val(new Value());
+        list_[hash]->insert(k, *val);
         // CR: well, you already have a value, no? -  yes, ok
-        return *v;
+        return *val;
     }
 
     return *tmp;

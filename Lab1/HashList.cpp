@@ -1,9 +1,9 @@
-#include "HashList.hpp"
+#include "HashTable.hpp"
 #include "Entry.hpp"
 #include <iostream>
-HashList::HashList():head_(nullptr){}
+HashTable::HashList::HashList():head_(nullptr){}
 
-HashList::HashList(HashList & b){
+HashTable::HashList::HashList(HashList & b){
     Entry* tmp = b.head_;
     while (tmp != nullptr){
         insert(tmp->key, tmp->value);
@@ -12,11 +12,11 @@ HashList::HashList(HashList & b){
     
 }
 
-HashList::~HashList(){
+HashTable::HashList::~HashList(){
     freeList();
 }
 
-bool HashList::insert(const Key& k, const Value& v){
+bool HashTable::HashList::insert(const Key& k, const Value& v){
     //if (search(k)) return false;
     if (head_ == nullptr) {
         head_ = new Entry(const_cast<Key&>(k),const_cast<Value&>(v));
@@ -27,7 +27,7 @@ bool HashList::insert(const Key& k, const Value& v){
 }
 
 
-void HashList::freeList(){
+void HashTable::HashList::freeList(){
     while(head_ != nullptr){
         Entry* next = head_->next;
         delete head_;
@@ -35,7 +35,7 @@ void HashList::freeList(){
     }
 }
 
-void HashList::printList() const{
+void HashTable::HashList::printList() const{
     Entry* tmp = head_;
     while (tmp != nullptr){
         std::cout << tmp->key << " " << tmp->value.age << " " << tmp->value.name <<std::endl;
@@ -44,7 +44,7 @@ void HashList::printList() const{
 }
 
 
-bool HashList::search(const Key& k) const{
+bool HashTable::HashList::search(const Key& k) const{
     Entry* tmp = head_;
     while (tmp != nullptr){
         if (tmp->key == k) return true;
@@ -53,7 +53,7 @@ bool HashList::search(const Key& k) const{
     return false;
 }
 
-bool HashList::remove(const Key& k){
+bool HashTable::HashList::remove(const Key& k){
     if (head_->key == k){
         Entry* t = head_;
         head_ = head_->next;
@@ -75,7 +75,7 @@ bool HashList::remove(const Key& k){
 
 }
 
-Value& HashList::at(const Key& k) const{
+Value& HashTable::HashList::at(const Key& k) const{
     Entry* tmp = head_;
     while (tmp != nullptr){
         if (tmp->key == k) return tmp->value;
@@ -84,7 +84,7 @@ Value& HashList::at(const Key& k) const{
     throw std::out_of_range("no such element exists");
 }
 
-HashList & HashList::operator=(const HashList& other){
+HashTable::HashList& HashTable::HashList::operator=(const HashList& other){
     if (*this != other){
         freeList();
         Entry* tmp = other.head_;
@@ -96,8 +96,8 @@ HashList & HashList::operator=(const HashList& other){
     return *this;
 }
 
-bool operator==(const HashList& a, const HashList& b){
-    Entry* tmp_a = a.head_;
+bool HashTable::HashList::operator==(const HashList& b){
+    Entry* tmp_a = head_;
     Entry* tmp_b = b.head_;
     int count1 = 0;
     int count2 = 0;
@@ -115,7 +115,7 @@ bool operator==(const HashList& a, const HashList& b){
     }
     if (count1 != count2) return false;
 
-    tmp_a = a.head_;
+    tmp_a = head_;
     tmp_b = b.head_; 
     bool flag = false;   
     while (tmp_a != nullptr){
@@ -134,11 +134,11 @@ bool operator==(const HashList& a, const HashList& b){
     return true;
 }
 
-bool operator!=(const HashList& a, const HashList& b){
-    return (!operator==(a,b));
+bool HashTable::HashList::operator!=(const HashList& b){
+    return (!operator==(b));
 }
 
-Entry* HashList::pop(){
+Entry* HashTable::HashList::pop(){
     if (head_ == nullptr) return nullptr;
     Entry* tmp = head_;
     head_ = head_->next;
@@ -147,7 +147,7 @@ Entry* HashList::pop(){
 
 // CR: why not have only this method and use it in HashTable::get_value_by_key?
 // CR: this way there will be no code duplication
-Value* HashList::search(const Key& k){
+Value* HashTable::HashList::search(const Key& k){
     Entry* tmp = head_;
     while (tmp != nullptr){
         if (tmp->key == k) return &(tmp->value);
@@ -156,7 +156,7 @@ Value* HashList::search(const Key& k){
     return nullptr;
 }
 
-void HashList::reverse(){
+void HashTable::HashList::reverse(){
     Entry* current = head_;
     Entry *prev = nullptr, *next = nullptr;
 

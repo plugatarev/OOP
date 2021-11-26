@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
-#include "HashList.hpp"
+//#include "HashList.hpp"
+#include "Entry.hpp"
 typedef std::string Key;
 
 class HashTable {
@@ -61,6 +62,45 @@ public:
    void operator<<(const HashTable& a) const;
    
 private:
+   class HashList{
+    public:
+
+      HashList();
+
+      HashList(HashList & b);
+
+      HashList(const Key& k, const Value& v, Entry* next = nullptr);
+
+      ~HashList();
+
+      bool insert(const Key& k, const Value& v);
+
+      bool search(const Key& k) const;
+
+      void printList() const;
+
+      bool remove(const Key& k);
+
+      //Return a reference to the value of the existing element whose is equivalent to k.
+      //exception out_of_range if no element with key k existed. 
+      Value& at(const Key& k) const;
+
+      Value* search(const Key& k);
+
+      HashList& operator=(const HashList& other);
+
+      Entry* pop();
+
+      void freeList();
+
+      void reverse();
+
+      bool operator==(const HashList& b);
+
+      bool operator!=(const HashList& b);
+    private:
+      Entry* head_ = nullptr;
+   };
    HashList** list_;
    size_t capacity_;
    size_t size_;
