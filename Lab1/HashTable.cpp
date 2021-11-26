@@ -55,7 +55,7 @@ bool HashTable::is_equal_table(const HashTable& b) const{
 }
 
 bool operator!=(const HashTable& a, const HashTable& b){
-    // CR: it's ok to have different capacity_
+    // CR: it's ok to have different capacity_ - ok
     if (a.size_ != b.size_) return true;
     if (a.capacity_ > b.capacity_) return a.is_equal_table(b);     
     return b.is_equal_table(a);
@@ -92,7 +92,7 @@ bool HashTable::insert(const Key& k, const Value& v){
     // CR: you can do it in one go, just replace the result from the search
     Value* val = list_[hash]->search(k);
     if (val != nullptr){
-        // CR: now you have two entries with the same key, instead of replacing old value
+        // CR: now you have two entries with the same key, instead of replacing old value - ok
         // CR: please fix it and write a test for this situation
         val->age = v.age;
         val->name = v.name;
@@ -172,7 +172,7 @@ Value& HashTable::operator[](const Key& k){
     Value* tmp = list_[hash]->search(k);
     if (tmp == nullptr){
         size_++;
-        // CR: will be destroyed after return from fuction - TODO: deleted Value
+        // CR: will be destroyed after return from fuction - TODO: deleted Value - ok
         // CR: please fix and write a test - ok
         std::unique_ptr<Value> val(new Value());
         list_[hash]->insert(k, *val);
