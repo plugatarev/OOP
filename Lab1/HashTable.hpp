@@ -91,6 +91,8 @@ private:
 
       Entry* pop();
 
+      Entry* get_head();
+
       void freeList();
 
       void reverse();

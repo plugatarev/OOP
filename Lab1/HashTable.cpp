@@ -61,7 +61,7 @@ bool operator==(const HashTable& a, const HashTable& b){
 HashTable& HashTable::operator=(const HashTable& b){
     
     if (b != *this){
-        // CR: i guess you do clear inside HashList & HashTable::HashList::operator=(const HashList& other), no?
+        // CR: i guess you do clear inside HashList & HashTable::HashList::operator=(const HashList& other), no? - we are creating a new table with new capacity, old table deletes
         clear();
         delete[] list_;
         capacity_ = b.capacity_;
@@ -87,7 +87,6 @@ bool HashTable::insert(const Key& k, const Value& v){
     if (val != nullptr){
         // CR: now you have two entries with the same key, instead of replacing old value
         // CR: please fix it and write a test for this situation
-        //list_[hash]->insert(const_cast<Key&>(k),const_cast<Value&>(v));   
         val->age = v.age;
         val->name = v.name;
         return false;

@@ -168,3 +168,7 @@ void HashTable::HashList::reverse(){
     }
     head_ = prev;
 }
+
+Entry* HashTable::HashList::get_head(){
+    return head_;
+}
