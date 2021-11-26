@@ -41,17 +41,24 @@ size_t HashTable::capacity() const{
     return capacity_;
 }
 
+bool HashTable::is_equal_table(const HashTable& b) const{
+    for (size_t i = 0; i < capacity_; i++){
+        if (list_[i] != nullptr){
+            Entry* t = list_[i]->get_head();
+            while (t != nullptr){
+                if (b.contains(t->key) && !(b.get_value_by_key(t->key) == t->value)) return true;
+                t = t->next;
+            }
+        }
+    }
+    return false;
+}
+
 bool operator!=(const HashTable& a, const HashTable& b){
     // CR: it's ok to have different capacity_
     if (a.size_ != b.size_) return true;
-    int cap = std::max(a.capacity_, b.capacity_);
-    for (size_t i = 0; i < cap; i++){
-        if ( (a.list_[i] == nullptr && b.list_[i] != nullptr) || (a.list_[i] != nullptr && b.list_[i] == nullptr)) return true;
-        if (a.list_[i] == nullptr) continue;
-        // CR: won't work for different capacity_
-        if (*a.list_[i] != *b.list_[i]) return true;
-    }
-    return false;
+    if (a.capacity_ > b.capacity_) return a.is_equal_table(b);     
+    return b.is_equal_table(a);
 }
 
 bool operator==(const HashTable& a, const HashTable& b){
@@ -59,7 +66,7 @@ bool operator==(const HashTable& a, const HashTable& b){
 }
 
 HashTable& HashTable::operator=(const HashTable& b){
-    
+    capacity_ = b.capacity_;
     if (b != *this){
         // CR: i guess you do clear inside HashList & HashTable::HashList::operator=(const HashList& other), no? - we are creating a new table with new capacity, old table deletes
         clear();
