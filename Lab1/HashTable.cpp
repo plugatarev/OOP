@@ -107,7 +107,10 @@ bool HashTable::erase(const Key& k){
     int hash = hashF(k);
     if (list_[hash] == nullptr) return false;
     if (list_[hash]->remove(k)){
-        if (list_[hash]->get_head() == nullptr) delete list_[hash];
+        if (list_[hash]->get_head() == nullptr) {
+            delete list_[hash];
+            list_[hash] = nullptr;
+        }
         size_--;
         return true;
     }
