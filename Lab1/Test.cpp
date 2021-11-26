@@ -1,8 +1,6 @@
 #include <gtest/gtest.h>
 #include "HashTable.hpp"
 #include <ctime> 
-#include "Header.hpp"
-
 TEST(HashTableTest, CheckingMethodSize){
     HashTable a(17);
     std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj", s4 = "yuiuy";
@@ -477,4 +475,30 @@ TEST(Test_HashTable,CheckingMethodAtTheTableWhenTheElementExists){
     Value v(name,22);
     a.insert(k,v);
     ASSERT_EQ(a.at(k),v);
+}
+
+TEST(Test_HashTable,OperatorNotEqualForHTWithDifferentCapacity){
+    HashTable a(15);
+    HashTable b(16);
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "ghj";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
+    
+    b.insert(s1,Value("erw",23));
+    b.insert(s2,Value("erw2",33));
+    b.insert(s3,Value("git12",1));
+
+
+    ASSERT_FALSE(a != b);
+}
+
+TEST(Test_HashTable,AddingTwoValuesWithTheSameKeys){
+    HashTable a(15);
+    std::string s1 = "fafasc", s2 = "jkl", s3 = "fafasc";
+    a.insert(s1,Value("erw",23));
+    a.insert(s2,Value("erw2",33));
+    a.insert(s3,Value("git12",1));
+
+    ASSERT_EQ(a.at(s1),Value("git12",1));
 }
