@@ -11,8 +11,8 @@ HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]()),capacity_
 
 HashTable::~HashTable(){
     // CR: can optimize using size_ - maybe so?
-    for (size_t i = 0; i < capacity_; i++){
-        if (list_[i] != nullptr && size_ > 0){
+    for (size_t i = 0; i < capacity_ && size_ > 0; i++){
+        if (list_[i] != nullptr){
             delete list_[i];
             --size_;
         } 
@@ -107,6 +107,7 @@ bool HashTable::erase(const Key& k){
     int hash = hashF(k);
     if (list_[hash] == nullptr) return false;
     if (list_[hash]->remove(k)){
+        if (list_[hash]->get_head() == nullptr) delete list_[hash];
         size_--;
         return true;
     }
