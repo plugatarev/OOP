@@ -17,7 +17,6 @@ HashTable::HashList::~HashList(){
 }
 
 bool HashTable::HashList::insert(const Key& k, const Value& v){
-    //if (search(k)) return false;
     if (head_ == nullptr) {
         head_ = new Entry(const_cast<Key&>(k),const_cast<Value&>(v));
         return true;
@@ -145,7 +144,7 @@ Entry* HashTable::HashList::pop(){
     return tmp;
 }
 
-// CR: why not have only this method and use it in HashTable::get_value_by_key?
+// CR: why not have only this method and use it in HashTable::get_value_by_key? - this is how it is used, no?
 // CR: this way there will be no code duplication
 Value* HashTable::HashList::search(const Key& k){
     Entry* tmp = head_;
