@@ -1,6 +1,6 @@
 #include "HashTable.hpp"
 #include <stdexcept>
-#include <limits.h>
+#include <limits>
 #include <cmath>
 #include <memory>
 typedef std::string Key;
@@ -93,7 +93,7 @@ bool HashTable::insert(const Key& k, const Value& v){
     Value* val = list_[hash]->search(k);
     if (val != nullptr){
         // CR: now you have two entries with the same key, instead of replacing old value - ok
-        // CR: please fix it and write a test for this situation
+        // CR: please fix it and write a test for this situation - ok
         val->age = v.age;
         val->name = v.name;
         return false;
@@ -132,7 +132,7 @@ size_t HashTable::hashF(const Key& k) const{
 
 bool HashTable::resize(){
     // CR: https://www.cplusplus.com/reference/limits/numeric_limits/
-    if ( !(capacity_ * 2 < UINT_MAX && capacity_ * 2 > capacity_)) throw std::runtime_error("capacity is more than UINT_MAX");
+    if ( !(capacity_ * 2 < std::numeric_limits<uint64_t>::max() && capacity_ * 2 > capacity_)) throw std::runtime_error("capacity is more than UINT_MAX");
     size_t c = capacity();
     capacity_ = capacity_ * 2;
 
