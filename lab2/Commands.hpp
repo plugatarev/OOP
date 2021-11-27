@@ -1,6 +1,5 @@
 #pragma once
 #include "My_Stack.hpp"
-
 //Base class of command
 class Command {
  public:
