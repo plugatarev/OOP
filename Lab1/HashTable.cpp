@@ -41,7 +41,7 @@ size_t HashTable::capacity() const{
     return capacity_;
 }
 
-bool HashTable::is_equal_table(const HashTable& b) const{
+bool HashTable::is_not_equal_table(const HashTable& b) const{
     for (size_t i = 0; i < capacity_; i++){
         if (list_[i] != nullptr){
             Entry* t = list_[i]->get_head();
@@ -57,8 +57,8 @@ bool HashTable::is_equal_table(const HashTable& b) const{
 bool operator!=(const HashTable& a, const HashTable& b){
     // CR: it's ok to have different capacity_ - ok
     if (a.size_ != b.size_) return true;
-    if (a.capacity_ > b.capacity_) return a.is_equal_table(b);     
-    return b.is_equal_table(a);
+    if (a.capacity_ > b.capacity_) return a.is_not_equal_table(b);     
+    return b.is_not_equal_table(a);
 }
 
 bool operator==(const HashTable& a, const HashTable& b){

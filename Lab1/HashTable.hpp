@@ -116,5 +116,5 @@ private:
    bool resize();
 
    Value& get_value_by_key(const Key& k) const;
-   bool is_equal_table(const HashTable& b) const;
+   bool is_not_equal_table(const HashTable& b) const;
 };
