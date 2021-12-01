@@ -1,8 +1,7 @@
 #include<iostream>
 #include "Interpreter.hpp"
-#include "Command_Set.hpp"
 #include "Exception.hpp"
-
+#include "Command_Set.hpp"
 void Add::apply(My_Stack & _value){
     int right = _value.top_and_pop();
     int left = _value.top_and_pop();
