@@ -1,8 +1,11 @@
 #include<iostream>
+#include <functional>
 #include "Interpreter.hpp"
 #include "Command_Set.hpp"
 #include "Exception.hpp"
 
+// std::function
+// https://en.cppreference.com/w/cpp/utility/functional/divides
 void Add::apply(My_Stack & _value){
     int right = _value.top_and_pop();
     int left = _value.top_and_pop();
@@ -15,6 +18,10 @@ void Sub::apply(My_Stack & _value){
     int left = _value.top_and_pop();
     int res = left - right;
     _value.push(res);
+}
+
+std::function<int, int> Div::op() {
+    return std::divides<int, int>();
 }
 
 void Div::apply(My_Stack & _value){

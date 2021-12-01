@@ -2,5 +2,5 @@
 #include <iostream>
 class interpreter_error: public std::runtime_error {
  public:
-    interpreter_error(const char * msg): std::runtime_error(msg) {}
+    interpreter_error(std::string msg): std::runtime_error(msg) {}
 };
