@@ -33,7 +33,7 @@ namespace{
         return !s.empty() && it == s.end();
     }
 }
-Command * Interpreter::get_cmd(std::string::iterator & it, std::string::iterator & end) {
+std::unique_ptr<Command> Interpreter::get_cmd(std::string::iterator & it, std::string::iterator & end) {
 
     std::string cmd;
     while (it != end && (*it) != ' '){
@@ -52,27 +52,25 @@ Command * Interpreter::get_cmd(std::string::iterator & it, std::string::iterator
         return nullptr;
     }
 
-    std::map<std::string, Command>::iterator creator_it = _creators.find(cmd);
+    std::map<std::string, std::unique_ptr<Command>>::iterator creator_it = _creators.find(cmd);
     if (creator_it == _creators.end()) {
         std::stringstream ss;
         ss << " no such command: '" << cmd << "'";
 
         throw interpreter_error(ss.str());
     }
-    creator_t creator = (*creator_it).second;
-    return creator();
+    return std::make_unique<Command>(creator_it->second);
 }
 
 void Interpreter::interpret(std::string & cmds) {
     std::string::iterator it = cmds.begin();
     std::string::iterator end = cmds.end();
-    Command * command;
+    std::unique_ptr<Command> command;
     while (it != end) {
         try {
             command = get_cmd(it, end);
             if (command != nullptr){
                 command->apply(value);
-                delete command;
             }
         }
         catch (interpreter_error & e) {

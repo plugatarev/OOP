@@ -15,11 +15,11 @@ int& My_Stack::pop(){
 void My_Stack::print(){
     My_Stack tmp;
     while (!stack.empty()){
-        tmp.push(stack.top());
+        tmp.push(peek());
         std::cout << pop() << " ";
     }
     while(!tmp.stack.empty()){
-        push(tmp.pop());
+        push(peek());
     }
 }
 

@@ -2,7 +2,7 @@
 #include <stack>
 class My_Stack{
 public:
-  //Returns top of the stack and remove from the stack
+  //Returns peek of the stack and remove from the stack
   int& pop();
 
   //Prints the stack 

@@ -3,6 +3,7 @@
 #include "Commands.hpp"
 #include <map>
 #include "My_Stack.hpp"
+#include<memory>
 class Interpreter {
 public:
    //Creates Interpreter
@@ -15,8 +16,8 @@ public:
    typedef Command * (*creator_t)();
 
    //Adds new command
-   bool registerCreator(std::string c, Command command) {
-      _creators[c] = command;
+   bool registerCreator(std::string c, std::unique_ptr<Command> command) {
+      _creators.insert(std::make_pair(c,std::move(command)));
       return true;
    }
 
@@ -24,7 +25,7 @@ public:
    My_Stack& get_value();
 private:
    Interpreter() = default;
-   std::map<std::string, creator_t> _creators;
-   Command * get_cmd(std::string::iterator & it, std::string::iterator & end);
+   std::map<std::string, std::unique_ptr<Command>> _creators;
+   std::unique_ptr<Command> get_cmd(std::string::iterator & it, std::string::iterator & end);
    My_Stack value;
 };
