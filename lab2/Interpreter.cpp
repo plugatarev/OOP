@@ -28,6 +28,7 @@ namespace{
     bool is_number(const std::string& s){
         std::string::const_iterator it = s.begin();
         std::string::const_iterator end = s.end();
+        // std::find
         while (it != end && std::isdigit(*it)) ++it;
         return !s.empty() && it == s.end();
     }
@@ -51,12 +52,12 @@ Command * Interpreter::get_cmd(std::string::iterator & it, std::string::iterator
         return nullptr;
     }
 
-    std::map<std::string, creator_t>::iterator creator_it = _creators.find(cmd);
+    std::map<std::string, Command>::iterator creator_it = _creators.find(cmd);
     if (creator_it == _creators.end()) {
         std::stringstream ss;
         ss << " no such command: '" << cmd << "'";
 
-        throw interpreter_error(ss.str().c_str());
+        throw interpreter_error(ss.str());
     }
     creator_t creator = (*creator_it).second;
     return creator();

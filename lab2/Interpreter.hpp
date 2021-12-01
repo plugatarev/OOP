@@ -15,8 +15,8 @@ public:
    typedef Command * (*creator_t)();
 
    //Adds new command
-   bool registerCreator(std::string c, creator_t creator) {
-      _creators[c] = creator;
+   bool registerCreator(std::string c, Command command) {
+      _creators[c] = command;
       return true;
    }
 

@@ -7,10 +7,12 @@ namespace {
     Command * add_creator() {
         return new Add();
     }
-    bool add_cmd = Interpreter::getInstance().registerCreator("+", add_creator);
+    bool add_cmd = Interpreter::getInstance().registerCreator("+", Add());
 
-    Command * sub_creator() {
-        return new Sub();
+    Sub sub_creator(My_Stack & stack) {
+        Sub sub;
+        sub.apply(stack);
+//        return new Sub();
     }
     bool sub_cmd = Interpreter::getInstance().registerCreator("-", sub_creator);
 
