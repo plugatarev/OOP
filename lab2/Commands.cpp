@@ -17,10 +17,6 @@ void Sub::apply(My_Stack & _value){
     _value.push(res);
 }
 
-std::function<int, int> Div::op() {
-    return std::divides<int, int>();
-}
-
 void Div::apply(My_Stack & _value){
     if (_value.peek() == 0) throw interpreter_error("Error: division by zero");
     int right = _value.pop();

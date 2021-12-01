@@ -7,7 +7,7 @@ int main(){
     //cmds = "1 2 3";
     while (true){   
         std::cout << std::endl;
-        std::cout << "Top -> ";
+        std::cout << "peek -> ";
         interpreter.get_value().print();
         std::cout << std::endl;
         std::cout << "> ";

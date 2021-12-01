@@ -27,13 +27,13 @@ namespace {
     std::unique_ptr<Command> equal_creator() {
         return std::make_unique<Command>(new Equal());
     }
-     /*bool equal_cmd = Interpreter::getInstance().registerCreator("==", std::move(equal_creator()));
+    bool equal_cmd = Interpreter::getInstance().registerCreator("==", std::move(equal_creator()));
 
-Command * more_creator() {
+    std::unique_ptr<Command> more_creator() {
         return std::make_unique<Command>(new More());
     }
     bool more_cmd = Interpreter::getInstance().registerCreator(">", std::move(more_creator()));
-*/
+
     std::unique_ptr<Command> less_creator() {
         return std::make_unique<Command>(new Less());
     }
