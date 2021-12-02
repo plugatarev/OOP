@@ -81,10 +81,6 @@ private:
 
       bool remove(const Key& k);
 
-      //Return a reference to the value of the existing element whose is equivalent to k.
-      //exception out_of_range if no element with key k existed. 
-      Value& at(const Key& k) const;
-
       Value* search(const Key& k);
 
       HashList& operator=(const HashList& other);
@@ -107,8 +103,7 @@ private:
    size_t capacity_;
    size_t size_;
    static const size_t DEFAULT_CAPACITY = 16;
-   // CR: static? 
-   static constexpr double ResizeOn = 0.75;
+   static constexpr double RESIZE_ON = 0.75;
 
    size_t hashF(const Key& k) const;
 

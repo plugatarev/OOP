@@ -16,6 +16,7 @@ HashTable::HashList::~HashList(){
     freeList();
 }
 
+// CR: also returns true, make it void
 bool HashTable::HashList::insert(const Key& k, const Value& v){
     if (head_ == nullptr) {
         head_ = new Entry(const_cast<Key&>(k),const_cast<Value&>(v));
@@ -74,15 +75,6 @@ bool HashTable::HashList::remove(const Key& k){
 
 }
 
-Value& HashTable::HashList::at(const Key& k) const{
-    Entry* tmp = head_;
-    while (tmp != nullptr){
-        if (tmp->key == k) return tmp->value;
-        tmp = tmp->next;
-    }
-    throw std::out_of_range("no such element exists");
-}
-
 HashTable::HashList& HashTable::HashList::operator=(const HashList& other){
     if (*this != other){
         freeList();
@@ -96,6 +88,7 @@ HashTable::HashList& HashTable::HashList::operator=(const HashList& other){
 }
 
 bool HashTable::HashList::operator==(const HashList& b){
+    if (this == &b) return true;
     Entry* tmp_a = head_;
     Entry* tmp_b = b.head_;
     int count1 = 0;
@@ -125,7 +118,7 @@ bool HashTable::HashList::operator==(const HashList& b){
             }
             tmp_b = tmp_b->next;
         }
-        if (flag == false) return false;
+        if (!flag) return false;
         flag = false;
         tmp_a = tmp_a->next;
         tmp_b = b.head_;    
@@ -144,8 +137,6 @@ Entry* HashTable::HashList::pop(){
     return tmp;
 }
 
-// CR: why not have only this method and use it in HashTable::get_value_by_key? - this is how it is used, no?
-// CR: this way there will be no code duplication
 Value* HashTable::HashList::search(const Key& k){
     Entry* tmp = head_;
     while (tmp != nullptr){
@@ -157,7 +148,7 @@ Value* HashTable::HashList::search(const Key& k){
 
 void HashTable::HashList::reverse(){
     Entry* current = head_;
-    Entry *prev = nullptr, *next = nullptr;
+    Entry *prev = nullptr, *next;
 
     while (current != nullptr){
         next = current->next;
