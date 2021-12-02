@@ -8,7 +8,7 @@ int My_Stack::peek(){
 int& My_Stack::pop(){
     if (stack.empty()) throw interpreter_error("extracting from an empty stack");
     int& r = stack.top();
-    pop();
+    stack.pop();
     return r;
 }
 
@@ -19,7 +19,7 @@ void My_Stack::print(){
         std::cout << pop() << " ";
     }
     while(!tmp.stack.empty()){
-        push(peek());
+        push(tmp.pop());
     }
 }
 
