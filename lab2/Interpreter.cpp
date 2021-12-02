@@ -1,26 +1,20 @@
 #include "Interpreter.hpp"
 #include <map>
-
+#include<algorithm>
 #include <sstream>
 #include "Exception.hpp"
 namespace{
-    bool is_write_str(std::string& s){
+    bool is_write_str(std::string& s, std::string::iterator & it, std::string::iterator & end){
         std::string k;
-        std::string::iterator it = s.begin();
-        std::string::iterator end = s.end();
         bool flag = 0;
         it++;
-        if ((*it) != '"') return false;
-        it++;
-        while (it != end){
-            if ((*it) == '"') {
-                flag = 1;
-                break;
-            }
+        int count = 0;
+        while (it != end && (*it) != '"' && (count++) < 10){
             k+=(*it);
             it++;
         }
-        if (flag = 0 || (++it) != end) return false;
+        if ((*it) == '"') flag = 1;
+        if (flag == 0) return false;
         s = k;
         return true;
     }
@@ -28,19 +22,21 @@ namespace{
     bool is_number(const std::string& s){
         std::string::const_iterator it = s.begin();
         std::string::const_iterator end = s.end();
-        // std::find
-        while (it != end && std::isdigit(*it)) ++it;
-        return !s.empty() && it == s.end();
+        return std::all_of(it, end, ::isdigit);
     }
 }
-std::unique_ptr<Command> Interpreter::get_cmd(std::string::iterator & it, std::string::iterator & end) {
+std::shared_ptr<Command> Interpreter::get_cmd(std::string::iterator & it, std::string::iterator & end) {
 
     std::string cmd;
-    while (it != end && (*it) != ' '){
+    while (it != end && (*it) != ' ' && (*it) != '.'){
         cmd += (*it);
         it++;
     }
-    if (cmd[0] == '.' && is_write_str(cmd)){
+    if ((*it) == '.'){
+        cmd+=(*it);
+        it++;
+    }
+    if ((*it) == '"' && is_write_str(cmd,it,end)){
         std::cout << cmd;
         return nullptr;
     }
@@ -48,24 +44,23 @@ std::unique_ptr<Command> Interpreter::get_cmd(std::string::iterator & it, std::s
 
 
     if (is_number(cmd)){
-        value.push(atoi(cmd.c_str()));
+        value.push(std::stoi(cmd.c_str()));
         return nullptr;
     }
 
-    std::map<std::string, std::unique_ptr<Command>>::iterator creator_it = _creators.find(cmd);
+    std::map<std::string, std::shared_ptr<Command>>::iterator creator_it = _creators.find(cmd);
     if (creator_it == _creators.end()) {
         std::stringstream ss;
         ss << " no such command: '" << cmd << "'";
-
         throw interpreter_error(ss.str());
     }
-    return std::make_unique<Command>(creator_it->second);
+    return creator_it->second;
 }
 
 void Interpreter::interpret(std::string & cmds) {
     std::string::iterator it = cmds.begin();
     std::string::iterator end = cmds.end();
-    std::unique_ptr<Command> command;
+    std::shared_ptr<Command> command;
     while (it != end) {
         try {
             command = get_cmd(it, end);
