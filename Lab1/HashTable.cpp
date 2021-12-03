@@ -11,7 +11,7 @@ HashTable::~HashTable(){
         if (list_[i] != nullptr){
             size_t size_list = list_[i]->get_size();
             delete list_[i];
-            // CR: you should subtract list_[i].size() from the size_
+            // CR: you should subtract list_[i].size() from the size_ - ok
             size_-=size_list;
         } 
     }
@@ -37,9 +37,11 @@ size_t HashTable::capacity() const{
 }
 
 bool HashTable::is_not_equal_table(const HashTable& b) const{
-    for (size_t i = 0; i < capacity_; i++){
+    size_t processed_elements = 0;
+    for (size_t i = 0; i < capacity_ && processed_elements < size_; i++){
         if (list_[i] != nullptr){
             Entry* t = list_[i]->get_head();
+            processed_elements+=list_[i]->get_size();
             while (t != nullptr){
                 if (b.contains(t->key) && !(b.get_value_by_key(t->key) == t->value)) return true;
                 t = t->next;
@@ -52,10 +54,9 @@ bool HashTable::is_not_equal_table(const HashTable& b) const{
 bool operator!=(const HashTable& a, const HashTable& b){
     if (&a == &b) return false;
     if (a.size_ != b.size_) return true;
-    // CR: does not matter which capacity is bigger
-    // CR: also can optimize by counting number of elements that were already processed (and comparing with size_)
-    if (a.capacity_ > b.capacity_) return a.is_not_equal_table(b);
-    return b.is_not_equal_table(a);
+    // CR: does not matter which capacity is bigger - ok
+    // CR: also can optimize by counting number of elements that were already processed (and comparing with size_) - ok
+    return a.is_not_equal_table(b);
 }
 
 bool operator==(const HashTable& a, const HashTable& b){
