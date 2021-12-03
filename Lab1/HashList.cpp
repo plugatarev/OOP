@@ -17,13 +17,13 @@ HashTable::HashList::~HashList(){
 }
 
 // CR: also returns true, make it void
-bool HashTable::HashList::insert(const Key& k, const Value& v){
+void HashTable::HashList::insert(const Key& k, const Value& v){
     if (head_ == nullptr) {
         head_ = new Entry(const_cast<Key&>(k),const_cast<Value&>(v));
-        return true;
+        return;
     }
     head_ = new Entry(const_cast<Key&>(k),const_cast<Value&>(v),head_);
-    return true;
+    return;
 }
 
 

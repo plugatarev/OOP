@@ -1,6 +1,7 @@
 #include "HashTable.hpp"
 #include <cmath>
-
+#include <memory>
+#include <limits>
 typedef std::string Key;
 
 HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]()),capacity_(capacity), size_(0){}
@@ -17,15 +18,13 @@ HashTable::~HashTable(){
     delete[] list_;
 }
 HashTable::HashTable(const HashTable& b):list_(new HashList*[b.capacity_]()){
-    //if (b.size_ != 0){
-        capacity_ = b.capacity_;
-        size_ = b.size_;
-        for (size_t i = 0; i < capacity_; i++){
-            if (b.list_[i] != nullptr) {
-                list_[i] = new HashList(*b.list_[i]);
-            }
+    capacity_ = b.capacity_;
+    size_ = b.size_;
+    for (size_t i = 0; i < capacity_; i++){
+        if (b.list_[i] != nullptr) {
+            list_[i] = new HashList(*b.list_[i]);
         }
-    //}
+    }
 }
 
 size_t HashTable::size() const{
@@ -96,7 +95,8 @@ bool HashTable::insert(const Key& k, const Value& v){
         return false;
     }
     size_++;
-    return list_[hash]->insert(const_cast<Key&>(k),const_cast<Value&>(v));
+    list_[hash]->insert(const_cast<Key&>(k),const_cast<Value&>(v));
+    return true;
 }
 
 bool HashTable::erase(const Key& k){

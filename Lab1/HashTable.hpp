@@ -73,7 +73,7 @@ private:
 
       ~HashList();
 
-      bool insert(const Key& k, const Value& v);
+      void insert(const Key& k, const Value& v);
 
       bool search(const Key& k) const;
 
