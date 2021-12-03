@@ -2,20 +2,13 @@
 #include <cmath>
 #include <memory>
 #include <limits>
+#include<cassert>
 typedef std::string Key;
 
 HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]()),capacity_(capacity), size_(0){}
 
 HashTable::~HashTable(){
-    for (size_t i = 0; i < capacity_ && size_ > 0; i++){
-        if (list_[i] != nullptr){
-            size_t size_list = list_[i]->get_size();
-            delete list_[i];
-            // CR: you should subtract list_[i].size() from the size_ - ok
-            size_-=size_list;
-        } 
-    }
-    // CR: assert size_ == 0
+    clear();
     delete[] list_;
 }
 HashTable::HashTable(const HashTable& b):list_(new HashList*[b.capacity_]()){
@@ -68,12 +61,9 @@ HashTable& HashTable::operator=(const HashTable& b){
     // CR: example:
     // table a operations: insert (10 times), delete(9 times), capacity = 16, let's assume that remaining element is in 16th bucket
     // table b operations: insert(1 time). same element is inserted
-    //capacity_ = b.capacity_; 
     if (b != *this){
         // CR: reuse in destructor
-        // clear();
-        // delete[] list_;
-        this->~HashTable();
+        delete this;
         capacity_ = b.capacity_;
         size_ = b.size_;
         list_ = new HashList*[capacity_]();
@@ -146,7 +136,6 @@ bool HashTable::resize(){
                 delete l;
                 l = list_[i]->pop();
             }
-            // CR: nullptr free?
             delete list_[i];
         }
     }
@@ -156,13 +145,14 @@ bool HashTable::resize(){
 }
 
 void HashTable::clear(){
-    if (size_ == 0) return;
-    for (size_t i = 0; i < capacity_;i++){
+    for (size_t i = 0; i < capacity_ && size_ > 0; i++){
         if (list_[i] != nullptr){
+            size_t size_list = list_[i]->get_size();
             delete list_[i];
-        }
+            size_-=size_list;
+        } 
     }
-    size_ = 0;
+    assert(size_ == 0);
 }
 
 Value& HashTable::operator[](const Key& k){
