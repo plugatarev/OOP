@@ -102,7 +102,7 @@ TEST(Test_HashTable, OperatorAssignForEmpryHashTable){
     ASSERT_EQ(a.size(), 0);
     ASSERT_EQ(b.size(), 0);
     ASSERT_EQ(a.capacity(),12);
-    ASSERT_EQ(b.capacity(), 12);
+    ASSERT_EQ(b.capacity(), 16);
 }
 
 TEST(Test_HashTable, NewHashTableDoesNotChangeWhenTheOlIsChanged){

@@ -63,7 +63,7 @@ HashTable& HashTable::operator=(const HashTable& b){
     // table b operations: insert(1 time). same element is inserted
     if (b != *this){
         // CR: reuse in destructor
-        delete this;
+        delete[] list_;
         capacity_ = b.capacity_;
         size_ = b.size_;
         list_ = new HashList*[capacity_]();
