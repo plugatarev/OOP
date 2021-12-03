@@ -68,11 +68,12 @@ HashTable& HashTable::operator=(const HashTable& b){
     // CR: example:
     // table a operations: insert (10 times), delete(9 times), capacity = 16, let's assume that remaining element is in 16th bucket
     // table b operations: insert(1 time). same element is inserted
-    capacity_ = b.capacity_;
+    //capacity_ = b.capacity_; 
     if (b != *this){
         // CR: reuse in destructor
-        clear();
-        delete[] list_;
+        // clear();
+        // delete[] list_;
+        this->~HashTable();
         capacity_ = b.capacity_;
         size_ = b.size_;
         list_ = new HashList*[capacity_]();
@@ -170,11 +171,11 @@ Value& HashTable::operator[](const Key& k){
     Value* tmp = list_[hash]->search(k);
     if (tmp == nullptr){
         size_++;
-        // CR: this is still a tmp variable, it'll be deleted on function return
-        // CR: you may try using static
-        std::unique_ptr<Value> val(new Value());
-        list_[hash]->insert(k, *val);
-        return *val;
+        // CR: this is still a tmp variable, it'll be deleted on function return - ok
+        // CR: you may try using static - ok
+        static Value val = Value();
+        list_[hash]->insert(k, val);
+        return val;
     }
 
     return *tmp;
