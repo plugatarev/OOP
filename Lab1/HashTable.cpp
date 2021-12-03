@@ -9,9 +9,10 @@ HashTable::HashTable(size_t capacity):list_(new HashList*[capacity]()),capacity_
 HashTable::~HashTable(){
     for (size_t i = 0; i < capacity_ && size_ > 0; i++){
         if (list_[i] != nullptr){
+            size_t size_list = list_[i]->get_size();
             delete list_[i];
             // CR: you should subtract list_[i].size() from the size_
-            --size_;
+            size_-=size_list;
         } 
     }
     // CR: assert size_ == 0

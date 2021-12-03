@@ -162,3 +162,13 @@ void HashTable::HashList::reverse(){
 Entry* HashTable::HashList::get_head(){
     return head_;
 }
+
+size_t HashTable::HashList::get_size(){
+    size_t size = 0;
+    Entry* tmp = head_;
+    while (tmp != nullptr){
+        size++;
+        tmp = tmp->next;
+    }
+    return size;
+}

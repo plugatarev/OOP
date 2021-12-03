@@ -96,6 +96,8 @@ private:
       bool operator==(const HashList& b);
 
       bool operator!=(const HashList& b);
+
+      size_t get_size();
     private:
       Entry* head_ = nullptr;
    };
