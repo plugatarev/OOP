@@ -36,6 +36,7 @@ public:
 
    //Return a reference to the value of the existing element whose is equivalent to k.
    //Reference to the mapped value of the new element if no element with key k existed.  
+   //When you change an object that was created using a non-existent key, all objects created in this way are changed
    Value& operator[](const Key& k);
 
    //Return a reference to the value of the existing element whose is equivalent to k.
