@@ -47,8 +47,6 @@ bool HashTable::is_not_equal_table(const HashTable& b) const{
 bool operator!=(const HashTable& a, const HashTable& b){
     if (&a == &b) return false;
     if (a.size_ != b.size_) return true;
-    // CR: does not matter which capacity is bigger - ok
-    // CR: also can optimize by counting number of elements that were already processed (and comparing with size_) - ok
     return a.is_not_equal_table(b);
 }
 
@@ -57,12 +55,8 @@ bool operator==(const HashTable& a, const HashTable& b){
 }
 
 HashTable& HashTable::operator=(const HashTable& b){
-    // CR: we cannot just take b's capacity, we may have bigger capacity, and everything will break
-    // CR: example:
-    // table a operations: insert (10 times), delete(9 times), capacity = 16, let's assume that remaining element is in 16th bucket
-    // table b operations: insert(1 time). same element is inserted
     if (b != *this){
-        // CR: reuse in destructor
+        clear();
         delete[] list_;
         capacity_ = b.capacity_;
         size_ = b.size_;
@@ -161,8 +155,6 @@ Value& HashTable::operator[](const Key& k){
     Value* tmp = list_[hash]->search(k);
     if (tmp == nullptr){
         size_++;
-        // CR: this is still a tmp variable, it'll be deleted on function return - ok
-        // CR: you may try using static - ok
         static Value val = Value();
         list_[hash]->insert(k, val);
         return val;
