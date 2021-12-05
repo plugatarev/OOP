@@ -3,81 +3,88 @@
 #include "Interpreter.hpp"
 #include "Exception.hpp"
 #include "Command_Set.hpp"
-void Add::apply(My_Stack & _value){
+
+void Add::apply(My_Stack & _value, std::stringstream& s){
     int right = _value.pop();
     int left = _value.pop();
     int res = left + right;
     _value.push(res);
 }   
 
-void Sub::apply(My_Stack & _value){
+void Sub::apply(My_Stack & _value, std::stringstream& s){
     int right = _value.pop();
     int left = _value.pop();
     int res = left - right;
     _value.push(res);
 }
 
-void Div::apply(My_Stack & _value){
-    if (_value.peek() == 0) throw interpreter_error("Error: division by zero");
+void Div::apply(My_Stack & _value, std::stringstream& s){
+    if (_value.peek() == 0){
+        s << "Error: division by zero";
+        throw interpreter_error(s.str());
+    }
     int right = _value.pop();
     int left = _value.pop();
     int res = left / right;
     _value.push(res);
 }
 
-void Mod::apply(My_Stack & _value){
-    if (_value.peek() == 0) throw interpreter_error("Error: division by zero");
+void Mod::apply(My_Stack & _value, std::stringstream& s){
+    if (_value.peek() == 0){
+        s << "Error: division by zero";
+        throw interpreter_error(s.str());
+    }
     int right = _value.pop();
     int left = _value.pop();
     int res = left % right;
     _value.push(res);
 }
 
-void Mul::apply(My_Stack & _value){
+void Mul::apply(My_Stack & _value, std::stringstream& s){
     int right = _value.pop();
     int left = _value.pop();
     int res = left * right;
     _value.push(res);
 }
 
-void More::apply(My_Stack & _value){
+void More::apply(My_Stack & _value, std::stringstream& s){
     int right = _value.pop();
     int left = _value.pop();
     _value.push(left > right);
 }
 
-void Less::apply(My_Stack & _value){
+void Less::apply(My_Stack & _value, std::stringstream& s){
     int right = _value.pop();
     int left = _value.pop();
     _value.push(left < right);
 }
 
-void Write::apply(My_Stack & _value){
-    std::cout << _value.pop();
+void Write::apply(My_Stack & _value, std::stringstream& s){
+    s << _value.pop();
 }
 
-void Dup::apply(My_Stack & _value){
+void Dup::apply(My_Stack & _value, std::stringstream& s){
     _value.push(_value.peek());
 }
 
-void Drop::apply(My_Stack & _value){
+void Drop::apply(My_Stack & _value, std::stringstream& s){
     _value.pop();
 }
 
-void Swap::apply(My_Stack & _value){
+void Swap::apply(My_Stack & _value, std::stringstream& s){
     int first = _value.pop();
     int second = _value.pop();
     _value.push(first);
     _value.push(second);
 }
 
-void Equal::apply(My_Stack & _value){
+void Equal::apply(My_Stack & _value, std::stringstream& s){
     int first = _value.pop();
     int second = _value.pop();
     _value.push(first == second);
 }
 
-void Rot::apply(My_Stack & _value){
+void Rot::apply(My_Stack & _value, std::stringstream& s){
     int first = _value.pop();
     int second = _value.pop();
     int third = _value.pop();
@@ -86,18 +93,18 @@ void Rot::apply(My_Stack & _value){
     _value.push(third);
 }
 
-void Over::apply(My_Stack & _value){
+void Over::apply(My_Stack & _value, std::stringstream& s){
     int first = _value.pop();
     int second = _value.peek();
     _value.push(first);
     _value.push(second);    
 }
 
-void Emit::apply(My_Stack & _value){
-    std::cout << char(_value.pop()) << std::endl;
+void Emit::apply(My_Stack & _value, std::stringstream& s){
+    s << char(_value.pop()) << std::endl;
 }
 
-void Cr::apply(My_Stack & _value){
-    std::cout << "\n";
+void Cr::apply(My_Stack & _value, std::stringstream& s){
+    s << "\n";
 }
 

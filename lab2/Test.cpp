@@ -115,11 +115,9 @@ TEST(InterpreterTest, CheckingRotMethod){
     ASSERT_EQ(interpreter.get_value().pop(),3);
     ASSERT_EQ(interpreter.get_value().pop(),2);    
 }
-/*
-TEST(InterpreterTest, CheckingOverMethod){
-    std::string cmds = "1 2 3 rot";
+
+TEST(InterpreterTest, Test){
+    std::string cmds = "GHrot";
     interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.get_value().pop(),1);
-    ASSERT_EQ(interpreter.get_value().pop(),2);
-    ASSERT_EQ(interpreter.get_value().pop(),3);    
-}*/
+    ASSERT_EQ(interpreter.ss,"no such command: 'GHrot'");  
+}

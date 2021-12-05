@@ -1,9 +1,10 @@
 #pragma once
-#include <iostream>
+#include <sstream>
 #include "Commands.hpp"
 #include <map>
 #include "My_Stack.hpp"
 #include<memory>
+
 class Interpreter {
 public:
    //Creates Interpreter
@@ -23,6 +24,8 @@ public:
 
    //Gets value of stack
    My_Stack& get_value();
+   Interpreter(Interpreter& other);
+   std::stringstream ss;
 private:
    Interpreter() = default;
    std::map<std::string, std::shared_ptr<Command>> _creators;

@@ -1,7 +1,6 @@
 #include "Interpreter.hpp"
 #include <map>
 #include<algorithm>
-#include <sstream>
 #include "Exception.hpp"
 namespace{
     bool is_write_str(std::string& s, std::string::iterator & it, std::string::iterator & end){
@@ -25,6 +24,9 @@ namespace{
         return std::all_of(it, end, ::isdigit);
     }
 }
+
+Interpreter::Interpreter(Interpreter& other):_creators(other._creators),value(other.value){}
+
 std::shared_ptr<Command> Interpreter::get_cmd(std::string::iterator & it, std::string::iterator & end) {
 
     std::string cmd;
@@ -37,7 +39,7 @@ std::shared_ptr<Command> Interpreter::get_cmd(std::string::iterator & it, std::s
         it++;
     }
     if ((*it) == '"' && is_write_str(cmd,it,end)){
-        std::cout << cmd;
+        ss << cmd;
         return nullptr;
     }
     if (cmd.length() == 0) return nullptr;
@@ -50,7 +52,6 @@ std::shared_ptr<Command> Interpreter::get_cmd(std::string::iterator & it, std::s
 
     std::map<std::string, std::shared_ptr<Command>>::iterator creator_it = _creators.find(cmd);
     if (creator_it == _creators.end()) {
-        std::stringstream ss;
         ss << " no such command: '" << cmd << "'";
         throw interpreter_error(ss.str());
     }
@@ -65,12 +66,14 @@ void Interpreter::interpret(std::string & cmds) {
         try {
             command = get_cmd(it, end);
             if (command != nullptr){
-                command->apply(value);
+                command->apply(value, ss);
+                std::cout << ss.str() << std::endl;
             }
         }
         catch (interpreter_error & e) {
             std::cout << e.what() << std::endl;
         }
+        ss.str("");
         if (it == end) break;
         it++;
     }
