@@ -76,8 +76,8 @@ void Interpreter::interpret(std::string & cmds) {
         catch (interpreter_error & e) {
             std::cout << e.what() << std::endl;
         }
-        ss.str("");
         if (it == end) break;
+        ss.str("");
         it++;
     }
 }
