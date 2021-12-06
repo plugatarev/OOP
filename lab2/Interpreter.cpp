@@ -33,12 +33,16 @@ Interpreter::Interpreter(Interpreter& other):_creators(other._creators),value(ot
 std::shared_ptr<Command> Interpreter::get_cmd(std::string::iterator & it, std::string::iterator & end) {
     std::string cmd = "";
     std::string::iterator tmp = it;
-    while (it != end && ((*it) != ' ' || (cmd[0] == '.' && cmd[1] == '\"'))){
+    char balance = 0;
+    while (it != end && (*it != ' ' || (cmd[0] == '.' && cmd[1] == '\"'))){
+        if (*it == '"'){
+            if (++balance == 2) break;
+        }
         cmd += (*it);
         it++;
     }
     if (is_write_str(cmd,tmp,end)){
-        ss << cmd;
+        ss << cmd << "\n";
         std::cout << ss.str();
         return nullptr;
     }
