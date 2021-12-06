@@ -116,8 +116,32 @@ TEST(InterpreterTest, CheckingRotMethod){
     ASSERT_EQ(interpreter.get_value().pop(),2);    
 }
 
-TEST(InterpreterTest, Test){
+TEST(InterpreterTest, TestNoSuchCommand){
     std::string cmds = "GHrot";
     interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss,"no such command: 'GHrot'");  
+    ASSERT_EQ(interpreter.ss.str(),"no such command: 'GHrot'");  
+}
+
+TEST(InterpreterTest, TestNoSuchCommandWithDot){
+    std::string cmds = ".\"";
+    interpreter.interpret(cmds);
+    ASSERT_EQ(interpreter.ss.str(),"no such command: 'GHrot'");  
+}
+
+TEST(InterpreterTest, WritingToTheConsoleTopTheStack){
+    std::string cmds = "12 1214 .";
+    interpreter.interpret(cmds);
+    ASSERT_EQ(interpreter.ss.str(), "1214"); 
+}
+
+TEST(InterpreterTest, CheckingWorkOfMethodEmit){
+    std::string cmds = "43 emit";
+    interpreter.interpret(cmds);
+    ASSERT_EQ(interpreter.ss.str(), "+"); 
+}
+
+TEST(InterpreterTest, CheckingWorkOfMethodCr){
+    std::string cmds = "43 23 . cr .";
+    interpreter.interpret(cmds);
+    ASSERT_EQ(interpreter.ss.str(), "43 \n23 "); 
 }

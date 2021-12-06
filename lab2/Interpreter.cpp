@@ -13,7 +13,10 @@ namespace{
             it++;
         }
         if ((*it) == '"') flag = 1;
-        if (flag == 0) return false;
+        if (flag == 0){
+            s = s + "\"" + k;
+            return false;
+        }
         s = k;
         return true;
     }
@@ -52,7 +55,7 @@ std::shared_ptr<Command> Interpreter::get_cmd(std::string::iterator & it, std::s
 
     std::map<std::string, std::shared_ptr<Command>>::iterator creator_it = _creators.find(cmd);
     if (creator_it == _creators.end()) {
-        ss << " no such command: '" << cmd << "'";
+        ss << "no such command: '" << cmd << "'";
         throw interpreter_error(ss.str());
     }
     return creator_it->second;
@@ -67,7 +70,7 @@ void Interpreter::interpret(std::string & cmds) {
             command = get_cmd(it, end);
             if (command != nullptr){
                 command->apply(value, ss);
-                std::cout << ss.str() << std::endl;
+                std::cout << ss.str() << " ";
             }
         }
         catch (interpreter_error & e) {
