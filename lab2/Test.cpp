@@ -38,15 +38,18 @@ TEST(InterpreterTest, CheckingMultiplicationElements){
     ASSERT_EQ(interpreter.get_value().pop(),70);
 }
 
-//Tests with overflow int work of arithmetic
-
 TEST(InterpreterTest, CheckingDivisionElements){
     std::string cmds = "24 8 /";
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.get_value().pop(),3);
 }
 
-//Test for division on 0
+TEST(InterpreterTest, CheckingDivisionElements){
+    std::string cmds = "24 0 /";
+    interpreter.interpret(cmds);
+    ASSERT_EQ(interpreter.ss.str(),"Error: division by zero");  
+    interpreter.ss.str("");
+}
 
 TEST(InterpreterTest, CheckingModElements){
     std::string cmds = "24 8 mod";
@@ -148,5 +151,12 @@ TEST(InterpreterTest, TestNoSuchCommandWithDot){
     std::string cmds = ".\"";
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.ss.str(),"no such command: '.\"'");  
+    interpreter.ss.str("");
+}
+
+TEST(InterpreterTest, TestPrintingStringWithSpace){
+    std::string cmds = ".\"  sdf  *\"";
+    interpreter.interpret(cmds);
+    ASSERT_EQ(interpreter.ss.str(),"  sdf  *");  
     interpreter.ss.str("");
 }
