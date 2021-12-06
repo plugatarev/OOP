@@ -82,5 +82,5 @@ namespace {
     std::shared_ptr<Command> emit_creator() {
         return std::shared_ptr<Command>(new Emit());
     }
-    bool emit_cmd = Interpreter::getInstance().registerCreator("Emit", emit_creator());
+    bool emit_cmd = Interpreter::getInstance().registerCreator("emit", emit_creator());
 }

@@ -101,7 +101,7 @@ void Over::apply(My_Stack & _value, std::stringstream& s){
 }
 
 void Emit::apply(My_Stack & _value, std::stringstream& s){
-    s << char(_value.pop()) << std::endl;
+    s << char(_value.pop());
 }
 
 void Cr::apply(My_Stack & _value, std::stringstream& s){
