@@ -3,22 +3,22 @@
 #include<algorithm>
 #include "Exception.hpp"
 namespace{
-    bool is_write_str(std::string& s, std::string::iterator & it, std::string::iterator & end){
+    bool is_write_str(std::string& s, std::string::iterator it, std::string::iterator & end){
         std::string k;
-        bool flag = 0;
+        if ((*it) != '.' || it == end) return false;
         it++;
+        if ((*it) != '"' || it == end) return false;   
+        it++; 
         int count = 0;
         while (it != end && (*it) != '"' && (count++) < 10){
             k+=(*it);
             it++;
         }
-        if ((*it) == '"') flag = 1;
-        if (flag == 0){
-            s = s + "\"" + k;
-            return false;
+        if ((*it) == '"'){
+            s = k;
+            return true;
         }
-        s = k;
-        return true;
+        return false;
     }
 
     bool is_number(const std::string& s){
@@ -31,18 +31,15 @@ namespace{
 Interpreter::Interpreter(Interpreter& other):_creators(other._creators),value(other.value){}
 
 std::shared_ptr<Command> Interpreter::get_cmd(std::string::iterator & it, std::string::iterator & end) {
-
-    std::string cmd;
-    while (it != end && (*it) != ' ' && (*it) != '.'){
+    std::string cmd = "";
+    std::string::iterator tmp = it;
+    while (it != end && ((*it) != ' ' || (cmd[0] == '.' && cmd[1] == '\"'))){
         cmd += (*it);
         it++;
     }
-    if ((*it) == '.'){
-        cmd+=(*it);
-        it++;
-    }
-    if ((*it) == '"' && is_write_str(cmd,it,end)){
+    if (is_write_str(cmd,tmp,end)){
         ss << cmd;
+        std::cout << ss.str();
         return nullptr;
     }
     if (cmd.length() == 0) return nullptr;
