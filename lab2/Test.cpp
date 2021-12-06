@@ -116,32 +116,37 @@ TEST(InterpreterTest, CheckingRotMethod){
     ASSERT_EQ(interpreter.get_value().pop(),2);    
 }
 
-TEST(InterpreterTest, TestNoSuchCommand){
-    std::string cmds = "GHrot";
-    interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"no such command: 'GHrot'");  
-}
-
-TEST(InterpreterTest, TestNoSuchCommandWithDot){
-    std::string cmds = ".\"";
-    interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"no such command: 'GHrot'");  
-}
-
 TEST(InterpreterTest, WritingToTheConsoleTopTheStack){
     std::string cmds = "12 1214 .";
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.ss.str(), "1214"); 
+    interpreter.ss.str("");
 }
 
 TEST(InterpreterTest, CheckingWorkOfMethodEmit){
     std::string cmds = "43 emit";
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.ss.str(), "+"); 
+    interpreter.ss.str("");
 }
 
 TEST(InterpreterTest, CheckingWorkOfMethodCr){
-    std::string cmds = "43 23 . cr .";
+    std::string cmds = "1 cr";
     interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(), "43 \n23 "); 
+    ASSERT_EQ(interpreter.ss.str(), "\n"); 
+    interpreter.ss.str("");
+}
+
+TEST(InterpreterTest, TestNoSuchCommand){
+    std::string cmds = "GHrot";
+    interpreter.interpret(cmds);
+    ASSERT_EQ(interpreter.ss.str(),"no such command: 'GHrot'");  
+    interpreter.ss.str("");
+}
+
+TEST(InterpreterTest, TestNoSuchCommandWithDot){
+    std::string cmds = ".\"";
+    interpreter.interpret(cmds);
+    ASSERT_EQ(interpreter.ss.str(),"no such command: '.\"'");  
+    interpreter.ss.str("");
 }
