@@ -41,6 +41,7 @@ std::shared_ptr<Command> Interpreter::get_cmd(std::string::iterator & it, std::s
         cmd += (*it);
         it++;
     }
+    
     if (is_write_str(cmd,tmp,end)){
         ss << cmd << "\n";
         std::cout << ss.str();
