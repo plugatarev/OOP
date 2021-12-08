@@ -17,7 +17,7 @@ namespace {
     std::shared_ptr<Command> mod_creator() {
         return std::shared_ptr<Command>(new Mod());
     }
-    bool mod_cmd = Interpreter::getInstance().registerCreator("mod", mod_creator());
+    bool mod_cmd = Interpreter::getInstance().registerCreator("mod", std::make_unique<Mod>());
 
     std::shared_ptr<Command> div_creator() {
         return std::shared_ptr<Command>(new Div());

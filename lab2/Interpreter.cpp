@@ -22,6 +22,7 @@ namespace{
     }
 
     bool is_number(const std::string& s){
+        // -344
         std::string::const_iterator it = s.begin();
         std::string::const_iterator end = s.end();
         return std::all_of(it, end, ::isdigit);
@@ -31,31 +32,32 @@ namespace{
 Interpreter::Interpreter(Interpreter& other):_creators(other._creators),value(other.value){}
 
 std::shared_ptr<Command> Interpreter::get_cmd(std::string::iterator & it, std::string::iterator & end) {
-    std::string cmd = "";
+    std::string cmd;
     std::string::iterator tmp = it;
     char balance = 0;
     while (it != end && (*it != ' ' || (cmd[0] == '.' && cmd[1] == '\"'))){
+        // ." fff"    " bar
         if (*it == '"'){
             if (++balance == 2) break;
         }
         cmd += (*it);
         it++;
     }
-    
-    if (is_write_str(cmd,tmp,end)){
-        ss << cmd << "\n";
-        std::cout << ss.str();
+
+    if (cmd.length() == 0) return nullptr;
+
+    if (cmd.size() > 3 && cmd[0] == '.' && cmd[1] == '\"' && cmd[cmd.size() - 1]) {
+        std::cout << cmd.substr(2, cmd.size() - 1) << std::endl;
         return nullptr;
     }
-    if (cmd.length() == 0) return nullptr;
 
 
     if (is_number(cmd)){
-        value.push(std::stoi(cmd.c_str()));
+        value.push(std::stoi(cmd));
         return nullptr;
     }
 
-    std::map<std::string, std::shared_ptr<Command>>::iterator creator_it = _creators.find(cmd);
+    auto creator_it = _creators.find(cmd);
     if (creator_it == _creators.end()) {
         ss << "no such command: '" << cmd << "'";
         throw interpreter_error(ss.str());
@@ -82,6 +84,11 @@ void Interpreter::interpret(std::string & cmds) {
         ss.str("");
         it++;
     }
+}
+
+std::string interpret(std::string & cmds) {
+    ss;
+    return ss.str();
 }
 
 My_Stack& Interpreter::get_value(){

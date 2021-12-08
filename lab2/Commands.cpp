@@ -2,7 +2,6 @@
 #include <functional>
 #include "Interpreter.hpp"
 #include "Exception.hpp"
-#include "Command_Set.hpp"
 
 void Add::apply(My_Stack & _value, std::stringstream& s){
     int right = _value.pop();
@@ -18,15 +17,15 @@ void Sub::apply(My_Stack & _value, std::stringstream& s){
     _value.push(res);
 }
 
-void Div::apply(My_Stack & _value, std::stringstream& s){
-    if (_value.peek() == 0){
+void Div::apply(My_Stack & value, std::stringstream& s){
+    if (value.peek() == 0){
         s << "Error: division by zero";
         throw interpreter_error(s.str());
     }
-    int right = _value.pop();
-    int left = _value.pop();
+    int right = value.pop();
+    int left = value.pop();
     int res = left / right;
-    _value.push(res);
+    value.push(res);
 }
 
 void Mod::apply(My_Stack & _value, std::stringstream& s){

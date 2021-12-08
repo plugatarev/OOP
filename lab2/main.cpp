@@ -4,6 +4,13 @@
 int main(){
     Interpreter interpreter = Interpreter::getInstance();
     std::string cmds;
+    while (true) {
+        std::cin >> cmds;
+        std::string out = interpreter.interpret(cmds);
+        std::cout << out;
+    }
+
+    std::string cmds;
     while (true){   
         std::cout << std::endl;
         std::cout << "Top -> ";

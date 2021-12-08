@@ -24,12 +24,7 @@ void My_Stack::print(){
 }
 
 int My_Stack::size(){
-    int c = 0;
-    while (!stack.empty()){
-        pop();
-        c++;
-    }
-    return c;
+    return stack.size();
 }
 
 void My_Stack::push(int value){

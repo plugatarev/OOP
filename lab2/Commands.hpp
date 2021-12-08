@@ -28,7 +28,7 @@ class Div: public Command {
     //The peek of the stack is used as the right operand, and the second number on the stack is used as the left operand.
     //The result of the operation is put on the stack.
     //Exception of interpreter_error if there are not enough elements on the stack. Exception when dividing by zero
-    void apply(My_Stack & _value, std::stringstream& s) override;
+    void apply(My_Stack & value, std::stringstream& s) override;
 };
 
 class Mod: public Command {

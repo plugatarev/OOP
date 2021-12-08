@@ -17,8 +17,9 @@ public:
    typedef Command * (*creator_t)();
 
    //Adds new command
-   bool registerCreator(std::string c, std::shared_ptr<Command> command) {
-      _creators.insert(std::make_pair(c,std::move(command)));
+   bool registerCreator(const std::string& c, std::unique_ptr<Command> && command) {
+       _creators[c] = std::move(command);
+//      _creators.insert(std::make_pair(c,std::move(command)));
       return true;
    }
 
@@ -28,7 +29,7 @@ public:
    std::stringstream ss;
 private:
    Interpreter() = default;
-   std::map<std::string, std::shared_ptr<Command>> _creators;
+   std::map<std::string, std::unique_ptr<Command>> _creators;
    std::shared_ptr<Command> get_cmd(std::string::iterator & it, std::string::iterator & end);
    My_Stack value;
 };
