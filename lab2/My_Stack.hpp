@@ -3,7 +3,7 @@
 class My_Stack{
 public:
   //Returns peek of the stack and remove from the stack
-  int& pop();
+  int pop();
 
   //Prints the stack 
   void print();

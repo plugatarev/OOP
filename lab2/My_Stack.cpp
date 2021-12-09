@@ -5,9 +5,9 @@ int My_Stack::peek(){
     return stack.top();
 }
 
-int& My_Stack::pop(){
+int My_Stack::pop(){
     if (stack.empty()) throw interpreter_error("extracting from an empty stack");
-    int& r = stack.top();
+    int r = stack.top();
     stack.pop();
     return r;
 }
