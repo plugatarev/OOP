@@ -4,6 +4,7 @@
 #include <map>
 #include "My_Stack.hpp"
 #include<memory>
+#include<iostream> //delete
 
 class Interpreter {
 public:
@@ -13,13 +14,12 @@ public:
       return i;
    }
    //Runs Interpreter
-   void interpret(std::string & cmds);
+   std::string interpret(std::string & cmds);
    typedef Command * (*creator_t)();
 
    //Adds new command
    bool registerCreator(const std::string& c, std::unique_ptr<Command> && command) {
-       _creators[c] = std::move(command);
-//      _creators.insert(std::make_pair(c,std::move(command)));
+      _creators[c] = std::move(command);
       return true;
    }
 
@@ -30,6 +30,6 @@ public:
 private:
    Interpreter() = default;
    std::map<std::string, std::unique_ptr<Command>> _creators;
-   std::shared_ptr<Command> get_cmd(std::string::iterator & it, std::string::iterator & end);
+   std::unique_ptr<Command>* get_cmd(std::string::iterator & it, std::string::iterator & end);
    My_Stack value;
 };
