@@ -2,6 +2,7 @@
 #include "Interpreter_error.hpp"
 
 int My_Stack::peek(){
+    if (stack.empty()) throw interpreter_error("extracting from an empty stack");
     return stack.top();
 }
 
