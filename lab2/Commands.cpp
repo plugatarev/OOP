@@ -20,8 +20,7 @@ void Sub::apply(My_Stack & _value, std::stringstream& s){
 
 void Div::apply(My_Stack & value, std::stringstream& s){
     if (value.peek() == 0){
-        s << "Error: division by zero";
-        throw interpreter_error(s.str());
+        throw interpreter_error("Error: division by zero\n");
     }
     int right = value.pop();
     int left = value.pop();
@@ -31,8 +30,7 @@ void Div::apply(My_Stack & value, std::stringstream& s){
 
 void Mod::apply(My_Stack & _value, std::stringstream& s){
     if (_value.peek() == 0){
-        s << "Error: division by zero";
-        throw interpreter_error(s.str());
+        throw interpreter_error("Error: division by zero\n");
     }
     int right = _value.pop();
     int left = _value.pop();
@@ -60,7 +58,7 @@ void Less::apply(My_Stack & _value, std::stringstream& s){
 }
 
 void Write::apply(My_Stack & _value, std::stringstream& s){
-    s << _value.pop();
+    s << _value.pop() << "\n";
 }
 
 void Dup::apply(My_Stack & _value, std::stringstream& s){
