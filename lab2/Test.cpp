@@ -47,7 +47,7 @@ TEST(InterpreterTest, CheckingDivisionElements){
 TEST(InterpreterTest, CheckingDivisionByZero){
     std::string cmds = "24 0 /";
     interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"Error: division by zero");  
+    ASSERT_EQ(interpreter.ss.str(),"Error: division by zero\n");  
     interpreter.ss.str("");
 }
 
@@ -143,34 +143,34 @@ TEST(InterpreterTest, CheckingWorkOfMethodCr){
 TEST(InterpreterTest, TestNoSuchCommand){
     std::string cmds = "GHrot";
     interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"no such command: 'GHrot'");  
+    ASSERT_EQ(interpreter.ss.str(),"no such command: 'GHrot'\n");  
     interpreter.ss.str("");
 }
 
 TEST(InterpreterTest, TestNoSuchCommandWithDot){
     std::string cmds = ".\"";
     interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"no such command: '.\"'");  
+    ASSERT_EQ(interpreter.ss.str(),"no such command: '.\"'\n");  
     interpreter.ss.str("");
 }
 
 TEST(InterpreterTest, TestPrintingStringWithSpace){
     std::string cmds = ".\"  sdf  *\"";
     interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"  sdf  *");  
+    ASSERT_EQ(interpreter.ss.str(),"  sdf  *\n");  
     interpreter.ss.str("");
 }
 
 TEST(InterpreterTest, TestWithPrintingEmptyString){
     std::string cmds = ".\"\"";
     interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"");  
+    ASSERT_EQ(interpreter.ss.str(),"\n");  
     interpreter.ss.str("");
 }
 
 TEST(InterpreterTest, TestWithThreeQuotesInARow){
     std::string cmds = ".\"\"\"";
     interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"no such command: '\"'");  
+    ASSERT_EQ(interpreter.ss.str(),"no such command: '\"'\n");  
     interpreter.ss.str("");
 }
