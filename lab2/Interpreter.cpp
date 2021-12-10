@@ -4,7 +4,6 @@
 #include "Interpreter_error.hpp"
 namespace{
     bool is_number(const std::string& s){
-        // -344
         std::string::const_iterator it = s.begin();
         std::string::const_iterator end = s.end();
         return std::all_of(it, end, ::isdigit);
@@ -50,7 +49,7 @@ std::unique_ptr<Command>* Interpreter::get_cmd(std::string::iterator & it, std::
 
     auto creator_it = _creators.find(cmd);
     if (creator_it == _creators.end()) {
-        ss << "no such command: '" << cmd << "'";
+        ss << "no such command: '" << cmd << "'\n";
         throw interpreter_error(ss.str());
     }
     return &(creator_it->second);
@@ -66,16 +65,18 @@ std::string Interpreter::interpret(std::string & cmds) {
             command = get_cmd(it, end);
             if (command != nullptr){
                 (*command)->apply(value, ss);
-                std::cout << ss.str() << " ";
+                s += ss.str();
             }
         }
-        catch (interpreter_error & e) {
-            std::cout << e.what() << std::endl;
+        catch (interpreter_error & e){
+            ss << e.what() << "\n";
+            s += ss.str();
         }
         if (it == end) break;
-        ss.str("");
         it++;
+        ss.str("");
     }
+    return s;
 }
 
 My_Stack& Interpreter::get_value(){
