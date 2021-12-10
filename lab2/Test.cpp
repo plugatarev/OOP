@@ -160,3 +160,17 @@ TEST(InterpreterTest, TestPrintingStringWithSpace){
     ASSERT_EQ(interpreter.ss.str(),"  sdf  *");  
     interpreter.ss.str("");
 }
+
+TEST(InterpreterTest, TestNoSuchCommandWithDot){
+    std::string cmds = ".\"\"";
+    interpreter.interpret(cmds);
+    ASSERT_EQ(interpreter.ss.str(),"");  
+    interpreter.ss.str("");
+}
+
+TEST(InterpreterTest, TestNoSuchCommandWithDot){
+    std::string cmds = ".\"\"\"";
+    interpreter.interpret(cmds);
+    ASSERT_EQ(interpreter.ss.str(),"no such command: '\"'");  
+    interpreter.ss.str("");
+}
