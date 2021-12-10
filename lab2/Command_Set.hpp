@@ -3,84 +3,35 @@
 #include "Interpreter.hpp"
 #include<memory>
 namespace {
+    bool add_cmd = Interpreter::getInstance().registerCreator("+",std::make_unique<Add>());
 
-    std::shared_ptr<Command> add_creator() {
-        return std::shared_ptr<Command>(new Add());
-    }
-    bool add_cmd = Interpreter::getInstance().registerCreator("+", add_creator());
+    bool sub_cmd = Interpreter::getInstance().registerCreator("-", std::make_unique<Sub>());
 
-    std::shared_ptr<Command> sub_creator() {
-        return std::shared_ptr<Command>(new Sub());
-    }
-    bool sub_cmd = Interpreter::getInstance().registerCreator("-", sub_creator());
-
-    std::shared_ptr<Command> mod_creator() {
-        return std::shared_ptr<Command>(new Mod());
-    }
     bool mod_cmd = Interpreter::getInstance().registerCreator("mod", std::make_unique<Mod>());
 
-    std::shared_ptr<Command> div_creator() {
-        return std::shared_ptr<Command>(new Div());
-    }
-    bool div_cmd = Interpreter::getInstance().registerCreator("/", div_creator());
+    bool div_cmd = Interpreter::getInstance().registerCreator("/", std::make_unique<Div>());
 
-    std::shared_ptr<Command> equal_creator() {
-        return std::shared_ptr<Command>(new Equal());
-    }
-    bool equal_cmd = Interpreter::getInstance().registerCreator("==", equal_creator());
+    bool equal_cmd = Interpreter::getInstance().registerCreator("==", std::make_unique<Equal>());
 
-    std::shared_ptr<Command> more_creator() {
-        return std::shared_ptr<Command>(new More());
-    }
-    bool more_cmd = Interpreter::getInstance().registerCreator(">", more_creator());
+    bool more_cmd = Interpreter::getInstance().registerCreator(">", std::make_unique<More>());
 
-    std::shared_ptr<Command> less_creator() {
-        return std::shared_ptr<Command>(new Less());
-    }
-    bool less_cmd = Interpreter::getInstance().registerCreator("<", less_creator());
+    bool less_cmd = Interpreter::getInstance().registerCreator("<", std::make_unique<Less>());
 
-    std::shared_ptr<Command> write_creator() {
-        return std::shared_ptr<Command>(new Write());
-    }
-    bool write_cmd = Interpreter::getInstance().registerCreator(".", write_creator());
+    bool write_cmd = Interpreter::getInstance().registerCreator(".", std::make_unique<Write>());
 
-    std::shared_ptr<Command> mul_creator() {
-        return std::shared_ptr<Command>(new Mul());
-    }
-    bool mul_cmd = Interpreter::getInstance().registerCreator("*", mul_creator());
+    bool mul_cmd = Interpreter::getInstance().registerCreator("*", std::make_unique<Mul>());
 
-    std::shared_ptr<Command> dup_creator() {
-        return std::shared_ptr<Command>(new Dup());
-    }
-    bool dup_cmd = Interpreter::getInstance().registerCreator("dup", dup_creator());
+    bool dup_cmd = Interpreter::getInstance().registerCreator("dup", std::make_unique<Dup>());
 
-    std::shared_ptr<Command> drop_creator() {
-        return std::shared_ptr<Command>(new Drop());
-    }
-    bool drop_cmd = Interpreter::getInstance().registerCreator("drop", drop_creator());
+    bool drop_cmd = Interpreter::getInstance().registerCreator("drop", std::make_unique<Drop>());
 
-    std::shared_ptr<Command> swap_creator() {
-        return std::shared_ptr<Command>(new Swap());
-    }
-    bool swap_cmd = Interpreter::getInstance().registerCreator("swap", swap_creator());
+    bool swap_cmd = Interpreter::getInstance().registerCreator("swap", std::make_unique<Swap>());
 
-    std::shared_ptr<Command> rot_creator() {
-        return std::shared_ptr<Command>(new Rot());
-    }
-    bool rot_cmd = Interpreter::getInstance().registerCreator("rot", rot_creator());
+    bool rot_cmd = Interpreter::getInstance().registerCreator("rot", std::make_unique<Rot>());
 
-    std::shared_ptr<Command> over_creator() {
-        return std::shared_ptr<Command>(new Over());
-    }
-    bool over_cmd = Interpreter::getInstance().registerCreator("over", over_creator());
+    bool over_cmd = Interpreter::getInstance().registerCreator("over", std::make_unique<Over>());
 
-    std::shared_ptr<Command> cr_creator() {
-        return std::shared_ptr<Command>(new Cr());
-    }
-    bool cr_cmd = Interpreter::getInstance().registerCreator("cr", cr_creator());
+    bool cr_cmd = Interpreter::getInstance().registerCreator("cr", std::make_unique<Cr>());
 
-    std::shared_ptr<Command> emit_creator() {
-        return std::shared_ptr<Command>(new Emit());
-    }
-    bool emit_cmd = Interpreter::getInstance().registerCreator("emit", emit_creator());
+    bool emit_cmd = Interpreter::getInstance().registerCreator("emit", std::make_unique<Emit>());
 }
