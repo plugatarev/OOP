@@ -44,7 +44,7 @@ TEST(InterpreterTest, CheckingDivisionElements){
     ASSERT_EQ(interpreter.get_value().pop(),3);
 }
 
-TEST(InterpreterTest, CheckingDivisionElements){
+TEST(InterpreterTest, CheckingDivisionByZero){
     std::string cmds = "24 0 /";
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.ss.str(),"Error: division by zero");  
@@ -161,14 +161,14 @@ TEST(InterpreterTest, TestPrintingStringWithSpace){
     interpreter.ss.str("");
 }
 
-TEST(InterpreterTest, TestNoSuchCommandWithDot){
+TEST(InterpreterTest, TestWithPrintingEmptyString){
     std::string cmds = ".\"\"";
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.ss.str(),"");  
     interpreter.ss.str("");
 }
 
-TEST(InterpreterTest, TestNoSuchCommandWithDot){
+TEST(InterpreterTest, TestWithThreeQuotesInARow){
     std::string cmds = ".\"\"\"";
     interpreter.interpret(cmds);
     ASSERT_EQ(interpreter.ss.str(),"no such command: '\"'");  
