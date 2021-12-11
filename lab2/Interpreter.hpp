@@ -25,10 +25,9 @@ public:
    //Gets value of stack
    My_Stack& get_value();
    Interpreter(Interpreter& other);
-   std::stringstream ss;
 private:
    Interpreter() = default;
    std::map<std::string, std::unique_ptr<Command>> _creators;
-   std::unique_ptr<Command>* get_cmd(std::string::iterator & it, std::string::iterator & end);
+   std::unique_ptr<Command>* get_cmd(std::string::iterator & it, std::string::iterator & end, std::stringstream& str);
    My_Stack value;
 };

@@ -12,7 +12,7 @@ namespace{
 
 Interpreter::Interpreter(Interpreter& other):_creators(std::move(other._creators)),value(other.value){}
 
-std::unique_ptr<Command>* Interpreter::get_cmd(std::string::iterator & it, std::string::iterator & end) {
+std::unique_ptr<Command>* Interpreter::get_cmd(std::string::iterator & it, std::string::iterator & end, std::stringstream& s) {
     std::string cmd;
     std::string::iterator tmp = it;
     char balance = 0;
@@ -30,7 +30,7 @@ std::unique_ptr<Command>* Interpreter::get_cmd(std::string::iterator & it, std::
     if (cmd.length() == 0) return nullptr;
 
     if (cmd.size() >= 3 && cmd[0] == '.' && cmd[1] == '\"' && cmd[cmd.size() - 1] == '\"') {
-        std::cout << cmd.substr(2, cmd.size() - 3) << std::endl;
+        s << cmd.substr(2, cmd.size() - 3) << "\n";
         return nullptr;
     }
 
@@ -63,9 +63,10 @@ std::stringstream Interpreter::interpret(std::string & cmds) {
     std::unique_ptr<Command>* command;
     while (it != end) {
         try {
-            command = get_cmd(it, end);
+            command = get_cmd(it, end,s);
             if (command != nullptr){
                 (*command)->apply(value, s);
+                s << "\n";
             }
         }
         catch (interpreter_error & e){

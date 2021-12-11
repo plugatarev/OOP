@@ -58,7 +58,7 @@ void Less::apply(My_Stack & _value, std::stringstream& s){
 }
 
 void Write::apply(My_Stack & _value, std::stringstream& s){
-    s << _value.pop() << "\n";
+    s << _value.pop();
 }
 
 void Dup::apply(My_Stack & _value, std::stringstream& s){
@@ -105,4 +105,3 @@ void Emit::apply(My_Stack & _value, std::stringstream& s){
 void Cr::apply(My_Stack & _value, std::stringstream& s){
     s << "\n";
 }
-
