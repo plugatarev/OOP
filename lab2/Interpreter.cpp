@@ -49,14 +49,15 @@ std::unique_ptr<Command>* Interpreter::get_cmd(std::string::iterator & it, std::
 
     auto creator_it = _creators.find(cmd);
     if (creator_it == _creators.end()) {
-        ss << "no such command: '" << cmd << "'\n";
-        throw interpreter_error(ss.str());
+        std::stringstream s;
+        s << "no such command: '" << cmd << "'";
+        throw interpreter_error(s.str());
     }
     return &(creator_it->second);
 }
 
-std::string Interpreter::interpret(std::string & cmds) {
-    std::string s;
+std::stringstream Interpreter::interpret(std::string & cmds) {
+    std::stringstream s;
     std::string::iterator it = cmds.begin();
     std::string::iterator end = cmds.end();
     std::unique_ptr<Command>* command;
@@ -64,17 +65,14 @@ std::string Interpreter::interpret(std::string & cmds) {
         try {
             command = get_cmd(it, end);
             if (command != nullptr){
-                (*command)->apply(value, ss);
-                s += ss.str();
+                (*command)->apply(value, s);
             }
         }
         catch (interpreter_error & e){
-            ss << e.what() << "\n";
-            s += ss.str();
+            s << e.what() << "\n";
         }
         if (it == end) break;
         it++;
-        ss.str("");
     }
     return s;
 }

@@ -14,8 +14,7 @@ public:
       return i;
    }
    //Runs Interpreter
-   std::string interpret(std::string & cmds);
-   typedef Command * (*creator_t)();
+   std::stringstream interpret(std::string & cmds);
 
    //Adds new command
    bool registerCreator(const std::string& c, std::unique_ptr<Command> && command) {

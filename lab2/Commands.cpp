@@ -20,7 +20,7 @@ void Sub::apply(My_Stack & _value, std::stringstream& s){
 
 void Div::apply(My_Stack & value, std::stringstream& s){
     if (value.peek() == 0){
-        throw interpreter_error("Error: division by zero\n");
+        throw interpreter_error("Error: division by zero");
     }
     int right = value.pop();
     int left = value.pop();
@@ -30,7 +30,7 @@ void Div::apply(My_Stack & value, std::stringstream& s){
 
 void Mod::apply(My_Stack & _value, std::stringstream& s){
     if (_value.peek() == 0){
-        throw interpreter_error("Error: division by zero\n");
+        throw interpreter_error("Error: division by zero");
     }
     int right = _value.pop();
     int left = _value.pop();
