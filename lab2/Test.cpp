@@ -46,9 +46,8 @@ TEST(InterpreterTest, CheckingDivisionElements){
 
 TEST(InterpreterTest, CheckingDivisionByZero){
     std::string cmds = "24 0 /";
-    interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"Error: division by zero\n");  
-    interpreter.ss.str("");
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out, "Error: division by zero\n");  
 }
 
 TEST(InterpreterTest, CheckingModElements){
@@ -121,56 +120,172 @@ TEST(InterpreterTest, CheckingRotMethod){
 
 TEST(InterpreterTest, WritingToTheConsoleTopTheStack){
     std::string cmds = "12 1214 .";
-    interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(), "1214"); 
-    interpreter.ss.str("");
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out, "1214\n"); 
 }
 
 TEST(InterpreterTest, CheckingWorkOfMethodEmit){
     std::string cmds = "43 emit";
-    interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(), "+"); 
-    interpreter.ss.str("");
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out, "+\n"); 
 }
 
 TEST(InterpreterTest, CheckingWorkOfMethodCr){
     std::string cmds = "1 cr";
-    interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(), "\n"); 
-    interpreter.ss.str("");
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out, "\n\n"); 
 }
 
 TEST(InterpreterTest, TestNoSuchCommand){
     std::string cmds = "GHrot";
-    interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"no such command: 'GHrot'\n");  
-    interpreter.ss.str("");
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"no such command: 'GHrot'\n");  
 }
 
 TEST(InterpreterTest, TestNoSuchCommandWithDot){
     std::string cmds = ".\"";
-    interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"no such command: '.\"'\n");  
-    interpreter.ss.str("");
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out, "no such command: '.\"'\n");  
 }
 
 TEST(InterpreterTest, TestPrintingStringWithSpace){
     std::string cmds = ".\"  sdf  *\"";
-    interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"  sdf  *\n");  
-    interpreter.ss.str("");
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out ,"  sdf  *\n");  
 }
 
 TEST(InterpreterTest, TestWithPrintingEmptyString){
     std::string cmds = ".\"\"";
-    interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"\n");  
-    interpreter.ss.str("");
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"\n");  
 }
 
 TEST(InterpreterTest, TestWithThreeQuotesInARow){
     std::string cmds = ".\"\"\"";
-    interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.ss.str(),"no such command: '\"'\n");  
-    interpreter.ss.str("");
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"\nno such command: '\"'\n");  
+}
+
+TEST(InterpreterTest, TestWithStringAndTwoQuotesInTheEnd){
+    std::string cmds = ".\"wer\"\"";
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"wer\nno such command: '\"'\n");  
+}
+
+TEST(InterpreterTest, TestWithTwoQuotesInTheBeginning){
+    std::string cmds = ".\"\"werew\"";
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"\nno such command: 'werew\"'\n");  
+}
+
+TEST(InterpreterTest, TestWithOnlySpaceInString){
+    std::string cmds = ".\"   \"";
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"   \n");  
+}
+
+TEST(InterpreterTest, TestWithPrintingStringAndIncorrectString){
+    std::string cmds = ".\"ds\"f\"";
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"ds\nno such command: 'f\"'\n");  
+}
+
+TEST(InterpreterTest, TestWithSomeStrings){
+    std::string cmds = ".\"dfdfd\" \"dsfsd\" sdwe";
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"dfdfd\nno such command: '\"dsfsd\"'\nno such command: 'sdwe'\n");  
+}
+
+TEST(InterpreterTest, TestWithArithmeticOperationWhenTHereIsNotEnoughtOnElementTheStack){
+    std::string cmds = "1 +";
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n");
+
+    cmds = "+";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "1 -";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "-";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "1 /";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "/";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "1 mod";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "mod";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "1 *";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "*";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "1 ==";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "==";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "1 <";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "<";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "1 >";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = ">";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = ".";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "-";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "emit";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "1 2 rot";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "swap";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "over";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
+
+    cmds = "dup";
+    out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out,"extracting from an empty stack\n"); 
 }
