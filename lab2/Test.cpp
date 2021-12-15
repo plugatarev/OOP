@@ -19,6 +19,18 @@ TEST(InterpreterTest, CheckingPutSomeValuesToTheStack){
     ASSERT_EQ(interpreter.get_value().pop(),134);
 }
 
+TEST(InterpreterTest, CheckingPutNegativValueToTheStack){
+    std::string cmds = "-134";
+    interpreter.interpret(cmds);
+    ASSERT_EQ(interpreter.get_value().pop(),-134);
+}
+
+TEST(InterpreterTest, OperationWithNegativValues){
+    std::string cmds = "-134 -2 -";
+    interpreter.interpret(cmds);
+    ASSERT_EQ(interpreter.get_value().pop(),-132);
+}
+
 TEST(InterpreterTest, CheckingAddingElements){
     std::string cmds = "21 43 +";
     interpreter.interpret(cmds);
