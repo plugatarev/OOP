@@ -4,21 +4,21 @@
 #include "Interpreter_error.hpp"
 #include "Command_Set.hpp"
 
-void Add::apply(My_Stack & _value, std::stringstream& s){
-    int right = _value.pop();
-    int left = _value.pop();
+void Add::apply(MyStack & stack, std::stringstream& s){
+    int right = stack.pop();
+    int left = stack.pop();
     int res = left + right;
-    _value.push(res);
+    stack.push(res);
 }   
 
-void Sub::apply(My_Stack & _value, std::stringstream& s){
-    int right = _value.pop();
-    int left = _value.pop();
+void Sub::apply(MyStack & stack, std::stringstream& s){
+    int right = stack.pop();
+    int left = stack.pop();
     int res = left - right;
-    _value.push(res);
+    stack.push(res);
 }
 
-void Div::apply(My_Stack & value, std::stringstream& s){
+void Div::apply(MyStack & value, std::stringstream& s){
     if (value.peek() == 0){
         throw interpreter_error("Error: division by zero");
     }
@@ -28,80 +28,80 @@ void Div::apply(My_Stack & value, std::stringstream& s){
     value.push(res);
 }
 
-void Mod::apply(My_Stack & _value, std::stringstream& s){
-    if (_value.peek() == 0){
+void Mod::apply(MyStack & stack, std::stringstream& s){
+    if (stack.peek() == 0){
         throw interpreter_error("Error: division by zero");
     }
-    int right = _value.pop();
-    int left = _value.pop();
+    int right = stack.pop();
+    int left = stack.pop();
     int res = left % right;
-    _value.push(res);
+    stack.push(res);
 }
 
-void Mul::apply(My_Stack & _value, std::stringstream& s){
-    int right = _value.pop();
-    int left = _value.pop();
+void Mul::apply(MyStack & stack, std::stringstream& s){
+    int right = stack.pop();
+    int left = stack.pop();
     int res = left * right;
-    _value.push(res);
+    stack.push(res);
 }
 
-void More::apply(My_Stack & _value, std::stringstream& s){
-    int right = _value.pop();
-    int left = _value.pop();
-    _value.push(left > right);
+void More::apply(MyStack & stack, std::stringstream& s){
+    int right = stack.pop();
+    int left = stack.pop();
+    stack.push(left > right);
 }
 
-void Less::apply(My_Stack & _value, std::stringstream& s){
-    int right = _value.pop();
-    int left = _value.pop();
-    _value.push(left < right);
+void Less::apply(MyStack & stack, std::stringstream& s){
+    int right = stack.pop();
+    int left = stack.pop();
+    stack.push(left < right);
 }
 
-void Write::apply(My_Stack & _value, std::stringstream& s){
-    s << _value.pop();
+void Write::apply(MyStack & stack, std::stringstream& s){
+    s << stack.pop();
 }
 
-void Dup::apply(My_Stack & _value, std::stringstream& s){
-    _value.push(_value.peek());
+void Dup::apply(MyStack & stack, std::stringstream& s){
+    stack.push(stack.peek());
 }
 
-void Drop::apply(My_Stack & _value, std::stringstream& s){
-    _value.pop();
+void Drop::apply(MyStack & stack, std::stringstream& s){
+    stack.pop();
 }
 
-void Swap::apply(My_Stack & _value, std::stringstream& s){
-    int first = _value.pop();
-    int second = _value.pop();
-    _value.push(first);
-    _value.push(second);
+void Swap::apply(MyStack & stack, std::stringstream& s){
+    int first = stack.pop();
+    int second = stack.pop();
+    stack.push(first);
+    stack.push(second);
 }
 
-void Equal::apply(My_Stack & _value, std::stringstream& s){
-    int first = _value.pop();
-    int second = _value.pop();
-    _value.push(first == second);
+void Equal::apply(MyStack & stack, std::stringstream& s){
+    int first = stack.pop();
+    int second = stack.pop();
+    stack.push(first == second);
 }
 
-void Rot::apply(My_Stack & _value, std::stringstream& s){
-    int first = _value.pop();
-    int second = _value.pop();
-    int third = _value.pop();
-    _value.push(second);
-    _value.push(first);
-    _value.push(third);
+void Rot::apply(MyStack & stack, std::stringstream& s){
+    int first = stack.pop();
+    int second = stack.pop();
+    int third = stack.pop();
+    stack.push(second);
+    stack.push(first);
+    stack.push(third);
 }
 
-void Over::apply(My_Stack & _value, std::stringstream& s){
-    int first = _value.pop();
-    int second = _value.peek();
-    _value.push(first);
-    _value.push(second);    
+void Over::apply(MyStack & stack, std::stringstream& s){
+    int first = stack.pop();
+    int second = stack.peek();
+    stack.push(first);
+    stack.push(second);    
 }
 
-void Emit::apply(My_Stack & _value, std::stringstream& s){
-    s << char(_value.pop());
+void Emit::apply(MyStack & stack, std::stringstream& s){
+    s << char(stack.pop());
 }
 
-void Cr::apply(My_Stack & _value, std::stringstream& s){
+void Cr::apply(MyStack & stack, std::stringstream& s){
     s << "\n";
 }

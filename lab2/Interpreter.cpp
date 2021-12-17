@@ -12,18 +12,19 @@ namespace{
 
 Interpreter::Interpreter(Interpreter& other):_creators(std::move(other._creators)),value(other.value){}
 
-std::unique_ptr<Command>* Interpreter::get_cmd(std::string::iterator & it, std::string::iterator & end, std::stringstream& s) {
+std::unique_ptr<Command>* Interpreter::get_cmd(std::string::const_iterator & it, std::string::const_iterator & end, std::stringstream& s) {
     std::string cmd;
-    std::string::iterator tmp = it;
     char balance = 0;
+    // CR: seems to me that we access cmd[1] when we don't have anything there yet. this is ub, should be fixed
+    // CR: also this loop condition is really hard to comprehend I'd prefer it to be simplified somehow (not insisting though)
     while (it != end && (*it != ' ' || (cmd[0] == '.' && cmd[1] == '\"'))){
         if (*it == '"'){
             if (++balance == 2){
-                cmd += (*it);
+                cmd += *it;
                 break;
             } 
         }
-        cmd += (*it);
+        cmd += *it;
         it++;
     }
 
@@ -36,6 +37,7 @@ std::unique_ptr<Command>* Interpreter::get_cmd(std::string::iterator & it, std::
 
 
     if (cmd[0] == '-' && cmd.size() > 1){
+        // CR: std::stoi would work for negative number also, so you don't need to hustle around with substrings
         cmd = cmd.substr(1,cmd.size());
         if (is_number(cmd)){
             value.push(std::stoi(cmd) * -1);
@@ -49,17 +51,17 @@ std::unique_ptr<Command>* Interpreter::get_cmd(std::string::iterator & it, std::
 
     auto creator_it = _creators.find(cmd);
     if (creator_it == _creators.end()) {
-        std::stringstream s;
-        s << "no such command: '" << cmd << "'";
-        throw interpreter_error(s.str());
+        std::stringstream ss;
+        ss << "no such command: '" << cmd << "'";
+        throw interpreter_error(ss.str());
     }
     return &(creator_it->second);
 }
 
-std::stringstream Interpreter::interpret(std::string & cmds) {
+std::stringstream Interpreter::interpret(const std::string & cmds) {
     std::stringstream s;
-    std::string::iterator it = cmds.begin();
-    std::string::iterator end = cmds.end();
+    std::string::const_iterator it = cmds.begin();
+    std::string::const_iterator end = cmds.end();
     std::unique_ptr<Command>* command;
     while (it != end) {
         try {
@@ -71,6 +73,8 @@ std::stringstream Interpreter::interpret(std::string & cmds) {
         }
         catch (interpreter_error & e){
             s << e.what() << "\n";
+            // CR: i think we should stop execution if error occurred
+            // CR: since latter command probably rely on results of previous ones
         }
         if (it == end) break;
         it++;
@@ -78,6 +82,6 @@ std::stringstream Interpreter::interpret(std::string & cmds) {
     return s;
 }
 
-My_Stack& Interpreter::get_value(){
+MyStack& Interpreter::get_value(){
     return value;
 }

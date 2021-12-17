@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16.3)
 project(Interpreter VERSION 0.1)
  
-set(SRC main.cpp Commands.cpp Interpreter.cpp My_Stack.cpp)
+set(SRC main.cpp Commands.cpp Interpreter.cpp MyStack.cpp)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -24,7 +24,7 @@ add_executable(
   Test.cpp
   Commands.cpp
   Interpreter.cpp
-  My_Stack.cpp
+  MyStack.cpp
 )
 
 target_link_libraries(

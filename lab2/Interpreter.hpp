@@ -2,7 +2,7 @@
 #include <sstream>
 #include "Commands.hpp"
 #include <map>
-#include "My_Stack.hpp"
+#include "MyStack.hpp"
 #include<memory>
 #include<iostream> //delete
 
@@ -14,7 +14,7 @@ public:
       return i;
    }
    //Runs Interpreter
-   std::stringstream interpret(std::string & cmds);
+   std::stringstream interpret(const std::string & cmds);
 
    //Adds new command
    bool registerCreator(const std::string& c, std::unique_ptr<Command> && command) {
@@ -23,11 +23,11 @@ public:
    }
 
    //Gets value of stack
-   My_Stack& get_value();
+   MyStack& get_value();
    Interpreter(Interpreter& other);
 private:
    Interpreter() = default;
    std::map<std::string, std::unique_ptr<Command>> _creators;
-   std::unique_ptr<Command>* get_cmd(std::string::iterator & it, std::string::iterator & end, std::stringstream& str);
-   My_Stack value;
+   std::unique_ptr<Command>* get_cmd(std::string::const_iterator & it, std::string::const_iterator & end, std::stringstream& str);
+   MyStack value;
 };

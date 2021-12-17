@@ -1,6 +1,6 @@
 #pragma once
 #include <stack>
-class My_Stack{
+class MyStack{
 public:
   //Returns peek of the stack and remove from the stack
   int pop();

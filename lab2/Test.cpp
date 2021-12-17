@@ -3,6 +3,11 @@
 #include "Command_Set.hpp"
 Interpreter interpreter = Interpreter::getInstance();
 
+// CR: all the tests shouldn't access stack directly
+// CR: you can test interpreter just passing commands to it that print items from stack and then comparing with expected
+// CR: e.g for add pass commands "1 2 + ." and check if there's '3' in output string
+// CR: also I recommend extracting common test logic to separate method
+
 TEST(InterpreterTest, CheckingPutAnValueToTheStack){
     std::string cmds = "134";
     interpreter.interpret(cmds);
