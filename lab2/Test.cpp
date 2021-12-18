@@ -9,19 +9,17 @@ Interpreter interpreter = Interpreter::getInstance();
 // CR: also I recommend extracting common test logic to separate method
 
 TEST(InterpreterTest, CheckingPutAnValueToTheStack){
-    std::string cmds = "134";
-    interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.get_value().peek(),134);
+    std::string cmds = "134 .";       
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(out, "134\n");
 
 }
 
 TEST(InterpreterTest, CheckingPutSomeValuesToTheStack){
-    std::string cmds = "134 12 21 43";
-    interpreter.interpret(cmds);
-    ASSERT_EQ(interpreter.get_value().pop(),43);
-    ASSERT_EQ(interpreter.get_value().pop(),21);
-    ASSERT_EQ(interpreter.get_value().pop(),12);
-    ASSERT_EQ(interpreter.get_value().pop(),134);
+    std::string cmds = "134 12 . .";
+    std::string out = interpreter.interpret(cmds).str();
+    ASSERT_EQ(interpreter.get_value().pop(),"12\n134");
+
 }
 
 TEST(InterpreterTest, CheckingPutNegativValueToTheStack){
