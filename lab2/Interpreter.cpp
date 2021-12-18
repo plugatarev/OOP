@@ -69,7 +69,6 @@ std::stringstream Interpreter::interpret(const std::string & cmds) {
             command = get_cmd(it, end,s);
             if (command != nullptr){
                 (*command)->apply(value, s);
-                s << "\n";
             }
         }
         catch (interpreter_error & e){

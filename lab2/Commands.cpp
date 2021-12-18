@@ -58,7 +58,7 @@ void Less::apply(MyStack & stack, std::stringstream& s){
 }
 
 void Write::apply(MyStack & stack, std::stringstream& s){
-    s << stack.pop();
+    s << stack.pop() << "\n";
 }
 
 void Dup::apply(MyStack & stack, std::stringstream& s){
@@ -99,7 +99,7 @@ void Over::apply(MyStack & stack, std::stringstream& s){
 }
 
 void Emit::apply(MyStack & stack, std::stringstream& s){
-    s << char(stack.pop());
+    s << char(stack.pop()) << "\n";
 }
 
 void Cr::apply(MyStack & stack, std::stringstream& s){
