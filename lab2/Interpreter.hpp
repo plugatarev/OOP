@@ -22,8 +22,6 @@ public:
       return true;
    }
 
-   //Gets value of stack
-   MyStack& get_value();
    Interpreter(Interpreter& other);
 private:
    Interpreter() = default;

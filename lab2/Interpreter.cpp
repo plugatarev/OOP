@@ -82,7 +82,3 @@ std::stringstream Interpreter::interpret(const std::string & cmds) {
     }
     return s;
 }
-
-MyStack& Interpreter::get_value(){
-    return value;
-}
