@@ -55,7 +55,7 @@ namespace MyVariant{
 
         variant(variant<Args...>&& old){
             //Check on equal templates
-            data = new impl(old.get<T>()); // What type T?
+            data = std::move(old.get<T>()); // What type T?
         }
 
         // // Serves as both the move and the copy asignment operator.
