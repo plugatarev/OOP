@@ -6,8 +6,10 @@ namespace{
     bool is_number(const std::string& s){
         std::string::const_iterator it = s.begin();
         std::string::const_iterator end = s.end();
-        if (*it == '-' && s.size() > 1) it++;
-        else if (*it == '-') return false;
+        if (*it == '-') {
+            if (s.size() <= 1) return false;
+            it++;
+        }
         return std::all_of(it, end, ::isdigit);
     }
 }
@@ -17,8 +19,6 @@ Interpreter::Interpreter(Interpreter& other):_creators(std::move(other._creators
 std::unique_ptr<Command>* Interpreter::get_cmd(std::string::const_iterator & it, std::string::const_iterator & end, std::stringstream& s) {
     std::string cmd;
     char balance = 0;
-    // CR: seems to me that we access cmd[1] when we don't have anything there yet. this is ub, should be fixed - ok
-    // CR: also this loop condition is really hard to comprehend I'd prefer it to be simplified somehow (not insisting though) - ok
     while (it != end){
 
         if (*it == ' '){
@@ -34,7 +34,6 @@ std::unique_ptr<Command>* Interpreter::get_cmd(std::string::const_iterator & it,
         cmd += *it;
         it++;
     }
-
     if (cmd.length() == 0) return nullptr;
 
     if (cmd.size() >= 3 && cmd[0] == '.' && cmd[1] == '\"' && cmd[cmd.size() - 1] == '\"') {
@@ -44,7 +43,6 @@ std::unique_ptr<Command>* Interpreter::get_cmd(std::string::const_iterator & it,
 
 
     if (is_number(cmd)){
-        // CR: std::stoi would work for negative number also, so you don't need to hustle around with substrings - ok
         value.push(std::stoi(cmd));
         return nullptr;
     }
@@ -71,11 +69,10 @@ std::stringstream Interpreter::interpret(const std::string & cmds) {
                 (*command)->apply(value, s);
             }
         }
-        catch (interpreter_error & e){
+        catch (std::exception & e){
+            // CR: test for std::stoi max int overflow
             s << e.what() << "\n";
-            it = end;
-            // CR: i think we should stop execution if error occurred - ok
-            // CR: since latter command probably rely on results of previous ones - ok
+            return s;
         }
         if (it == end) break;
         it++;

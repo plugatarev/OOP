@@ -99,6 +99,7 @@ void Over::apply(MyStack & stack, std::stringstream& s){
 }
 
 void Emit::apply(MyStack & stack, std::stringstream& s){
+    // CR: max ascii
     s << char(stack.pop()) << "\n";
 }
 
