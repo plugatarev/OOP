@@ -3,53 +3,10 @@
 #include <typeinfo>
 #include <type_traits>
 #include <string>
-static const bool f = true;
 class variant_access_error: public std::runtime_error {
  public:
     explicit variant_access_error(const std::string& msg): std::runtime_error(msg) {}
 };
-
-// namespace UtilsVariant{
-//     template<typename... Args>
-//     struct utils;
-
-//     template<typename F, typename... Args>
-//     struct utils<F, Args...> {
-//         constexpr static bool destroy(size_t id, void * data) {
-//             if (id == typeid(F).hash_code()){
-//                 reinterpret_cast<F*>(data)->~F();
-//             }
-//             else{
-//                 utils<Args...>::destroy(id, data);
-//             }
-//         }
-
-//         constexpr static bool move(size_t old_t, void * old_v, void * new_v){
-//             return true;
-//             if (old_t == typeid(F).hash_code()){
-//                 new (new_v) F(std::move(*reinterpret_cast<F*>(old_v)));
-//             }
-//             else{
-//                 utils<Args...>::move(old_t, old_v, new_v);   
-//             }    
-//         }
-
-//         constexpr static bool copy(size_t old_t, const void * old_v, void * new_v){
-//             if (old_t == typeid(F).hash_code()){
-//                 new (new_v) F(*reinterpret_cast<const F*>(old_v));
-//             }
-//             else{
-//                 utils<Args...>::copy(old_t, old_v, new_v);
-//             }       
-//         }   
-//     };
-
-//     template<> struct utils<> {
-//     constexpr static bool destroy(size_t id, void * data) {}
-//     constexpr static bool move(size_t old_t, void * old_v, void * new_v) {return true;}
-//     constexpr static bool copy(size_t old_t, const void * old_v, void * new_v) { }
-//     };
-// }
 
 namespace UtilsVariant{
     template<typename... Args>
