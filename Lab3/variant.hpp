@@ -3,10 +3,7 @@
 #include <typeinfo>
 #include <type_traits>
 #include <string>
-class variant_access_error: public std::runtime_error {
- public:
-    explicit variant_access_error(const std::string& msg): std::runtime_error(msg) {}
-};
+#include "Exception.hpp"
 
 namespace UtilsVariant{
     template<typename... Args>
@@ -29,26 +26,22 @@ namespace UtilsVariant{
         return std::is_same<T,F>::value;
     }
     };
-
-
 }
 
 namespace MyVariant{
     template<typename... Args>
-    class variant {
+    class variant{
     public: 
         variant(){}
 
         //Makes a copy of value, so that the initial content of the new instance is equivalent in both type and value to value.
         template<typename T> variant(const T& value):data(new impl(value)){
-            using utls = UtilsVariant::is_type<T, Args...>;
-            static_assert(utls::is()); //fix is()
+            static_assert(UtilsVariant::is_type<T, Args...>::is()); //fix is()
         }
 
         //Makes a copy of value, discarding previous content, so that the new content of is equivalent in both type and value to value.
         template<typename T> variant& operator=(const T& value){
-            using utls = UtilsVariant::is_type<T, Args...>;
-            static_assert(utls::is());
+            static_assert(UtilsVariant::is_type<T, Args...>::is());
             delete data;
             data = new impl(value);
             return *this;
@@ -74,8 +67,7 @@ namespace MyVariant{
         
         template<typename T>
         T get(){
-            using utls = UtilsVariant::is_type<T, Args...>;
-            if (utls::is())
+            if (UtilsVariant::is_type<T, Args...>::is())
                 return (dynamic_cast<impl<Args...>*>(data))->val;
             else 
                 throw variant_access_error("bad cast error!");
@@ -83,8 +75,7 @@ namespace MyVariant{
         
         template<typename T>
         T * get_if(){
-            using utls = UtilsVariant::is_type<T, Args...>;
-            if (utls::is())
+            if (UtilsVariant::is_type<T, Args...>::is())
                 return dynamic_cast<impl<Args...>*>(data);
             else 
                 return nullptr;
