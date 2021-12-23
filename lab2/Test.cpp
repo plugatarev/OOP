@@ -241,3 +241,18 @@ TEST(InterpreterTest, TestWithPrintingStringAndIncorrectString){
     std::string cmds = R"(."ds"f")";
     test(cmds,"ds\nno such command: 'f\"'\n");  
 }
+
+TEST(InterpreterTest, TestOnOverflowValue){
+    std::string cmds = "1111111111111";
+    test(cmds,"stoi\n");  
+}
+
+TEST(InterpreterTest, TestOnOverflowValue){
+    std::string cmds = " 1111111111111 . ";
+    test(cmds,"stoi\n");  
+}
+
+TEST(InterpreterTest, TestOnOverflowValue){
+    std::string cmds = " 1234 emit ";
+    test(cmds,"Overflow ascii code\n");  
+}
