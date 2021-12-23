@@ -29,7 +29,8 @@ namespace UtilsVariant{
 }
 
 namespace MyVariant{
-    template<typename... Args>
+    // at least one arg
+    template<typename F, typename... Args>
     class variant{
     public: 
         variant(){}
@@ -40,8 +41,9 @@ namespace MyVariant{
         }
 
         //Makes a copy of value, discarding previous content, so that the new content of is equivalent in both type and value to value.
-        template<typename T> variant& operator=(const T& value){
-            static_assert(UtilsVariant::is_type<T, Args...>::is());
+        template<typename T>
+        variant& operator=(const T& value){
+            static_assert(UtilsVariant::is_type<T, F, Args...>::is());
             delete data;
             data = new impl(value);
             return *this;
@@ -59,7 +61,7 @@ namespace MyVariant{
         }
 
         // // Serves as both the move and the copy asignment operator.
-        variant<Args...>& operator= (variant<Args...>&& old){
+        variant<Args...>& operator=(variant<Args...>&& old){
             //Check on equal templates
             std::swap(data, old.data);
             return *this;
@@ -67,6 +69,9 @@ namespace MyVariant{
         
         template<typename T>
         T get(){
+            // 1. static_assert
+            // 2. dynamic_cast
+            // 3. 2 - nullptr ? throw : val
             if (UtilsVariant::is_type<T, Args...>::is())
                 return (dynamic_cast<impl<Args...>*>(data))->val;
             else 
@@ -76,6 +81,7 @@ namespace MyVariant{
         template<typename T>
         T * get_if(){
             if (UtilsVariant::is_type<T, Args...>::is())
+                // cast to impl<T>
                 return dynamic_cast<impl<Args...>*>(data);
             else 
                 return nullptr;

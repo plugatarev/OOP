@@ -3,11 +3,6 @@
 #include "Command_Set.hpp"
 Interpreter interpreter = Interpreter::getInstance();
 
-// CR: all the tests shouldn't access stack directly
-// CR: you can test interpreter just passing commands to it that print items from stack and then comparing with expected
-// CR: e.g for add pass commands "1 2 + ." and check if there's '3' in output string
-// CR: also I recommend extracting common test logic to separate method
-
 void test(std::string input, std::string ExpectedOut){
     std::string out = interpreter.interpret(input).str();
     ASSERT_EQ(out, ExpectedOut);
@@ -165,12 +160,6 @@ TEST(InterpreterTest, CheckingOperatorEqualForElements){
     test(cmds,"1\n");
 }
 
-TEST(InterpreterTest, CheckingWritingElementOfConsole){
-    std::string cmds = "12321 .";
-    test(cmds,"12321\n");
-    
-}
-
 TEST(InterpreterTest, CheckingDupMethod){
     std::string cmds = "11 dup . .";
     interpreter.interpret(cmds);
@@ -189,7 +178,7 @@ TEST(InterpreterTest, CheckingSwapMethod){
 
 TEST(InterpreterTest, CheckingRotMethod){
     std::string cmds = "1 2 3 rot . . .";
-    test(cmds,"1\n3\n2\n");   
+    test(cmds,"1\n3\n2\n");
 }
 
 TEST(InterpreterTest, WritingToTheConsoleTopTheStack){
@@ -200,6 +189,7 @@ TEST(InterpreterTest, WritingToTheConsoleTopTheStack){
 TEST(InterpreterTest, CheckingWorkOfMethodEmit){
     std::string cmds = "43 emit";
     test(cmds,"+\n");
+    // CR: max ascii test
 }
 
 TEST(InterpreterTest, CheckingWorkOfMethodCr){
@@ -228,26 +218,26 @@ TEST(InterpreterTest, TestWithPrintingEmptyString){
 }
 
 TEST(InterpreterTest, TestWithThreeQuotesInARow){
-    std::string cmds = ".\"\"\"";
+    std::string cmds = R"(.""")";
     test(cmds,"\nno such command: '\"'\n");  
 }
 
 TEST(InterpreterTest, TestWithStringAndTwoQuotesInTheEnd){
-    std::string cmds = ".\"wer\"\"";
+    std::string cmds = R"(."wer"")";
     test(cmds,"wer\nno such command: '\"'\n");  
 }
 
 TEST(InterpreterTest, TestWithTwoQuotesInTheBeginning){
-    std::string cmds = ".\"\"werew\"";
+    std::string cmds = R"(.""werew")";
     test(cmds,"\nno such command: 'werew\"'\n");  
 }
 
 TEST(InterpreterTest, TestWithOnlySpaceInString){
-    std::string cmds = ".\"   \"";
+    std::string cmds = "    .\"   \"    ";
     test(cmds,"   \n");  
 }
 
 TEST(InterpreterTest, TestWithPrintingStringAndIncorrectString){
-    std::string cmds = ".\"ds\"f\"";
+    std::string cmds = R"(."ds"f")";
     test(cmds,"ds\nno such command: 'f\"'\n");  
 }
