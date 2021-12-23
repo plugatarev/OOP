@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <string>
 #include "Exception.hpp"
+#include "Is_Same.hpp"
 
 namespace UtilsVariant{
     template<typename... Args>
@@ -13,7 +14,7 @@ namespace UtilsVariant{
     struct is_type<T, F, Args...>
     {
         static constexpr bool is(){
-            if (std::is_same<T,F>::value) return true;
+            if (My::is_same<T,F>::value) return true;
             else{
                 is_type<T, Args...>::is();
             }
@@ -23,7 +24,7 @@ namespace UtilsVariant{
 
     template<typename T, typename F> struct is_type<T,F>{
     constexpr static bool is() {
-        return std::is_same<T,F>::value;
+        return My::is_same<T,F>::value;
     }
     };
 }
