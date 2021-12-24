@@ -6,7 +6,11 @@ set(SRC main.cpp)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# add_executable(Interpreter ${SRC})
+#AddressSanitizer 
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address -static-libasan -g")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address -static-libasan -g")
+
+add_executable(Variant ${SRC})
 
 # include(FetchContent)
 # FetchContent_Declare(
@@ -31,4 +35,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # )
 
 # include(GoogleTest)
-# gtest_discover_tests(InterpreterTest)
+# gtest_discover_test(InterpreterTest)
