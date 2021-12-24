@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <utility>
 #include <typeinfo>
@@ -38,7 +39,7 @@ namespace MyVariant{
 
         //Makes a copy of value, so that the initial content of the new instance is equivalent in both type and value to value.
         template<typename T> variant(const T& value):data(new impl(value)){
-            static_assert(UtilsVariant::is_type<T, Args...>::is()); //fix is()
+            static_assert(UtilsVariant::is_type<T, Args...>::is());
         }
 
         //Makes a copy of value, discarding previous content, so that the new content of is equivalent in both type and value to value.
@@ -50,19 +51,20 @@ namespace MyVariant{
             return *this;
         }
 
-        variant(const variant<Args...>& old){
+        variant(const variant<F,Args...>& old){
             //static_assert(utls::copy(old,&data));
             //Check on equal templates
-            data = new impl(old.get<T>()); // What type T?
+            //data = new impl(old.get<T>()); // What type T?
+            data = new impl(old.get<T>());
         }
 
-        variant(variant<Args...>&& old){
+        variant(variant<F,Args...>&& old){
             //Check on equal templates
-            data = std::move(old.get<T>()); // What type T?
+            //data = std::move(old.get<T>()); // What type T?
         }
 
         // // Serves as both the move and the copy asignment operator.
-        variant<Args...>& operator=(variant<Args...>&& old){
+        variant<Args...>& operator=(variant<F,Args...>&& old){
             //Check on equal templates
             std::swap(data, old.data);
             return *this;
@@ -70,20 +72,22 @@ namespace MyVariant{
         
         template<typename T>
         T get(){
+            static_assert(UtilsVariant::is_type<T, F, Args...>::is());
             // 1. static_assert
             // 2. dynamic_cast
             // 3. 2 - nullptr ? throw : val
             if (UtilsVariant::is_type<T, Args...>::is())
-                return (dynamic_cast<impl<Args...>*>(data))->val;
+                return (dynamic_cast<impl<T>*>(data) ? dynamic_cast<impl<T>*>(data)->val : throw variant_access_error("This type isn't stored in this variant");
             else 
                 throw variant_access_error("bad cast error!");
         }
         
         template<typename T>
         T * get_if(){
+            static_assert(UtilsVariant::is_type<T, F, Args...>::is());
             if (UtilsVariant::is_type<T, Args...>::is())
                 // cast to impl<T>
-                return dynamic_cast<impl<Args...>*>(data);
+                return dynamic_cast<impl<T>*>(data);
             else 
                 return nullptr;
         }

@@ -1,3 +1,4 @@
+#pragma once
 namespace My{
     
 template<typename T, typename U>
