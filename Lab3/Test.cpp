@@ -13,7 +13,7 @@ public:
 };
 
 TEST(VariantTest, CreateEmptyVariant){
-    MyVariant::variant<double, int> a();       
+    MyVariant::variant<double, int> a();    
 }
 
 TEST(VariantTest, CreateVariantWithString){
@@ -89,3 +89,13 @@ TEST(VariantTest, OperatorAssign){
     }
     ASSERT_EQ(a.get<int>(), 1212);
 }
+
+TEST(VariantTest, MethodGetIf){
+    MyVariant::variant<double, int, class A> a(A(54)); 
+    ASSERT_EQ(a.get_if<double>(), nullptr);
+    ASSERT_EQ(a.get_if<A>()->code, 54);
+}
+
+
+
+    
