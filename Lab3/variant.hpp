@@ -26,7 +26,7 @@ namespace UtilsVariant{
 }
 
 namespace MyVariant{
-    // at least one arg
+    //at least one arg
     template<typename F, typename... Args>
     class variant{
     public: 
@@ -75,11 +75,11 @@ namespace MyVariant{
         T * get_if(){
             static_assert(UtilsVariant::is_type<T, F, Args...>::is());
             if (UtilsVariant::is_type<T, Args...>::is())
-                return dynamic_cast<impl<T>*>(data);
+                return &(dynamic_cast<impl<T>*>(data)->val);
             else 
                 return nullptr;
         }
-
+        
         //Destructor
         ~variant() {
             if (data != nullptr) delete data;
@@ -121,7 +121,7 @@ namespace MyVariant{
                 return nullptr;
             }   
         };
-        
+
         placeholder* data{nullptr};
     };
 }
