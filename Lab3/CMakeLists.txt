@@ -27,7 +27,6 @@ enable_testing()
 add_executable(
   VariantTest
   Test.cpp
-  main.cpp
 )
 
 target_link_libraries(
@@ -36,4 +35,4 @@ target_link_libraries(
 )
 
 include(GoogleTest)
-gtest_discover_test(VariantTest)
+gtest_discover_tests(VariantTest)
