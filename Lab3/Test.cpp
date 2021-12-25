@@ -76,3 +76,16 @@ TEST(VariantTest, OriginalVariantIsNotChangedOnOperatorAssign){
     ASSERT_EQ(b.get<int>(), 12321);
     delete f;
 }
+
+TEST(VariantTest, OperatorAssign){
+    MyVariant::variant<double, int> a(12.12); 
+    a = var(1212);
+    try{
+        a.get<double>();
+    }
+    catch(variant_access_error& er){
+        std::string s = "This type isn't stored in this variant";
+        ASSERT_EQ(er.what(), s);
+    }
+    ASSERT_EQ(a.get<int>(), 1212);
+}
