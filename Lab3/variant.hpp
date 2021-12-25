@@ -1,9 +1,6 @@
 #pragma once
 #include <iostream>
-#include <utility>
-#include <typeinfo>
-#include <type_traits>
-#include <string>
+#include <memory>
 #include "Exception.hpp"
 #include "Is_Same.hpp"
 
@@ -12,95 +9,79 @@ namespace UtilsVariant{
     struct is_type;
 
     template<typename T, typename F, typename... Args>
-    struct is_type<T, F, Args...>
-    {
+    struct is_type<T, F, Args...> {
         static constexpr bool is(){
             if (My::is_same<T,F>::value) return true;
             else{
-                is_type<T, Args...>::is();
+                if (is_type<T, Args...>::is()) return true;
             }
             return false;
         }
     };
 
-    template<typename T, typename F> struct is_type<T,F>{
+    template<typename T> struct is_type<T>{
     constexpr static bool is() {
-        return My::is_same<T,F>::value;
+        return false;
     }
     };
+
 }
 
 namespace MyVariant{
-    // at least one arg
+    // At least one arg
     template<typename F, typename... Args>
     class variant{
     public: 
-        variant(){}
+        variant():data(nullptr){}
 
         //Makes a copy of value, so that the initial content of the new instance is equivalent in both type and value to value.
         template<typename T> variant(const T& value):data(new impl(value)){
-            static_assert(UtilsVariant::is_type<T, Args...>::is());
+            static_assert(UtilsVariant::is_type<T, F, Args...>::is());
         }
 
         //Makes a copy of value, discarding previous content, so that the new content of is equivalent in both type and value to value.
         template<typename T>
         variant& operator=(const T& value){
             static_assert(UtilsVariant::is_type<T, F, Args...>::is());
-            delete data;
-            data = new impl(value);
+            data = std::make_shared<impl<T>>(value);
             return *this;
         }
 
-        variant(const variant<F,Args...>& old){
-            //static_assert(utls::copy(old,&data));
-            //Check on equal templates
-            //data = new impl(old.get<T>()); // What type T?
-            data = new impl(old.get<T>());
-        }
+        //Default constructor. Constructs a variant with nullptr
+        variant(const variant<F,Args...>& old):data(old.data){}
 
         variant(variant<F,Args...>&& old){
-            //Check on equal templates
-            //data = std::move(old.get<T>()); // What type T?
+            std::swap(data, old.data);
         }
 
-        // // Serves as both the move and the copy asignment operator.
-        variant<Args...>& operator=(variant<F,Args...>&& old){
-            //Check on equal templates
+        //Serves as both the move and the copy asignment operator.
+        variant<F,Args...>& operator=(variant<F,Args...>&& old){ // - ok
             std::swap(data, old.data);
             return *this;
         }
-        
+
         template<typename T>
         T get(){
             static_assert(UtilsVariant::is_type<T, F, Args...>::is());
-            // 1. static_assert
-            // 2. dynamic_cast
-            // 3. 2 - nullptr ? throw : val
-            if (UtilsVariant::is_type<T, Args...>::is())
-                return (dynamic_cast<impl<T>*>(data) ? dynamic_cast<impl<T>*>(data)->val : throw variant_access_error("This type isn't stored in this variant");
-            else 
-                throw variant_access_error("bad cast error!");
+            return (dynamic_cast<impl<T>*>(data.get()) != nullptr ? dynamic_cast<impl<T>*>(data.get())->val : throw variant_access_error("This type isn't stored in this variant"));
         }
         
         template<typename T>
         T * get_if(){
             static_assert(UtilsVariant::is_type<T, F, Args...>::is());
             if (UtilsVariant::is_type<T, Args...>::is())
-                // cast to impl<T>
                 return dynamic_cast<impl<T>*>(data);
             else 
                 return nullptr;
         }
 
-        ~variant() {
-            delete data;
-        }
+        ~variant(){}
 
     private: 
         struct placeholder{
             virtual ~placeholder() {}
         };
-        //mb Deleter?
+
         template < typename T >
         struct impl: placeholder{
             impl(){};
@@ -109,6 +90,6 @@ namespace MyVariant{
             T val;
 
         };
-        placeholder* data;
+        std::shared_ptr<placeholder> data;
     };
 }
