@@ -50,6 +50,12 @@ namespace MyVariant{
         //Copy constructor. Сannot give variant with different stored types(F, Args...).
         variant(const variant<F,Args...>& old):data(copy<F, Args...>::copy_val(old.data)){}
 
+        variant& operator=(const variant<F,Args...>& old){
+            delete data;
+            data = copy<F, Args...>::copy_val(old.data);
+            return *this;
+        }
+
         //Move constructor. Сannot give variant with different stored types(F, Args...).
         variant(variant<F,Args...>&& old){
             std::swap(data, old.data);

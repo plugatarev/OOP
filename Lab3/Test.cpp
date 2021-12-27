@@ -96,7 +96,7 @@ TEST(VariantTest, MethodGetIf){
     ASSERT_EQ(a.get_if<A>()->code, 54);
 }
 
-TEST(VariantTest, CallAllMethods){
+TEST(VariantTest, AllMethods){
     MyVariant::variant<double, int> a(var(12)); 
     MyVariant::variant<double, int> ac(1.234);
     ASSERT_EQ(a.get<int>(), 12);
@@ -110,6 +110,12 @@ TEST(VariantTest, CallAllMethods){
     e = 123213;
     e = 32.21;
     ASSERT_EQ(e.get<double>(), 32.21);
+    ac = e;
+    ASSERT_EQ(ac.get<double>(), 32.21);
 }
 
 // CR: compilation test
+
+
+
+    
