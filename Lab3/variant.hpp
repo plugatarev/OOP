@@ -102,35 +102,48 @@ namespace MyVariant{
         template<typename... Ts>
         struct copy;
 
+        // template<typename G, typename... Ts>
+        // struct copy<G, Ts...> {
+        //     static placeholder* copy_val(placeholder* old) {
+        //         if (dynamic_cast<impl<G>*>(old)){
+        //             return new impl<G>(*dynamic_cast<impl<G>*>(old));
+        //         }
+        //         else return copy<Ts...>::copy_val(old);
+        //     }   
+        // };
         template<typename G, typename... Ts>
         struct copy<G, Ts...> {
-            static placeholder* copy_val(placeholder* old) {
-                if (dynamic_cast<impl<G>*>(old)){
-                    return new impl<G>(*dynamic_cast<impl<G>*>(old));
-                }
-                else return copy<Ts...>::copy_val(old);
-            }   
-        };
-
-//        struct copy<G, Ts...> {
-//            static placeholder* copy_val(placeholder* old) {
-//                auto * impl_cast = dynamic_cast<impl<G> *>(old);
-//                if (impl_cast != nullptr) return new impl<G>(impl_cast->val);
-//                return copy<Ts...>::copy_val(old);
-//            }
-//        };
+           static placeholder* copy_val(placeholder* old) {
+               auto * impl_cast = dynamic_cast<impl<G> *>(old);
+               if (impl_cast != nullptr) return new impl<G>(impl_cast->val);
+               return copy<Ts...>::copy_val(old);
+           }
+       };
 
         template<typename G>
         struct copy<G> {
             static placeholder* copy_val(placeholder* old) {
-                //                auto * impl_cast = dynamic_cast<impl<G> *>(old);
-//                if (impl_cast != nullptr) return new impl<G>(impl_cast->val);
-                if (dynamic_cast<impl<G>*>(old)){
-                    return new impl<G>(*dynamic_cast<impl<G>*>(old));
-                }
-                return nullptr;
-            }   
+                auto * impl_cast = dynamic_cast<impl<G> *>(old);
+                if (impl_cast != nullptr) return new impl<G>(impl_cast->val);
+                return nullptr;  
+            } 
         };
+
+       
+
+//         template<typename G>
+//         struct copy<G> {
+//             static placeholder* copy_val(placeholder* old) {
+//                 //                auto * impl_cast = dynamic_cast<impl<G> *>(old);
+// //                if (impl_cast != nullptr) return new impl<G>(impl_cast->val);
+//                 if (dynamic_cast<impl<G>*>(old)){
+//                     return new impl<G>(*dynamic_cast<impl<G>*>(old));
+//                 }
+//                 return nullptr;
+//             }   
+//         };
+
+
 
         placeholder* data{nullptr};
     };
