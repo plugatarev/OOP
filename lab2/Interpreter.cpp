@@ -70,7 +70,6 @@ std::stringstream Interpreter::interpret(const std::string & cmds) {
             }
         }
         catch (std::exception & e){
-            // CR: test for std::stoi max int overflow
             s << e.what() << "\n";
             return s;
         }

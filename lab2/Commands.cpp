@@ -99,7 +99,6 @@ void Over::apply(MyStack & stack, std::stringstream& s){
 }
 
 void Emit::apply(MyStack & stack, std::stringstream& s){
-    // CR: max ascii
     int r = stack.pop();
     if (r < 0 || r > 255) throw interpreter_error("Oveflow ascii code");
     s << char(r) << "\n";

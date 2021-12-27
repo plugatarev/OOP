@@ -189,7 +189,6 @@ TEST(InterpreterTest, WritingToTheConsoleTopTheStack){
 TEST(InterpreterTest, CheckingWorkOfMethodEmit){
     std::string cmds = "43 emit";
     test(cmds,"+\n");
-    // CR: max ascii test
 }
 
 TEST(InterpreterTest, CheckingWorkOfMethodCr){

@@ -96,6 +96,8 @@ TEST(VariantTest, MethodGetIf){
     ASSERT_EQ(a.get_if<A>()->code, 54);
 }
 
+// CR: compilation test
+
 
 
     

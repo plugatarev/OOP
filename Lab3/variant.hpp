@@ -112,9 +112,19 @@ namespace MyVariant{
             }   
         };
 
+//        struct copy<G, Ts...> {
+//            static placeholder* copy_val(placeholder* old) {
+//                auto * impl_cast = dynamic_cast<impl<G> *>(old);
+//                if (impl_cast != nullptr) return new impl<G>(impl_cast->val);
+//                return copy<Ts...>::copy_val(old);
+//            }
+//        };
+
         template<typename G>
         struct copy<G> {
             static placeholder* copy_val(placeholder* old) {
+                //                auto * impl_cast = dynamic_cast<impl<G> *>(old);
+//                if (impl_cast != nullptr) return new impl<G>(impl_cast->val);
                 if (dynamic_cast<impl<G>*>(old)){
                     return new impl<G>(*dynamic_cast<impl<G>*>(old));
                 }
