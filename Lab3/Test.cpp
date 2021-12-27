@@ -97,11 +97,11 @@ TEST(VariantTest, MethodGetIf){
 }
 
 TEST(VariantTest, AllMethods){
-    MyVariant::variant<double, int> a(var(12)); 
+    MyVariant::variant<double, int> a(std::move(var(12)));
     MyVariant::variant<double, int> ac(1.234);
     ASSERT_EQ(a.get<int>(), 12);
     ASSERT_EQ(ac.get<double>(), 1.234);
-    ac = var(213);
+    ac = std::move(var(213));
     ASSERT_EQ(ac.get<int>(), 213);
     ASSERT_EQ(a.get_if<double>(), nullptr);
     MyVariant::variant<double, int> b(a);
@@ -113,8 +113,6 @@ TEST(VariantTest, AllMethods){
     ac = e;
     ASSERT_EQ(ac.get<double>(), 32.21);
 }
-
-// CR: compilation test
 
 
 

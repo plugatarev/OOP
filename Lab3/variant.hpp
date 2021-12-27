@@ -34,7 +34,7 @@ namespace MyVariant{
         variant(){}
 
         //Makes a copy of value, so that the initial content of the new instance is equivalent in both type and value to value.
-        template<typename T> variant(const T& value):data(new impl(value)){
+        template<typename T> variant(const T& value):data(new impl<T>(value)){
             static_assert(UtilsVariant::is_type<T, F, Args...>::is());
         }
 
@@ -43,7 +43,7 @@ namespace MyVariant{
         variant& operator=(const T& value){
             static_assert(UtilsVariant::is_type<T, F, Args...>::is());
             delete data;
-            data = new impl(value);
+            data = new impl<T>(value);
             return *this;
         }
 
